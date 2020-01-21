@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Topic 1 Introductions, Review, and Motivation | STAT 394: Causal Inference</title>
+  <meta name="description" content="This is the class website for Causal Inference at Macalester College." />
+  <meta name="generator" content="bookdown 0.14 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Topic 1 Introductions, Review, and Motivation | STAT 394: Causal Inference" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is the class website for Causal Inference at Macalester College." />
+  <meta name="github-repo" content="lmyint/causal_spring_2020" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Topic 1 Introductions, Review, and Motivation | STAT 394: Causal Inference" />
+  
+  <meta name="twitter:description" content="This is the class website for Causal Inference at Macalester College." />
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="schedule.html"/>
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #2a211c; color: #bdae9d; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; background-color: #2a211c; color: #bdae9d; border-right: 1px solid #bdae9d; }
+td.sourceCode { padding-left: 5px; }
+pre, code { color: #bdae9d; background-color: #2a211c; }
+code > span.kw { color: #43a8ed; font-weight: bold; } /* Keyword */
+code > span.dt { text-decoration: underline; } /* DataType */
+code > span.dv { color: #44aa43; } /* DecVal */
+code > span.bn { color: #44aa43; } /* BaseN */
+code > span.fl { color: #44aa43; } /* Float */
+code > span.ch { color: #049b0a; } /* Char */
+code > span.st { color: #049b0a; } /* String */
+code > span.co { color: #0066ff; font-style: italic; } /* Comment */
+code > span.al { color: #ffff00; } /* Alert */
+code > span.fu { color: #ff9358; font-weight: bold; } /* Function */
+code > span.er { color: #ffff00; font-weight: bold; } /* Error */
+code > span.wa { color: #ffff00; font-weight: bold; } /* Warning */
+code > span.cn { } /* Constant */
+code > span.sc { color: #049b0a; } /* SpecialChar */
+code > span.vs { color: #049b0a; } /* VerbatimString */
+code > span.ss { color: #049b0a; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { } /* Variable */
+code > span.cf { color: #43a8ed; font-weight: bold; } /* ControlFlow */
+code > span.op { } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { font-weight: bold; } /* Preprocessor */
+code > span.at { } /* Attribute */
+code > span.do { color: #0066ff; font-style: italic; } /* Documentation */
+code > span.an { color: #0066ff; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.co { color: #0066ff; font-weight: bold; font-style: italic; } /* Comment */
+code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="custom_styles.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href = "./">STAT 394: Causal Inference</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome!</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="" data-path="schedule.html"><a href="schedule.html"><i class="fa fa-check"></i>Schedule</a><ul>
+<li class="chapter" data-level="" data-path="schedule.html"><a href="schedule.html#week-1"><i class="fa fa-check"></i>Week 1</a></li>
+<li class="chapter" data-level="" data-path="schedule.html"><a href="schedule.html#week-2"><i class="fa fa-check"></i>Week 2</a></li>
+</ul></li>
+<li class="part"><span><b>I Causal Diagram Fundamentals</b></span></li>
+<li class="chapter" data-level="1" data-path="introductions-review-and-motivation.html"><a href="introductions-review-and-motivation.html"><i class="fa fa-check"></i><b>1</b> Introductions, Review, and Motivation</a><ul>
+<li class="chapter" data-level="" data-path="introductions-review-and-motivation.html"><a href="introductions-review-and-motivation.html#learning-goals"><i class="fa fa-check"></i>Learning Goals</a></li>
+<li class="chapter" data-level="" data-path="introductions-review-and-motivation.html"><a href="introductions-review-and-motivation.html#review-regression-models"><i class="fa fa-check"></i>Review: Regression Models</a></li>
+<li class="chapter" data-level="" data-path="introductions-review-and-motivation.html"><a href="introductions-review-and-motivation.html#exercises"><i class="fa fa-check"></i>Exercises</a><ul>
+<li class="chapter" data-level="" data-path="introductions-review-and-motivation.html"><a href="introductions-review-and-motivation.html#exercise-1"><i class="fa fa-check"></i>Exercise 1</a></li>
+<li class="chapter" data-level="" data-path="introductions-review-and-motivation.html"><a href="introductions-review-and-motivation.html#exercise-2"><i class="fa fa-check"></i>Exercise 2</a></li>
+<li class="chapter" data-level="" data-path="introductions-review-and-motivation.html"><a href="introductions-review-and-motivation.html#exercise-3"><i class="fa fa-check"></i>Exercise 3</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://bookdown.org" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">STAT 394: Causal Inference</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="introductions-review-and-motivation" class="section level1">
+<h1><span class="header-section-number">Topic 1</span> Introductions, Review, and Motivation</h1>
+<div id="learning-goals" class="section level2 unnumbered">
+<h2>Learning Goals</h2>
+<ul>
+<li>Understand the instances in which we care about causation more than association</li>
+<li>Review regression modeling and develop some ideas about its relation to causal inference goals</li>
+<li>Develop some ideas for why causal stories (i.e., expert knowledge) are crucial for causal inference goals</li>
+</ul>
+<p><br><br><br><br></p>
+</div>
+<div id="review-regression-models" class="section level2 unnumbered">
+<h2>Review: Regression Models</h2>
+<p>Answer these questions individually first. Afterwards, you’ll discuss responses with your group members.</p>
+<ol style="list-style-type: decimal">
+<li>What does a linear regression model formula look like?<br />
+If you covered logistic regression in STAT 155, what does a logistic regression model formula look like? When would you use logistic vs. linear regression?<br><br></li>
+<li>In general, how do we interpret the intercept in a regression model (both linear and logistic)?<br><br></li>
+<li>How do we interpret the other coefficients in a regression model (both linear and logistic)? How can we justify this interpretation mathematically?<br><br></li>
+<li>What are some considerations in deciding what variables to include in a regression model?<br><br></li>
+<li>How might regression models be useful in understanding the causal effect of some variable on an outcome?</li>
+</ol>
+<p><br><br><br><br></p>
+</div>
+<div id="exercises" class="section level2 unnumbered">
+<h2>Exercises</h2>
+<p><strong>You can download a template RMarkdown file to start from <a href="template_rmds/01-intro.Rmd">here</a>.</strong></p>
+<p>We will look at (simulated) data from a study that looked at the effectiveness of chemotherapy for treating colon cancer. Chemotherapy is effectively a poison that kills cells in the body that are rapidly proliferating: these cells include the cancer cells (often in a mass called a tumor) but also cells in bone marrow involved in sustaining the immune system.</p>
+<p>In this study, researchers measured the following variables:</p>
+<ul>
+<li><code>pre_tumor_size</code>: Tumor size before the chemotherapy/placebo treatment (<code>Small</code> or <code>Large</code>).</li>
+<li><code>treated</code>: <code>ChemoYes</code> if the patient received chemotherapy or <code>ChemoNo</code> if not.</li>
+<li><code>post_tumor_size</code>: Tumor size 3 months after the chemotherapy/placebo treatment (<code>Small</code> or <code>Large</code>).</li>
+<li><code>recovery</code>: <code>Yes</code> if the patient recovered from their cancer. <code>No</code> otherwise.</li>
+</ul>
+<p>You can read in the data as follows:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">chemo_study_data &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;https://www.dropbox.com/s/vl06j75a8afw8ct/chemo_study.csv?dl=1&quot;</span>)</code></pre></div>
+<div id="exercise-1" class="section level3 unnumbered">
+<h3>Exercise 1</h3>
+<p>The first step in any data analysis is to visualize your data. Let’s refamiliarize ourselves with the <code>ggplot2</code> package in R. It may be helpful to have <a href="https://rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf">this ggplot2 cheat sheet</a> open. Make sure to load the <code>ggplot2</code> package by including <code>library(ggplot2)</code> at the top of your RMarkdown document.</p>
+<ol style="list-style-type: lower-alpha">
+<li>Look at the distribution of each of the 4 measured variables. What plot type is most appropriate for this type of variable?</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(chemo_study_data, <span class="kw">aes</span>(<span class="dt">x =</span> pre_tumor_size)) <span class="op">+</span><span class="st"> </span>???</code></pre></div>
+<ol start="2" style="list-style-type: lower-alpha">
+<li>Is pre-treatment tumor size predictive of whether or not a patient received chemotherapy? Make a plot to assess this, and briefly state what conclusions can be drawn from the plot. (Hint: it will be helpful to look at the second page of the cheat sheet in the section labeled “Position Adjustments”.)</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(chemo_study_data, <span class="kw">aes</span>(<span class="dt">x =</span> treated, <span class="dt">fill =</span> pre_tumor_size)) <span class="op">+</span><span class="st"> </span>???</code></pre></div>
+<ol start="3" style="list-style-type: lower-alpha">
+<li>Is pre-treatment tumor size predictive of whether or not a patient recovered? Make a plot, and briefly state your conclusions.</li>
+<li>A variable is a <strong>confounder</strong> if it is a common cause of both the treatment and outcome. This is shown in the diagram below. Given your results from parts b and c, could pre-treatment tumor size be a confounder of the relationship between chemotherapy treatment and recovery? If yes, what is the concern here?</li>
+</ol>
+<p>Note: the causal relationships of interest so far can be depicted in a <strong>causal diagram</strong>, shown below. An arrow between two variables indicates that one is a cause of the other (an arrow points from a cause to its effect).</p>
+<p><img src="causal_manual_files/figure-html/01-fig-dag-chemo-1.png" width="576" style="display: block; margin: auto;" /></p>
+</div>
+<div id="exercise-2" class="section level3 unnumbered">
+<h3>Exercise 2</h3>
+<p>One way to “adjust for” the influence of counfounders is to include them as predictors/explanatory variables in regression models.</p>
+<p>We can model recovery using a <strong>logistic regression model</strong> (used when the outcome variable is binary). In R, we can fit a logistic regression model using code like the following:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Fit the model and store it in the &quot;mod&quot; object</span>
+mod &lt;-<span class="st"> </span><span class="kw">glm</span>(outcome_variable <span class="op">~</span><span class="st"> </span>explanatory_variable1<span class="op">+</span>explanatory_variable2,
+    <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>, <span class="dt">data =</span> your_data)
+<span class="co"># Display model output</span>
+<span class="kw">summary</span>(mod)</code></pre></div>
+<ol style="list-style-type: lower-alpha">
+<li>Fit a logistic regression model with only treatment as a predictor. Interpret the treatment coefficient. Is this the interpretation you expected?</li>
+<li>Fit a logistic regression model with both treatment and pre-treatment tumor size as predictors. Interpret the treatment coefficient. Is this the interpretation you expected?</li>
+</ol>
+</div>
+<div id="exercise-3" class="section level3 unnumbered">
+<h3>Exercise 3</h3>
+<p>So far, we have not considered the <code>post_tumor_size</code> variable at all in our analyses.</p>
+<ol style="list-style-type: lower-alpha">
+<li>Let’s get some visual understanding of this variable. Make 2 plots: one showing its relationship with the <code>treated</code> variable and the second showing its relationship with the <code>recovery</code> variable.</li>
+<li>What is your intuition - should we include <code>post_tumor_size</code> as an explanatory variable in our logistic regression model? Why or why not?</li>
+<li>Fit the logistic regression model (<code>mod3</code>) with all 3 explanatory variables, and interpret the treatment coefficient. How do the results compare to <code>mod2</code>?</li>
+<li>The diagram that we considered at the end of Exercise 1 only included the treatment, recovery, and pre-treatment tumor size variables. Draw (on paper) an expanded causal diagram that includes post-treatment tumor size. In light of where post-treatment tumor size appears on your diagram, what does it mean to include it in the logistic regression model?</li>
+<li>The data in this investigation were simulated. That is, your instructor generated them, and thus, she actually knows the truth behind the data. The truth is that chemotherapy does have a true beneficial causal impact on recovery. Chemotherapy does increases the chance of recovery. Given this information and the insights you gained from these three exercises, try to put all of this information together. What makes sense? What remains unclear?</li>
+</ol>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="schedule.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
