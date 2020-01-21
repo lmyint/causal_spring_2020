@@ -1,0 +1,6 @@
+book_filename: "causal_manual"
+output_dir: docs/
+rmd_files: ["index.Rmd", "references.Rmd", "schedule.Rmd", "01-intro.Rmd"]
+language:
+  ui:
+    chapter_name: "Topic "

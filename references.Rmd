@@ -1,0 +1,16 @@
+# References {-}
+
+The material for this course draws from the following list of excellent resources.
+
+Required references (download these!):
+
+- Causal Inference in Statistics: A Primer, by Judea Pearl, Madelyn Glymour, and Nicholas P. Jewell. PDF freely available [online](http://bayes.cs.ucla.edu/PRIMER/). (Referred to as "PRIMER".)
+- Causal Inference: What If, by Miguel A. Hernán and James M. Robins. PDF freely available [online](https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/). (Referred to as "WHATIF".)
+
+Other materials:
+
+- The Book of Why: The New Science of Cause and Effect, by Judea Pearl and Dana Mackenzie ([Amazon](https://www.amazon.com/Book-Why-Science-Cause-Effect/dp/046509760X))
+- Causality: Models, Reasoning, and Inference, by Judea Pearl (available as an [eBook](http://linker2.worldcat.org/?jHome=https%3A%2F%2Fgo.openathens.net%2Fredirector%2Fmacalester.edu%3Furl%3Dhttps%3A%2F%2Fdoi.org%2F10.1017%2FCBO9780511803161&linktype=best) through Macalester's libarary)
+- Materials from the course, Causal Inference in Medicine and Public Health, taught by Elizabeth Stuart at JHSPH
+- edX course: [Causal Diagrams: Draw Your Assumptions Before Your Conclusions](https://www.edx.org/course/causal-diagrams-draw-your-assumptions-before-your)
+- Udemy course: [Causal Data Science with Directed Acyclic Graphs](https://www.udemy.com/course/causal-data-science/)

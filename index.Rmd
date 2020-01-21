@@ -1,0 +1,34 @@
+--- 
+title: "STAT 394: Causal Inference"
+site: bookdown::bookdown_site
+output:
+  bookdown::gitbook:
+    config:
+      sharing:
+        facebook: false
+        twitter: false
+documentclass: book
+link-citations: yes
+github-repo: lmyint/causal_spring_2020
+description: "This is the class website for Causal Inference at Macalester College."
+---
+
+# Welcome! {-}
+
+<center>
+<img src="images/iawl.jpg" width=518 height=400>
+
+Image source: [IMDB](https://www.imdb.com/title/tt0038650/mediaviewer/rm449672704). (<i>Know how this relates to class? Tell the instructor!</i>)
+</center>
+
+<br>
+
+This is the course website for STAT 394: Causal Inference at Macalester College for the Spring 2020 semester. The content here was made by [Leslie Myint](https://lmyint.github.io) and draws upon several resources, all of which are listed on the [References] page.
+
+<br>
+<br>
+<br>
+
+![](images/cc_license_button.png)
+
+This work is licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-nc-sa/4.0/).

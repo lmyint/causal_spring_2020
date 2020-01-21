@@ -1,0 +1,23 @@
+# Schedule {-}
+
+### Week 1 {-}
+
+- Thursday, January 23    
+    Introductions, review of key ideas from STAT 155, why we need causal stories (graphs!)
+    - **After class:**    
+        Recommended reading: PRIMER, Chapter 1: Sections 1.1, 1.2    
+        Required reading: PRIMER, Chapter 1: 1.4, 1.5.1
+
+### Week 2 {-}
+
+- Tuesday, January 28    
+    The mathematics (probability) of graphs
+    - **Before class:**    
+        Please watch the following two videos and/or read the corresponding sections of PRIMER. Answer the Moodle questions before class.    
+        Video 1: [Essentials of Probability](https://www.youtube.com), ([slides](https://www.google.com))    
+        Video 2: [Key Structure in DAGs](https://www.youtube.com), ([slides](https://www.google.com))    
+        Reading: PRIMER, Chapter 1: Sections 1.3.1 to 1.3.5, Chapter 2: Sections 2.1 to 2.3
+- Thursday, January 30    
+    d-separation and its applications for understanding bias
+    - **Before class:**    
+        Reading: PRIMER, Chapter 2: Section 2.4

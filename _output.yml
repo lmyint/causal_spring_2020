@@ -1,0 +1,12 @@
+bookdown::gitbook:
+  highlight: espresso
+  css: custom_styles.css
+  split_by: chapter
+  config:
+    toc:
+      collapse: section
+      before: |
+        <li><a href = "./">STAT 394: Causal Inference</a></li>
+      after: |
+        <li><a href="https://bookdown.org" target="blank">Published with bookdown</a></li>
+    # download: [pdf]
