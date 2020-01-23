@@ -6,6 +6,8 @@ knitr::opts_chunk$set(echo=TRUE, eval=FALSE)
 
 # Introductions, Review, and Motivation
 
+**Slides from today are available [here](https://docs.google.com/presentation/d/1SNGxtjUwv4T-hDY7fgamMCF0I5-WpzOv6G1jRzw3QhA/edit?usp=sharing).**
+
 ## Learning Goals {-}
 
 - Understand the instances in which we care about causation more than association

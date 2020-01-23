@@ -3,7 +3,8 @@
 ### Week 1 {-}
 
 - Thursday, January 23    
-    Introductions, review of key ideas from STAT 155, why we need causal stories (graphs!)
+    Introductions, review of key ideas from STAT 155, why we need causal stories (graphs!)    
+    Slides from class are available [here](https://docs.google.com/presentation/d/1SNGxtjUwv4T-hDY7fgamMCF0I5-WpzOv6G1jRzw3QhA/edit?usp=sharing).
     - **After class:**    
         Recommended reading: PRIMER, Chapter 1: Sections 1.1, 1.2    
         Required reading: PRIMER, Chapter 1: 1.4, 1.5.1
