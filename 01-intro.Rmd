@@ -16,14 +16,13 @@ knitr::opts_chunk$set(echo=TRUE, eval=FALSE)
 
 ## Review: Regression Models {-}
 
-Answer these questions individually first. Afterwards, you'll discuss responses with your group members.
+Discuss the following questions with your group members.
 
 1. What does a linear regression model formula look like?    
     If you covered logistic regression in STAT 155, what does a logistic regression model formula look like? When would you use logistic vs. linear regression?<br><br>
 2. In general, how do we interpret the intercept in a regression model (both linear and logistic)?<br><br>
 3. How do we interpret the other coefficients in a regression model (both linear and logistic)? How can we justify this interpretation mathematically?<br><br>
-4. What are some considerations in deciding what variables to include in a regression model?<br><br>
-5. How might regression models be useful in understanding the causal effect of some variable on an outcome?
+4. How might regression models be useful in understanding the causal effect of some variable on an outcome?
 
 <br><br><br><br>
 
