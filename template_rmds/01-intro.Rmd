@@ -33,7 +33,7 @@ ggplot(chemo_study_data, aes(x = pre_tumor_size)) + ???
 Is pre-treatment tumor size predictive of whether or not a patient received chemotherapy? Make a plot to assess this, and briefly state what conclusions can be drawn from the plot. (Hint: it will be helpful to look at the second page of the cheat sheet in the section labeled "Position Adjustments".)
 
 ```{r}
-ggplot(chemo_study_data, aes(x = treated, fill = pre_tumor_size)) + ???
+ggplot(chemo_study_data, aes(x = pre_tumor_size, fill = treated)) + ???
 ```
 
 ## Part c

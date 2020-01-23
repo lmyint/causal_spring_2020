@@ -55,7 +55,7 @@ ggplot(chemo_study_data, aes(x = pre_tumor_size)) + ???
 ```
 b. Is pre-treatment tumor size predictive of whether or not a patient received chemotherapy? Make a plot to assess this, and briefly state what conclusions can be drawn from the plot. (Hint: it will be helpful to look at the second page of the cheat sheet in the section labeled "Position Adjustments".)
 ```{r}
-ggplot(chemo_study_data, aes(x = treated, fill = pre_tumor_size)) + ???
+ggplot(chemo_study_data, aes(x = pre_tumor_size, fill = treated)) + ???
 ```
 c. Is pre-treatment tumor size predictive of whether or not a patient recovered? Make a plot, and briefly state your conclusions.
 d. A variable is a **confounder** if it is a common cause of both the treatment and outcome. This is shown in the diagram below. Given your results from parts b and c, could pre-treatment tumor size be a confounder of the relationship between chemotherapy treatment and recovery? If yes, what is the concern here?
