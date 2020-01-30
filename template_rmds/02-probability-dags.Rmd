@@ -1,54 +1,20 @@
-```{r 02_setup, include=FALSE}
-rm(list = ls())
-set.seed(2020)
-knitr::opts_chunk$set(echo=TRUE, eval=FALSE)
-```
+---
+title: "Probability and DAGs"
+author: "Your Name"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+---
 
-# Probability and DAGs
-
-## Learning Goals {-}
-
-1. Appreciate the importance of starting analysis from prior/expert knowledge
-2. Simulate data corresponding to a causal DAG
-3. Use simulations to verify the marginal/conditional independence and dependence relationships implied by DAG structures
-4. Develop notions of causal and non-causal associations in the context of graphs
-
-<br><br><br><br>
-
-## Goal 1 {-}
-
-In your groups, discuss your responses to the pre-class question about the figure below (which came from [this article](https://www.nature.com/articles/s41390-018-0071-3) from Nature Pediatric Research).
-
-- What arrows do all of you agree on?
-- Do you disagree on any arrows?
-- If the question of interest is how screen time affects the risk of childhood obesity, what variables and arrows do you think are missing?
-
-<center>
-![](images/nature_ped_fig1_part.png)
-</center>
-
-If you have time left, pick your favorite example of conditional independence and conditional dependence from your answers to the pre-class questions.
-
-<br><br><br><br>
-
-## Lead-in to R activity: Poll {-}
-
-Navigate to:
-
-<center>
-[PollEv.com/lesliemyint417](https://www.PollEv.com/lesliemyint417)
-</center>
-
-<br><br><br><br>
-
-## Discussion {-}
-
-**Download [this Rmd file](template_rmds/02-probability-dags.Rmd) to start from.**
+# Loading packages
 
 ```{r}
 library(ggplot2)
 library(dplyr)
 ```
+
+# Discussion
 
 An introduction to the `rbinom` function:
 
@@ -81,7 +47,7 @@ Y <- rbinom(n, size = 1, prob = 0.6)
 
 Are the X and Y we just simulated independent or dependent? Let's make a plot to see:
 
-```{r}
+```{r, fig.align="center"}
 # We put X and Y in a dataset using data.frame()
 # They are turned into categorical variables using factor()
 sim_data <- data.frame(X = factor(X), Y = factor(Y))
@@ -140,11 +106,13 @@ sim_data_filt_z0 <- sim_data %>% filter(Z=="0")
 sim_data_filt_z1 <- sim_data %>% filter(Z=="1")
 ```
 
-<br><br>
 
-## R Exercises {-}
 
-### Exercise 1 {-}
+
+
+# R Exercises
+
+## Exercise 1
 
 Simulate data for a chain X -> Y -> Z where all variables are binary. Make plots to show the following properties:
 
@@ -153,18 +121,18 @@ Simulate data for a chain X -> Y -> Z where all variables are binary. Make plots
 
 Describe how your simulation would change if you wanted to check the more general property of chains that two variables are conditionally independent given any variables in between them. (You don't actually implement this simulation but can if you have time.)
 
-<br>
 
-### Exercise 2 {-}
+
+## Exercise 2
 
 Simulate data for a fork Y <- X -> Z where all variables are binary. Make plots to show the following properties:
 
 - Y and Z are marginally dependent
 - Y and Z are conditionally independent given X
 
-<br>
 
-### Exercise 3 {-}
+
+## Exercise 3
 
 Simulate data for a collider X -> Z <- Y where all variables are binary. Make plots to show the following properties:
 
@@ -173,29 +141,24 @@ Simulate data for a collider X -> Z <- Y where all variables are binary. Make pl
 
 Describe how your simulation would change if you wanted to check the more general property of colliders that X and Y become dependent conditional on Z and/or any descendants of Z. (You don't actually implement this simulation but can if you have time.)
 
-<br><br>
 
-## Conceptual Exercises {-}
 
-### Exercise 4 {-}
+# Conceptual Exercises
 
-<center>
-![](images/02_causal_noncausal_paths.png)
-</center>
+(See course website for images in this part.)
+
+## Exercise 4
 
 In the causal diagram above, let X be a treament and Y be an outcome of interest.
 
 a. What would you say are the "causal paths" between X and Y? What would you say are the "non-causal paths"?
 b. Thinking about the marginal and conditional independence and dependence relations we've discussed, how might we restrict the influence of these non-causal paths?
 
-<br>
 
-### Exercise 5 {-}
+
+## Exercise 5
 
 Can you come up with a general rule that tells us when two variables will be conditionally independent given another set of variables Z? (Where it is possible that Z is an empty set containing no variables.)
 
 Try out your rule on the causal diagram below.
 
-<center>
-![](images/primer_fig_2_8.png)
-</center>

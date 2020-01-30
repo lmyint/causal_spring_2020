@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Topic 2 Probability and DAGs | STAT 394: Causal Inference</title>
+  <meta name="description" content="This is the class website for Causal Inference at Macalester College." />
+  <meta name="generator" content="bookdown 0.14 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Topic 2 Probability and DAGs | STAT 394: Causal Inference" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is the class website for Causal Inference at Macalester College." />
+  <meta name="github-repo" content="lmyint/causal_spring_2020" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Topic 2 Probability and DAGs | STAT 394: Causal Inference" />
+  
+  <meta name="twitter:description" content="This is the class website for Causal Inference at Macalester College." />
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="introductions-review-and-motivation.html"/>
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #2a211c; color: #bdae9d; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; background-color: #2a211c; color: #bdae9d; border-right: 1px solid #bdae9d; }
+td.sourceCode { padding-left: 5px; }
+pre, code { color: #bdae9d; background-color: #2a211c; }
+code > span.kw { color: #43a8ed; font-weight: bold; } /* Keyword */
+code > span.dt { text-decoration: underline; } /* DataType */
+code > span.dv { color: #44aa43; } /* DecVal */
+code > span.bn { color: #44aa43; } /* BaseN */
+code > span.fl { color: #44aa43; } /* Float */
+code > span.ch { color: #049b0a; } /* Char */
+code > span.st { color: #049b0a; } /* String */
+code > span.co { color: #0066ff; font-style: italic; } /* Comment */
+code > span.al { color: #ffff00; } /* Alert */
+code > span.fu { color: #ff9358; font-weight: bold; } /* Function */
+code > span.er { color: #ffff00; font-weight: bold; } /* Error */
+code > span.wa { color: #ffff00; font-weight: bold; } /* Warning */
+code > span.cn { } /* Constant */
+code > span.sc { color: #049b0a; } /* SpecialChar */
+code > span.vs { color: #049b0a; } /* VerbatimString */
+code > span.ss { color: #049b0a; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { } /* Variable */
+code > span.cf { color: #43a8ed; font-weight: bold; } /* ControlFlow */
+code > span.op { } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { font-weight: bold; } /* Preprocessor */
+code > span.at { } /* Attribute */
+code > span.do { color: #0066ff; font-style: italic; } /* Documentation */
+code > span.an { color: #0066ff; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.co { color: #0066ff; font-weight: bold; font-style: italic; } /* Comment */
+code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="custom_styles.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href = "./">STAT 394: Causal Inference</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome!</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="" data-path="schedule.html"><a href="schedule.html"><i class="fa fa-check"></i>Schedule</a><ul>
+<li class="chapter" data-level="" data-path="schedule.html"><a href="schedule.html#week-1"><i class="fa fa-check"></i>Week 1</a></li>
+<li class="chapter" data-level="" data-path="schedule.html"><a href="schedule.html#week-2"><i class="fa fa-check"></i>Week 2</a></li>
+<li class="chapter" data-level="" data-path="schedule.html"><a href="schedule.html#week-3"><i class="fa fa-check"></i>Week 3</a></li>
+</ul></li>
+<li class="part"><span><b>I Causal Diagram Fundamentals</b></span></li>
+<li class="chapter" data-level="1" data-path="introductions-review-and-motivation.html"><a href="introductions-review-and-motivation.html"><i class="fa fa-check"></i><b>1</b> Introductions, Review, and Motivation</a><ul>
+<li class="chapter" data-level="" data-path="introductions-review-and-motivation.html"><a href="introductions-review-and-motivation.html#learning-goals"><i class="fa fa-check"></i>Learning Goals</a></li>
+<li class="chapter" data-level="" data-path="introductions-review-and-motivation.html"><a href="introductions-review-and-motivation.html#review-regression-models"><i class="fa fa-check"></i>Review: Regression Models</a></li>
+<li class="chapter" data-level="" data-path="introductions-review-and-motivation.html"><a href="introductions-review-and-motivation.html#exercises"><i class="fa fa-check"></i>Exercises</a><ul>
+<li class="chapter" data-level="" data-path="introductions-review-and-motivation.html"><a href="introductions-review-and-motivation.html#exercise-1"><i class="fa fa-check"></i>Exercise 1</a></li>
+<li class="chapter" data-level="" data-path="introductions-review-and-motivation.html"><a href="introductions-review-and-motivation.html#exercise-2"><i class="fa fa-check"></i>Exercise 2</a></li>
+<li class="chapter" data-level="" data-path="introductions-review-and-motivation.html"><a href="introductions-review-and-motivation.html#exercise-3"><i class="fa fa-check"></i>Exercise 3</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="probability-and-dags.html"><a href="probability-and-dags.html"><i class="fa fa-check"></i><b>2</b> Probability and DAGs</a><ul>
+<li class="chapter" data-level="" data-path="probability-and-dags.html"><a href="probability-and-dags.html#learning-goals-1"><i class="fa fa-check"></i>Learning Goals</a></li>
+<li class="chapter" data-level="" data-path="probability-and-dags.html"><a href="probability-and-dags.html#goal-1"><i class="fa fa-check"></i>Goal 1</a></li>
+<li class="chapter" data-level="" data-path="probability-and-dags.html"><a href="probability-and-dags.html#lead-in-to-r-activity-poll"><i class="fa fa-check"></i>Lead-in to R activity: Poll</a></li>
+<li class="chapter" data-level="" data-path="probability-and-dags.html"><a href="probability-and-dags.html#discussion"><i class="fa fa-check"></i>Discussion</a></li>
+<li class="chapter" data-level="" data-path="probability-and-dags.html"><a href="probability-and-dags.html#r-exercises"><i class="fa fa-check"></i>R Exercises</a><ul>
+<li class="chapter" data-level="" data-path="probability-and-dags.html"><a href="probability-and-dags.html#exercise-1-1"><i class="fa fa-check"></i>Exercise 1</a></li>
+<li class="chapter" data-level="" data-path="probability-and-dags.html"><a href="probability-and-dags.html#exercise-2-1"><i class="fa fa-check"></i>Exercise 2</a></li>
+<li class="chapter" data-level="" data-path="probability-and-dags.html"><a href="probability-and-dags.html#exercise-3-1"><i class="fa fa-check"></i>Exercise 3</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="probability-and-dags.html"><a href="probability-and-dags.html#conceptual-exercises"><i class="fa fa-check"></i>Conceptual Exercises</a><ul>
+<li class="chapter" data-level="" data-path="probability-and-dags.html"><a href="probability-and-dags.html#exercise-4"><i class="fa fa-check"></i>Exercise 4</a></li>
+<li class="chapter" data-level="" data-path="probability-and-dags.html"><a href="probability-and-dags.html#exercise-5"><i class="fa fa-check"></i>Exercise 5</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://bookdown.org" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">STAT 394: Causal Inference</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="probability-and-dags" class="section level1">
+<h1><span class="header-section-number">Topic 2</span> Probability and DAGs</h1>
+<div id="learning-goals-1" class="section level2 unnumbered">
+<h2>Learning Goals</h2>
+<ol style="list-style-type: decimal">
+<li>Appreciate the importance of starting analysis from prior/expert knowledge</li>
+<li>Simulate data corresponding to a causal DAG</li>
+<li>Use simulations to verify the marginal/conditional independence and dependence relationships implied by DAG structures</li>
+<li>Develop notions of causal and non-causal associations in the context of graphs</li>
+</ol>
+<p><br><br><br><br></p>
+</div>
+<div id="goal-1" class="section level2 unnumbered">
+<h2>Goal 1</h2>
+<p>In your groups, discuss your responses to the pre-class question about the figure below (which came from <a href="https://www.nature.com/articles/s41390-018-0071-3">this article</a> from Nature Pediatric Research).</p>
+<ul>
+<li>What arrows do all of you agree on?</li>
+<li>Do you disagree on any arrows?</li>
+<li>If the question of interest is how screen time affects the risk of childhood obesity, what variables and arrows do you think are missing?</li>
+</ul>
+<center>
+<img src="images/nature_ped_fig1_part.png" />
+</center>
+<p>If you have time left, pick your favorite example of conditional independence and conditional dependence from your answers to the pre-class questions.</p>
+<p><br><br><br><br></p>
+</div>
+<div id="lead-in-to-r-activity-poll" class="section level2 unnumbered">
+<h2>Lead-in to R activity: Poll</h2>
+<p>Navigate to:</p>
+<center>
+<a href="https://www.PollEv.com/lesliemyint417">PollEv.com/lesliemyint417</a>
+</center>
+<p><br><br><br><br></p>
+</div>
+<div id="discussion" class="section level2 unnumbered">
+<h2>Discussion</h2>
+<p><strong>Download <a href="template_rmds/02-probability-dags.Rmd">this Rmd file</a> to start from.</strong></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)
+<span class="kw">library</span>(dplyr)</code></pre></div>
+<p>An introduction to the <code>rbinom</code> function:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># 4 different people each flip a fair coin once</span>
+<span class="kw">rbinom</span>(<span class="dv">4</span>, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> <span class="fl">0.5</span>)
+
+<span class="co"># 4 different people flip loaded coins</span>
+<span class="co"># First 2 flip a coin with P(Heads) = 0.9</span>
+<span class="co"># Second 2 flip a coin with P(Heads) = 0.2</span>
+<span class="kw">rbinom</span>(<span class="dv">4</span>, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> <span class="kw">c</span>(<span class="fl">0.9</span>, <span class="fl">0.9</span>, <span class="fl">0.2</span>, <span class="fl">0.2</span>))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Before you run this code, what will the result be?</span>
+<span class="kw">rbinom</span>(<span class="dv">2</span>, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">0</span>))</code></pre></div>
+<p>How can we simulate X -&gt; Y for binary X and Y?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># set.seed() ensures reproducible random numbers</span>
+<span class="kw">set.seed</span>(<span class="dv">2020</span>)
+<span class="co"># Set sample size</span>
+n &lt;-<span class="st"> </span><span class="fl">1e5</span>
+<span class="co"># Generate a binary variable X for all n cases</span>
+X &lt;-<span class="st"> </span><span class="kw">rbinom</span>(n, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> <span class="fl">0.6</span>)
+Y &lt;-<span class="st"> </span><span class="kw">rbinom</span>(n, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> <span class="fl">0.6</span>)</code></pre></div>
+<p>Are the X and Y we just simulated independent or dependent? Let’s make a plot to see:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># We put X and Y in a dataset using data.frame()</span>
+<span class="co"># They are turned into categorical variables using factor()</span>
+sim_data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">X =</span> <span class="kw">factor</span>(X), <span class="dt">Y =</span> <span class="kw">factor</span>(Y))
+
+<span class="co"># Proportional bar plot</span>
+<span class="kw">ggplot</span>(sim_data, <span class="kw">aes</span>(<span class="dt">x =</span> X, <span class="dt">fill =</span> Y)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_bar</span>(<span class="dt">position =</span> <span class="st">&quot;fill&quot;</span>)</code></pre></div>
+<p>How can we make Y dependent on X?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Generate probabilities that Y=1 that depend on the value of X</span>
+p_X &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">case_when</span>(
+    X<span class="op">==</span><span class="dv">1</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.8</span>,
+    X<span class="op">==</span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.2</span>
+)
+
+<span class="co"># Simulate Y using p_X</span>
+Y &lt;-<span class="st"> </span><span class="kw">rbinom</span>(n, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> p_X)
+
+<span class="co"># Put X, Y, and p_X into a dataset</span>
+sim_data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">X =</span> <span class="kw">factor</span>(X), <span class="dt">Y =</span> <span class="kw">factor</span>(Y), <span class="dt">p_X =</span> p_X)
+
+<span class="co"># Check that p_X = 0.8 when X is 1</span>
+sim_data <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">filter</span>(X<span class="op">==</span><span class="st">&quot;1&quot;</span>)
+
+<span class="co"># Check that p_X = 0.2 when X is 0</span>
+sim_data <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">filter</span>(X<span class="op">==</span><span class="st">&quot;0&quot;</span>)
+
+<span class="co"># Proportional bar plot</span>
+<span class="kw">ggplot</span>(sim_data, <span class="kw">aes</span>(<span class="dt">x =</span> X, <span class="dt">fill =</span> Y)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_bar</span>(<span class="dt">position =</span> <span class="st">&quot;fill&quot;</span>)</code></pre></div>
+<p>How can we make a variable Z dependent on 2 causes: X and Y?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">X &lt;-<span class="st"> </span><span class="kw">rbinom</span>(n, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> <span class="fl">0.6</span>)
+Y &lt;-<span class="st"> </span><span class="kw">rbinom</span>(n, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> <span class="fl">0.6</span>)
+p_XY &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">case_when</span>(
+    X<span class="op">==</span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>Y<span class="op">==</span><span class="dv">1</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.8</span>,
+    X<span class="op">==</span><span class="dv">0</span> <span class="op">&amp;</span><span class="st"> </span>Y<span class="op">==</span><span class="dv">1</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.2</span>,
+    X<span class="op">==</span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>Y<span class="op">==</span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.7</span>,
+    X<span class="op">==</span><span class="dv">0</span> <span class="op">&amp;</span><span class="st"> </span>Y<span class="op">==</span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.4</span>
+)
+Z &lt;-<span class="st"> </span><span class="kw">rbinom</span>(n, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> p_XY)
+
+<span class="co"># Put X, Y, and Z into a dataset</span>
+sim_data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">X =</span> <span class="kw">factor</span>(X), <span class="dt">Y =</span> <span class="kw">factor</span>(Y), <span class="dt">Z =</span> <span class="kw">factor</span>(Z))
+
+<span class="co"># If we wanted to save datasets filtered on Z (Why?)</span>
+sim_data_filt_z0 &lt;-<span class="st"> </span>sim_data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Z<span class="op">==</span><span class="st">&quot;0&quot;</span>)
+sim_data_filt_z1 &lt;-<span class="st"> </span>sim_data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Z<span class="op">==</span><span class="st">&quot;1&quot;</span>)</code></pre></div>
+<p><br><br></p>
+</div>
+<div id="r-exercises" class="section level2 unnumbered">
+<h2>R Exercises</h2>
+<div id="exercise-1-1" class="section level3 unnumbered">
+<h3>Exercise 1</h3>
+<p>Simulate data for a chain X -&gt; Y -&gt; Z where all variables are binary. Make plots to show the following properties:</p>
+<ul>
+<li>X and Z are marginally dependent</li>
+<li>X and Z are conditionally independent given Y</li>
+</ul>
+<p>Describe how your simulation would change if you wanted to check the more general property of chains that two variables are conditionally independent given any variables in between them. (You don’t actually implement this simulation but can if you have time.)</p>
+<p><br></p>
+</div>
+<div id="exercise-2-1" class="section level3 unnumbered">
+<h3>Exercise 2</h3>
+<p>Simulate data for a fork Y &lt;- X -&gt; Z where all variables are binary. Make plots to show the following properties:</p>
+<ul>
+<li>Y and Z are marginally dependent</li>
+<li>Y and Z are conditionally independent given X</li>
+</ul>
+<p><br></p>
+</div>
+<div id="exercise-3-1" class="section level3 unnumbered">
+<h3>Exercise 3</h3>
+<p>Simulate data for a collider X -&gt; Z &lt;- Y where all variables are binary. Make plots to show the following properties:</p>
+<ul>
+<li>X and Y are marginally independent</li>
+<li>X and Y are conditionally dependent given Z</li>
+</ul>
+<p>Describe how your simulation would change if you wanted to check the more general property of colliders that X and Y become dependent conditional on Z and/or any descendants of Z. (You don’t actually implement this simulation but can if you have time.)</p>
+<p><br><br></p>
+</div>
+</div>
+<div id="conceptual-exercises" class="section level2 unnumbered">
+<h2>Conceptual Exercises</h2>
+<div id="exercise-4" class="section level3 unnumbered">
+<h3>Exercise 4</h3>
+<center>
+<img src="images/02_causal_noncausal_paths.png" />
+</center>
+<p>In the causal diagram above, let X be a treament and Y be an outcome of interest.</p>
+<ol style="list-style-type: lower-alpha">
+<li>What would you say are the “causal paths” between X and Y? What would you say are the “non-causal paths”?</li>
+<li>Thinking about the marginal and conditional independence and dependence relations we’ve discussed, how might we restrict the influence of these non-causal paths?</li>
+</ol>
+<p><br></p>
+</div>
+<div id="exercise-5" class="section level3 unnumbered">
+<h3>Exercise 5</h3>
+<p>Can you come up with a general rule that tells us when two variables will be conditionally independent given another set of variables Z? (Where it is possible that Z is an empty set containing no variables.)</p>
+<p>Try out your rule on the causal diagram below.</p>
+<center>
+<img src="images/primer_fig_2_8.png" />
+</center>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="introductions-review-and-motivation.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
