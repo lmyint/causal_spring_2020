@@ -1,0 +1,38 @@
+# (PART) Projects {-}
+
+# Portfolio {-}
+
+Your portfolio is meant to be a well-written collection of documents about course topics. The hope is that this collection is a useful reference for yourself years down the line, but potentially it will be helpful for others who may happen across your material.
+
+Because of these goals, your portfolio will be a collection of blog posts. If you are keen on building your own website, you could publish these posts there as a part of building up an online presence. This is certainly not a requirement for class though.
+
+How you organize and structure your posts is up to you, but they need to address the topics below.
+
+<br>
+
+## Required Topics {-}
+
+(This list will grow as the semester progresses.)
+
+1. An analysis of the article *The Birth Weight "Paradox" Uncovered?* at the level of detail of our in-class discussion
+
+<br>
+
+## Iterative Progress {-}
+
+You will work on these posts iteratively throughout the semester. The homework assignments will give deadlines for when a rough draft is due. Although writing rough drafts will be part of your homework duties, the drafts will not be part of your homework grade. You will only receive qualitative feedback from me on your drafts.
+
+This will be the process for writing and feedback for the semester:
+
+1. Create one (and only one) new Google Doc. This will be where **all** of your drafts go.
+2. Enable link sharing so that those with the link can edit. Submit the link on Moodle > Homework > Portfolio Google Doc Link.
+3. Start writing!
+4. In the days after draft due dates, I will be reading your drafts and giving feedback by a fixed time. You are welcome to revise based on my feedback as many times as you want. When you would like another round of feedback, add a comment to the relevant section and tag me in it to bring it to my attention. (Type a "+" in the comment box followed by my email address.)
+
+<br>
+
+## Building a Personal Website {-}
+
+If you are curious about building your own website, read on!
+
+First check out the [instructor's website](https://lmyint.github.io/). If you like the layout and want to try making a website using R (the `blogdown` package), read her [blog post](https://lmyint.github.io/post/hugo-academic-tips/) about setting up her website.

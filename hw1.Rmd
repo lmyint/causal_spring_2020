@@ -1,0 +1,141 @@
+```{r hw1_setup, include=FALSE}
+knitr::opts_chunk$set(echo=TRUE, eval=FALSE)
+```
+
+# (PART) Homework {-}
+
+# Homework 1 {-}
+
+<center>
+**Due Thursday, February 13 in class**
+</center>
+
+## Conceptual Exercises {-}
+
+These exercises can be turned in on paper in class.
+
+### Exercise 1 {-}
+
+We have looked at 3 DAG structures (chains, forks, and colliders) and claimed that they are the building blocks of all DAGs. Is this true? We will verify this premise in this exercise.
+
+Let's start by considering all possible directed (not necessarily acyclic) graphs with 3 variables. (Three is the smallest number of nodes where any interesting structures can arise.) There are 27 of these graphs.
+
+a. Draw all of these graphs with the aid of the `expand.grid()` function in R. First, look up the documentation for this function. Second, run the command below to get a sense for how the function can help you. For this part, display the 27 graphs, and provide a brief explanation of how `expand.grid()` helped.     
+    ```{r}
+    expand.grid(
+        X_to_Y = c("->", "<-", "absent"),
+        Y_to_Z = c("->", "<-", "absent"),
+        X_to_Z = c("->", "<-", "absent")
+    )
+    ```
+b. From your list of graphs, indicate which graphs can be eliminated because they are cyclic.
+c. From your list of graphs, indicate which graphs can be eliminated because they are useless causal models.
+d. In your list of graphs, some graphs are essentially the same. Group these together, and draw one representative graph from each group.
+e. Briefly form a conclusion based on these investigations.
+
+<br>
+
+### Exercise 2 {-}
+
+PRIMER, Study question 2.3.1: Parts (c), (e), and (f). For parts (e) and (f), explain your thinking.
+
+<br>
+
+### Exercise 3 {-}
+
+PRIMER, Study question 2.4.1: Parts (a), (b), and (c).
+
+<br><br><br>
+
+## Simulation Exercises {-}
+
+On Moodle, turn these exercises in by submitting both your Rmd file and the knitted HTML.
+
+For these exercises, ensure that your plots are well-labeled. Add the following to the ends of your plots to label your plots accurately:
+
+```{r}
++ labs(x = "x axis label", y = "y axis label", title = "overall plot title")
+```
+
+A refresher on `facet_grid()` that may be useful:
+
+- To form panels across columns by variable Y:    
+    ```{r}
+    + facet_grid(~ Y)
+    ```
+- To form a grid of panels where rows correspond to X and columns to Y:    
+    ```{r}
+    + facet_grid(X ~ Y)
+    ```
+- To form a grid of panels where rows correspond to X and columns to Y *and* Z:    
+    ```{r}
+    + facet_grid(X ~ Y+Z)
+    ```
+- In case you're curious about how to change the labeling of facet titles, see [here](https://ggplot2.tidyverse.org/reference/labellers.html).
+
+(Optional) You may or may not find it helpful/enjoyable to use the `gridExtra` package for arranging your plots. Example use case:
+
+```{r}
+library(gridExtra)
+p1 <- ggplot(...) # Plot 1
+p2 <- ggplot(...) # Plot 2
+p3 <- ggplot(...) # Plot 3
+p4 <- ggplot(...) # Plot 4
+
+# To arrange the 4 plots in a 2x2 grid:
+grid.arrange(p1, p2, p3, p4, ncol = 2, nrow = 2)
+```
+
+If you look at your knitted HTML and think that your plots are too small, you can change the beginning of your code chunks to the following (playing with the numbers as needed):
+
+` ```{r fig.width=12, fig.height=5}`
+
+
+### Exercise 4 {-}
+
+Simulate data for a chain `X -> Y -> Z` where all variables are binary. Make plots to show the following properties:
+
+- `X` and `Z` are marginally dependent
+- `X` and `Z` are conditionally independent given `Y`
+
+Clearly explain how the plots show the dependence or independence.
+
+When you use `dplyr::case_when()` to generate probabilities that depend on another single variable, will any set of numbers work? Explain. Give an example of a set of numbers that would not generate the desired results.
+
+<br>
+
+### Exercise 5 {-}
+
+Simulate data for a fork `Y <- X -> Z` where all variables are binary. Make plots to show the following properties:
+
+- `Y` and `Z` are marginally dependent
+- `Y` and `Z` are conditionally independent given X
+
+<br>
+
+### Exercise 6 {-}
+
+Simulate data for a collider `X -> Z <- Y` where all variables are binary. Make plots to show the following properties:
+
+- `X` and `Y` are marginally independent
+- `X` and `Y` are conditionally dependent given `Z`
+
+When you use `dplyr::case_when()` to generate probabilities that depend on two variables, will any set of numbers work? Explain. Give an example of a set of numbers that would not generate the desired results.
+
+<br>
+
+### Exercise 7 {-}
+
+Simulate data corresponding to the causal diagram in Figure 2.8 of PRIMER. Ignore the `U` variables (error terms) in the diagram, and treat all variables (`T`, `Z`, `W`, `X`, `Y`, and `U`) as binary. Make plots to show the following properties, and explain why they hold using the rules of d-separation:
+
+- `Z` and `Y` are marginally dependent
+- `Z` and `Y` are conditionally independent given `T`
+- `Z` and `Y` are conditionally dependent given `T` and `W`
+- `Z` and `Y` are conditionally independent given `T`, `W`, and `X`
+
+<br><br><br>
+
+## Portfolio {-}
+
+Work on a draft post for required topic #1 (the birth weight paradox).
+

@@ -1,6 +1,5 @@
 ```{r 02_setup, include=FALSE}
 rm(list = ls())
-set.seed(2020)
 knitr::opts_chunk$set(echo=TRUE, eval=FALSE)
 ```
 
@@ -151,7 +150,7 @@ Simulate data for a chain X -> Y -> Z where all variables are binary. Make plots
 - X and Z are marginally dependent
 - X and Z are conditionally independent given Y
 
-Describe how your simulation would change if you wanted to check the more general property of chains that two variables are conditionally independent given any variables in between them. (You don't actually implement this simulation but can if you have time.)
+Describe how your simulation would change if you wanted to check the more general property of chains that two variables are conditionally independent given any variables in between them. (You don't actually need to implement this simulation but can if you have time.)
 
 <br>
 
@@ -171,7 +170,7 @@ Simulate data for a collider X -> Z <- Y where all variables are binary. Make pl
 - X and Y are marginally independent
 - X and Y are conditionally dependent given Z
 
-Describe how your simulation would change if you wanted to check the more general property of colliders that X and Y become dependent conditional on Z and/or any descendants of Z. (You don't actually implement this simulation but can if you have time.)
+Describe how your simulation would change if you wanted to check the more general property of colliders that X and Y become dependent conditional on Z and/or any descendants of Z. (You don't actually need to implement this simulation but can if you have time.)
 
 <br><br>
 
