@@ -14,7 +14,11 @@ How you organize and structure your posts is up to you, but they need to address
 
 (This list will grow as the semester progresses.)
 
-1. An analysis of the article *The Birth Weight "Paradox" Uncovered?* at the level of detail of our in-class discussion
+1. An analysis of the article *The Birth Weight "Paradox" Uncovered?* at the level of detail of our in-class discussion.
+    - The post does not have to answer the exact same discussion questions posed in class.
+    - The post should explain the paradox and what the authors did to investigate it. This should include a discussion of how they proceeded through the various causal diagrams and why some were eliminated.
+    - The post should explain how the authors resolved the paradox in the most realistic causal diagrams.
+    - The post should conclude with general lessons learned from this example.
 
 <br>
 
