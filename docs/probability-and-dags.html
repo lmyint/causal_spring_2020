@@ -30,7 +30,7 @@
   
   
 <link rel="prev" href="introductions-review-and-motivation.html"/>
-<link rel="next" href="homework-1.html"/>
+<link rel="next" href="d-separation-part-1.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -136,6 +136,11 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="" data-path="probability-and-dags.html"><a href="probability-and-dags.html#exercise-5"><i class="fa fa-check"></i>Exercise 5</a></li>
 </ul></li>
 </ul></li>
+<li class="chapter" data-level="3" data-path="d-separation-part-1.html"><a href="d-separation-part-1.html"><i class="fa fa-check"></i><b>3</b> d-separation (Part 1)</a><ul>
+<li class="chapter" data-level="" data-path="d-separation-part-1.html"><a href="d-separation-part-1.html#learning-goals-2"><i class="fa fa-check"></i>Learning Goals</a></li>
+<li class="chapter" data-level="" data-path="d-separation-part-1.html"><a href="d-separation-part-1.html#discussion-d-separation"><i class="fa fa-check"></i>Discussion: d-separation</a></li>
+<li class="chapter" data-level="" data-path="d-separation-part-1.html"><a href="d-separation-part-1.html#discussion-the-birth-weight-paradox"><i class="fa fa-check"></i>Discussion: The Birth Weight Paradox</a></li>
+</ul></li>
 <li class="part"><span><b>II Homework</b></span></li>
 <li class="chapter" data-level="" data-path="homework-1.html"><a href="homework-1.html"><i class="fa fa-check"></i>Homework 1</a><ul>
 <li class="chapter" data-level="" data-path="homework-1.html"><a href="homework-1.html#conceptual-exercises-1"><i class="fa fa-check"></i>Conceptual Exercises</a><ul>
@@ -232,8 +237,8 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
 <span class="co"># Set sample size</span>
 n &lt;-<span class="st"> </span><span class="fl">1e5</span>
 <span class="co"># Generate a binary variable X for all n cases</span>
-X &lt;-<span class="st"> </span><span class="kw">rbinom</span>(n, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> <span class="fl">0.6</span>)
-Y &lt;-<span class="st"> </span><span class="kw">rbinom</span>(n, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> <span class="fl">0.6</span>)</code></pre></div>
+X &lt;-<span class="st"> </span><span class="kw">rbinom</span>(n, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> <span class="fl">0.5</span>)
+Y &lt;-<span class="st"> </span><span class="kw">rbinom</span>(n, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> <span class="fl">0.5</span>)</code></pre></div>
 <p>Are the X and Y we just simulated independent or dependent? Let’s make a plot to see:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># We put X and Y in a dataset using data.frame()</span>
 <span class="co"># They are turned into categorical variables using factor()</span>
@@ -244,22 +249,22 @@ sim_data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span 
 <span class="st">    </span><span class="kw">geom_bar</span>(<span class="dt">position =</span> <span class="st">&quot;fill&quot;</span>)</code></pre></div>
 <p>How can we make Y dependent on X?</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Generate probabilities that Y=1 that depend on the value of X</span>
-p_X &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">case_when</span>(
+p_Y &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">case_when</span>(
     X<span class="op">==</span><span class="dv">1</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.8</span>,
-    X<span class="op">==</span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.2</span>
+    X<span class="op">==</span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.3</span>
 )
 
-<span class="co"># Simulate Y using p_X</span>
-Y &lt;-<span class="st"> </span><span class="kw">rbinom</span>(n, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> p_X)
+<span class="co"># Simulate Y using p_Y</span>
+Y &lt;-<span class="st"> </span><span class="kw">rbinom</span>(n, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> p_Y)
 
-<span class="co"># Put X, Y, and p_X into a dataset</span>
-sim_data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">X =</span> <span class="kw">factor</span>(X), <span class="dt">Y =</span> <span class="kw">factor</span>(Y), <span class="dt">p_X =</span> p_X)
+<span class="co"># Put X, Y, and p_Y into a dataset</span>
+sim_data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">X =</span> <span class="kw">factor</span>(X), <span class="dt">Y =</span> <span class="kw">factor</span>(Y), <span class="dt">p_Y =</span> p_Y)
 
-<span class="co"># Check that p_X = 0.8 when X is 1</span>
+<span class="co"># Check that p_Y = 0.8 when X is 1</span>
 sim_data <span class="op">%&gt;%</span>
 <span class="st">    </span><span class="kw">filter</span>(X<span class="op">==</span><span class="st">&quot;1&quot;</span>)
 
-<span class="co"># Check that p_X = 0.2 when X is 0</span>
+<span class="co"># Check that p_Y = 0.3 when X is 0</span>
 sim_data <span class="op">%&gt;%</span>
 <span class="st">    </span><span class="kw">filter</span>(X<span class="op">==</span><span class="st">&quot;0&quot;</span>)
 
@@ -267,15 +272,15 @@ sim_data <span class="op">%&gt;%</span>
 <span class="kw">ggplot</span>(sim_data, <span class="kw">aes</span>(<span class="dt">x =</span> X, <span class="dt">fill =</span> Y)) <span class="op">+</span>
 <span class="st">    </span><span class="kw">geom_bar</span>(<span class="dt">position =</span> <span class="st">&quot;fill&quot;</span>)</code></pre></div>
 <p>How can we make a variable Z dependent on 2 causes: X and Y?</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">X &lt;-<span class="st"> </span><span class="kw">rbinom</span>(n, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> <span class="fl">0.6</span>)
-Y &lt;-<span class="st"> </span><span class="kw">rbinom</span>(n, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> <span class="fl">0.6</span>)
-p_XY &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">case_when</span>(
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">X &lt;-<span class="st"> </span><span class="kw">rbinom</span>(n, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> <span class="fl">0.5</span>)
+Y &lt;-<span class="st"> </span><span class="kw">rbinom</span>(n, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> <span class="fl">0.5</span>)
+p_Z &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">case_when</span>(
     X<span class="op">==</span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>Y<span class="op">==</span><span class="dv">1</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.8</span>,
-    X<span class="op">==</span><span class="dv">0</span> <span class="op">&amp;</span><span class="st"> </span>Y<span class="op">==</span><span class="dv">1</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.2</span>,
-    X<span class="op">==</span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>Y<span class="op">==</span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.7</span>,
-    X<span class="op">==</span><span class="dv">0</span> <span class="op">&amp;</span><span class="st"> </span>Y<span class="op">==</span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.4</span>
+    X<span class="op">==</span><span class="dv">0</span> <span class="op">&amp;</span><span class="st"> </span>Y<span class="op">==</span><span class="dv">1</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.3</span>,
+    X<span class="op">==</span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>Y<span class="op">==</span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.5</span>,
+    X<span class="op">==</span><span class="dv">0</span> <span class="op">&amp;</span><span class="st"> </span>Y<span class="op">==</span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.9</span>
 )
-Z &lt;-<span class="st"> </span><span class="kw">rbinom</span>(n, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> p_XY)
+Z &lt;-<span class="st"> </span><span class="kw">rbinom</span>(n, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> p_Z)
 
 <span class="co"># Put X, Y, and Z into a dataset</span>
 sim_data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">X =</span> <span class="kw">factor</span>(X), <span class="dt">Y =</span> <span class="kw">factor</span>(Y), <span class="dt">Z =</span> <span class="kw">factor</span>(Z))
@@ -342,16 +347,13 @@ sim_data_filt_z1 &lt;-<span class="st"> </span>sim_data <span class="op">%&gt;%<
 </div>
 </div>
 </div>
-
-
-
             </section>
 
           </div>
         </div>
       </div>
 <a href="introductions-review-and-motivation.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="homework-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="d-separation-part-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -398,6 +400,20 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>

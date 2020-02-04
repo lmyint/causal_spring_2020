@@ -26,3 +26,6 @@
     - **Before class:**    
         Reading: PRIMER, Chapter 2: Section 2.4. There is one associated Moodle question for this reading.    
         Please also read the article *The Birth Weight "Paradox" Uncovered?* available in the Readings section on Moodle. We will discuss in class on Tuesday.
+- Tuesday, February 4    
+    d-separation and its applications for understanding bias (continued)    
+    No new reading. Work on [Homework 1], due Thursday, February 13 in class.

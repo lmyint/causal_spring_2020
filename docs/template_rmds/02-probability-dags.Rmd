@@ -41,13 +41,13 @@ set.seed(2020)
 # Set sample size
 n <- 1e5
 # Generate a binary variable X for all n cases
-X <- rbinom(n, size = 1, prob = 0.6)
-Y <- rbinom(n, size = 1, prob = 0.6)
+X <- rbinom(n, size = 1, prob = 0.5)
+Y <- rbinom(n, size = 1, prob = 0.5)
 ```
 
 Are the X and Y we just simulated independent or dependent? Let's make a plot to see:
 
-```{r, fig.align="center"}
+```{r}
 # We put X and Y in a dataset using data.frame()
 # They are turned into categorical variables using factor()
 sim_data <- data.frame(X = factor(X), Y = factor(Y))
@@ -61,22 +61,22 @@ How can we make Y dependent on X?
 
 ```{r}
 # Generate probabilities that Y=1 that depend on the value of X
-p_X <- dplyr::case_when(
+p_Y <- dplyr::case_when(
     X==1 ~ 0.8,
-    X==0 ~ 0.2
+    X==0 ~ 0.3
 )
 
-# Simulate Y using p_X
-Y <- rbinom(n, size = 1, prob = p_X)
+# Simulate Y using p_Y
+Y <- rbinom(n, size = 1, prob = p_Y)
 
-# Put X, Y, and p_X into a dataset
-sim_data <- data.frame(X = factor(X), Y = factor(Y), p_X = p_X)
+# Put X, Y, and p_Y into a dataset
+sim_data <- data.frame(X = factor(X), Y = factor(Y), p_Y = p_Y)
 
-# Check that p_X = 0.8 when X is 1
+# Check that p_Y = 0.8 when X is 1
 sim_data %>%
     filter(X=="1")
 
-# Check that p_X = 0.2 when X is 0
+# Check that p_Y = 0.3 when X is 0
 sim_data %>%
     filter(X=="0")
 
@@ -88,15 +88,15 @@ ggplot(sim_data, aes(x = X, fill = Y)) +
 How can we make a variable Z dependent on 2 causes: X and Y?
 
 ```{r}
-X <- rbinom(n, size = 1, prob = 0.6)
-Y <- rbinom(n, size = 1, prob = 0.6)
-p_XY <- dplyr::case_when(
+X <- rbinom(n, size = 1, prob = 0.5)
+Y <- rbinom(n, size = 1, prob = 0.5)
+p_Z <- dplyr::case_when(
     X==1 & Y==1 ~ 0.8,
-    X==0 & Y==1 ~ 0.2,
-    X==1 & Y==0 ~ 0.7,
-    X==0 & Y==0 ~ 0.4
+    X==0 & Y==1 ~ 0.3,
+    X==1 & Y==0 ~ 0.5,
+    X==0 & Y==0 ~ 0.9
 )
-Z <- rbinom(n, size = 1, prob = p_XY)
+Z <- rbinom(n, size = 1, prob = p_Z)
 
 # Put X, Y, and Z into a dataset
 sim_data <- data.frame(X = factor(X), Y = factor(Y), Z = factor(Z))
