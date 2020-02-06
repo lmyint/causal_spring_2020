@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>References | STAT 394: Causal Inference</title>
+  <title>Topic 4 d-separation (Part 2) | STAT 394: Causal Inference</title>
   <meta name="description" content="This is the class website for Causal Inference at Macalester College." />
   <meta name="generator" content="bookdown 0.14 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="References | STAT 394: Causal Inference" />
+  <meta property="og:title" content="Topic 4 d-separation (Part 2) | STAT 394: Causal Inference" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="lmyint/causal_spring_2020" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="References | STAT 394: Causal Inference" />
+  <meta name="twitter:title" content="Topic 4 d-separation (Part 2) | STAT 394: Causal Inference" />
   
   <meta name="twitter:description" content="This is the class website for Causal Inference at Macalester College." />
   
@@ -29,8 +29,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="index.html"/>
-<link rel="next" href="schedule.html"/>
+<link rel="prev" href="d-separation-part-1.html"/>
+<link rel="next" href="homework-1.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -191,31 +191,97 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="references" class="section level1 unnumbered">
-<h1>References</h1>
-<p>The material for this course draws from the following list of excellent resources.</p>
-<p>Required references (download these!):</p>
+<div id="d-separation-part-2" class="section level1">
+<h1><span class="header-section-number">Topic 4</span> d-separation (Part 2)</h1>
+<div id="learning-goals-3" class="section level2 unnumbered">
+<h2>Learning Goals</h2>
+<ol style="list-style-type: decimal">
+<li>Practice d-separation ideas with more examples</li>
+</ol>
+<p><br><br><br><br></p>
+</div>
+<div id="why-care" class="section level2 unnumbered">
+<h2>Why care?</h2>
+<p>In adjusting for variables in our analysis, we want to “do no harm”:</p>
 <ul>
-<li>Causal Inference in Statistics: A Primer, by Judea Pearl, Madelyn Glymour, and Nicholas P. Jewell. PDF freely available <a href="http://bayes.cs.ucla.edu/PRIMER/">online</a>. (Referred to as “PRIMER”.)</li>
-<li>Causal Inference: What If, by Miguel A. Hernán and James M. Robins. PDF freely available <a href="https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/">online</a>. (Referred to as “WHATIF”.)</li>
+<li>Block non-causal paths that generate unwanted associations</li>
+<li>Do not accidentally create non-causal paths that generate unwanted associations</li>
+<li>Leave causal paths (chains) alone</li>
 </ul>
-<p>Other materials:</p>
+<p><br><br><br><br></p>
+</div>
+<div id="example-folic-acid-and-birth-defects" class="section level2 unnumbered">
+<h2>Example: Folic Acid and Birth Defects</h2>
+<p>Does maternal folic acid supplementation reduce the risk of birth defects? Or could associations be due to confounding factors? What should we adjust for in our analysis?</p>
+<center>
+<img src="images/folic_acid_birth_defects.png" />
+</center>
+<p><br><br><br><br></p>
+</div>
+<div id="example-selection-bias" class="section level2 unnumbered">
+<h2>Example: Selection Bias</h2>
+<p>See handout!</p>
+<p><br><br><br><br></p>
+</div>
+<div id="example-estrogens-and-uterine-cancer" class="section level2 unnumbered">
+<h2>Example: Estrogens and Uterine Cancer</h2>
+<p>Does postmenopausal estrogen supplementation (hormone replacement therapy) cause uterine cancer?</p>
 <ul>
-<li>The Book of Why: The New Science of Cause and Effect, by Judea Pearl and Dana Mackenzie (<a href="https://www.amazon.com/Book-Why-Science-Cause-Effect/dp/046509760X">Amazon</a>)</li>
-<li>Causality: Models, Reasoning, and Inference, by Judea Pearl (available as an <a href="http://linker2.worldcat.org/?jHome=https%3A%2F%2Fgo.openathens.net%2Fredirector%2Fmacalester.edu%3Furl%3Dhttps%3A%2F%2Fdoi.org%2F10.1017%2FCBO9780511803161&amp;linktype=best">eBook</a> through Macalester’s libarary)</li>
-<li>Materials from the course, Causal Inference in Medicine and Public Health, taught by Elizabeth Stuart at JHSPH</li>
-<li>edX course: <a href="https://www.edx.org/course/causal-diagrams-draw-your-assumptions-before-your">Causal Diagrams: Draw Your Assumptions Before Your Conclusions</a></li>
-<li>Udemy course: <a href="https://www.udemy.com/course/causal-data-science/">Causal Data Science with Directed Acyclic Graphs</a></li>
+<li>Consistent association between estrogen use and uterine cancer was noticed in the 1970s</li>
+<li>Two hypotheses:
+<ol style="list-style-type: decimal">
+<li>Estrogens do cause cancer</li>
+<li>Estrogens don’t cause cancer but lead to uterine bleeding, leading to more frequent doctor visits, leading to increased diagnosis of existing cancer</li>
+</ol></li>
+<li>Proposal for a study: restrict the study only to those with uterine bleeding and compare cancer rates in estrogen-users and non-users
+<ul>
+<li>In this way, all participants have the same chance of being diagnosed.</li>
+<li>What could be wrong about this approach?</li>
+<li>Can we design a better study?</li>
+</ul></li>
+</ul>
+<p>Causal diagrams corresponding to the two hypotheses:</p>
+<center>
+<img src="images/estrogens_endometrial.png" />
+</center>
+<p>Work through the following questions in your groups:</p>
+<ol style="list-style-type: decimal">
+<li>Consider the study proposal: restrict analysis to those with uterine bleeding.
+<ul>
+<li>Argue that under DAG 1, estrogens and diagnosed cancer will be associated.</li>
+<li>Argue that under DAG 2, estrogens and diagnosed cancer will be associated.</li>
+<li>Thus conclude that this study proposal cannot distinguish between the two competing hypotheses.</li>
+</ul></li>
+<li>Consider another study proposal: ensure that <em>everyone</em> is screened frequently, and we don’t restrict our analysis to only those with uterine bleeding.
+<ul>
+<li>What arrow (in either DAG 1 or 2) can be removed as a result of this study design?</li>
+<li>In this study, say that we don’t find an association between estrogens and diagnosed cancer? What does this mean about paths from estrogens to diagnosed cancer?</li>
+<li>In this study, say that we do find an association between estrogens and diagnosed cancer? What does this mean about paths from estrogens to diagnosed cancer?</li>
+<li>Based on these investigations, make a conclusion about the quality of this study proposal as compared to the first.</li>
+</ul></li>
+</ol>
+<p><br><br><br><br></p>
+</div>
+<div id="principles-of-building-causal-diagrams" class="section level2 unnumbered">
+<h2>Principles of building causal diagrams</h2>
+<p>A DAG is a <strong>causal DAG</strong> if it is <strong>common cause-complete</strong>: for any two variables in the DAG, common causes (whether measured or unmeasured) of those variables are shown.</p>
+<ul>
+<li>A causal DAG does NOT to be <strong>cause-complete</strong> (infeasible due to infinite regress of causes).</li>
+<li>It should contain variables that are selected on, and subsequently common causes between those variables and existing variables.</li>
 </ul>
 
 </div>
+</div>
+
+
+
             </section>
 
           </div>
         </div>
       </div>
-<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="schedule.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="d-separation-part-1.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="homework-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

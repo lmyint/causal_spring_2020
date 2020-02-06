@@ -1,0 +1,79 @@
+```{r 04_setup, include=FALSE}
+knitr::opts_chunk$set(echo=TRUE, eval=FALSE)
+```
+
+# d-separation (Part 2)
+
+## Learning Goals {-}
+
+1. Practice d-separation ideas with more examples
+
+<br><br><br><br>
+
+## Why care? {-}
+
+In adjusting for variables in our analysis, we want to "do no harm":
+
+- Block non-causal paths that generate unwanted associations
+- Do not accidentally create non-causal paths that generate unwanted associations
+- Leave causal paths (chains) alone
+
+<br><br><br><br>
+
+## Example: Folic Acid and Birth Defects {-}
+
+Does maternal folic acid supplementation reduce the risk of birth defects? Or could associations be due to confounding factors? What should we adjust for in our analysis?
+
+<center>
+![](images/folic_acid_birth_defects.png)
+</center>
+
+<br><br><br><br>
+
+## Example: Selection Bias {-}
+
+See handout!
+
+<br><br><br><br>
+
+## Example: Estrogens and Uterine Cancer {-}
+
+Does postmenopausal estrogen supplementation (hormone replacement therapy) cause uterine cancer?
+
+- Consistent association between estrogen use and uterine cancer was noticed in the 1970s
+- Two hypotheses:
+    1. Estrogens do cause cancer
+    2. Estrogens don't cause cancer but lead to uterine bleeding, leading to more frequent doctor visits, leading to increased diagnosis of existing cancer
+- Proposal for a study: restrict the study only to those with uterine bleeding and compare cancer rates in estrogen-users and non-users
+    - In this way, all participants have the same chance of being diagnosed.
+    - What could be wrong about this approach?
+    - Can we design a better study?
+
+Causal diagrams corresponding to the two hypotheses:
+
+<center>
+![](images/estrogens_endometrial.png)
+</center>
+
+Work through the following questions in your groups:
+
+1. Consider the study proposal: restrict analysis to those with uterine bleeding.
+    - Argue that under DAG 1, estrogens and diagnosed cancer will be associated.
+    - Argue that under DAG 2, estrogens and diagnosed cancer will be associated.
+    - Thus conclude that this study proposal cannot distinguish between the two competing hypotheses.
+2. Consider another study proposal: ensure that *everyone* is screened frequently, and we don't restrict our analysis to only those with uterine bleeding.
+    - What arrow (in either DAG 1 or 2) can be removed as a result of this study design?
+    - In this study, say that we don't find an association between estrogens and diagnosed cancer? What does this mean about paths from estrogens to diagnosed cancer?
+    - In this study, say that we do find an association between estrogens and diagnosed cancer? What does this mean about paths from estrogens to diagnosed cancer?
+    - Based on these investigations, make a conclusion about the quality of this study proposal as compared to the first.
+
+<br><br><br><br>
+
+## Principles of building causal diagrams {-}
+
+A DAG is a **causal DAG** if it is **common cause-complete**: for any two variables in the DAG, common causes (whether measured or unmeasured) of those variables are shown.
+
+- A causal DAG does NOT to be **cause-complete** (infeasible due to infinite regress of causes).
+- It should contain variables that are selected on, and subsequently common causes between those variables and existing variables.
+
+

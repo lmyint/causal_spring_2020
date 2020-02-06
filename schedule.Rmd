@@ -29,3 +29,13 @@
 - Tuesday, February 4    
     d-separation and its applications for understanding bias (continued)    
     No new reading. Work on [Homework 1], due Thursday, February 13 in class.
+
+
+### Week 4 {-}
+
+- Tuesday, February 11    
+    The do-operator and estimating causal effects    
+    - **Before class:**    
+        Required reading: PRIMER, Chapter 1: 1.3.6 and 1.3.7, Chapter 3: Sections 3.1 through 3.3 (skip 3.2.2 on Multiple Interventions). Answer the Moodle questions (under "The do-operator and estimating causal effects") before class.
+- Thursday, February 13    
+    The do-operator and estimating causal effects (continued)
