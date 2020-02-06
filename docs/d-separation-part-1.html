@@ -204,7 +204,7 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
 </div>
 <div id="discussion-d-separation" class="section level2 unnumbered">
 <h2>Discussion: d-separation</h2>
-<p>A path <span class="math inline">\(p\)</span> is blocked by a set of nodes <span class="math inline">\(Z\)</span> (which could be the empty set) if and only if at least one of the two conditions below are met:</p>
+<p>A path <span class="math inline">\(p\)</span> is blocked by a set of nodes <span class="math inline">\(Z\)</span> (which could be the empty set) if and only if at least one of the two conditions below are met. (<span class="math inline">\(Z\)</span> is the set of variables being conditioned on.)</p>
 <ol style="list-style-type: decimal">
 <li><span class="math inline">\(p\)</span> contains a chain of nodes <span class="math inline">\(A \rightarrow B \rightarrow C\)</span> or a fork <span class="math inline">\(A \leftarrow B \rightarrow C\)</span> such that the middle node <span class="math inline">\(B\)</span> is in <span class="math inline">\(Z\)</span>.</li>
 <li><span class="math inline">\(p\)</span> contains a collider <span class="math inline">\(A \rightarrow B \leftarrow C\)</span> such that the collision node B is not in <span class="math inline">\(Z\)</span>, and no descendant of <span class="math inline">\(B\)</span> is in <span class="math inline">\(Z\)</span>.</li>

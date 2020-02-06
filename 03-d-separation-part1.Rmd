@@ -14,7 +14,7 @@ knitr::opts_chunk$set(echo=TRUE, eval=FALSE)
 
 ## Discussion: d-separation {-}
 
-A path $p$ is blocked by a set of nodes $Z$ (which could be the empty set) if and only if at least one of the two conditions below are met:
+A path $p$ is blocked by a set of nodes $Z$ (which could be the empty set) if and only if at least one of the two conditions below are met. ($Z$ is the set of variables being conditioned on.)
 
 1. $p$ contains a chain of nodes $A \rightarrow B \rightarrow C$ or a fork $A \leftarrow B \rightarrow C$ such that the middle node $B$ is in $Z$.
 2. $p$ contains a collider $A \rightarrow B \leftarrow C$ such that the collision node B is not in $Z$, and no descendant of $B$ is in $Z$.
