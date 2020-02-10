@@ -43,7 +43,7 @@ PRIMER, Study question 2.3.1: Parts (c), (e), and (f). For parts (e) and (f), ex
 
 ### Exercise 3 {-}
 
-PRIMER, Study question 2.4.1: Parts (a), (b), and (c).
+PRIMER, Study question 2.4.1: Parts (a), (b), and (c). For part (b), only d-separate pairs of non-adjacent **measured** variables.
 
 <br><br><br>
 
