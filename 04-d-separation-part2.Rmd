@@ -73,7 +73,7 @@ Work through the following questions in your groups:
 
 A DAG is a **causal DAG** if it is **common cause-complete**: for any two variables in the DAG, common causes (whether measured or unmeasured) of those variables are shown.
 
-- A causal DAG does NOT to be **cause-complete** (infeasible due to infinite regress of causes).
-- It should contain variables that are selected on, and subsequently common causes between those variables and existing variables.
+- A causal DAG does **NOT** need to be **cause-complete** (infeasible due to infinite regress of causes).
+- It **should** contain variables that are selected on, and subsequently common causes between those variables and existing variables.
 
 

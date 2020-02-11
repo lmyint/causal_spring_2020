@@ -1,0 +1,88 @@
+---
+title: "Estimating Causal Effects"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+# Loading packages
+
+```{r}
+library(dplyr)
+```
+
+## Example simulation
+
+```{r}
+set.seed(22)
+n <- 1e6
+Z <- rbinom(n, size = 1, prob = 0.5)
+p_A <- dplyr::case_when(
+    Z==1 ~ 0.8,
+    Z==0 ~ 0.3
+)
+A <- rbinom(n, size = 1, prob = p_A)
+p_Y <- dplyr::case_when(
+    Z==1 & A==1 ~ 0.3,
+    Z==1 & A==0 ~ 0.6,
+    Z==0 & A==1 ~ 0.9,
+    Z==0 & A==0 ~ 0.2
+)
+Y <- rbinom(n, size = 1, prob = p_Y)
+A_do_1 <- rep(1, n)
+A_do_0 <- rep(0, n)
+
+p_Y_Ado1 <- dplyr::case_when(
+    Z==1 & A_do_1==1 ~ 0.3,
+    Z==1 & A_do_1==0 ~ 0.6,
+    Z==0 & A_do_1==1 ~ 0.9,
+    Z==0 & A_do_1==0 ~ 0.2
+)
+Y_Ado1 <- rbinom(n, size = 1, prob = p_Y_Ado1)
+
+p_Y_Ado0 <- dplyr::case_when(
+    Z==1 & A_do_0==1 ~ 0.3,
+    Z==1 & A_do_0==0 ~ 0.6,
+    Z==0 & A_do_0==1 ~ 0.9,
+    Z==0 & A_do_0==0 ~ 0.2
+)
+Y_Ado0 <- rbinom(n, size = 1, prob = p_Y_Ado0)
+
+
+sim_data <- data.frame(Z, p_A, A, Y, Y_Ado1, Y_Ado0)
+
+sum(sim_data$Y_Ado1==1)/n
+sum(sim_data$Y_Ado0==1)/n
+
+(sum(sim_data$Y_Ado1==1)/n)-(sum(sim_data$Y_Ado0==1)/n)
+```
+
+```{r}
+# Fit a logistic regression model to estimate propensity scores
+ps_mod <- glm(A ~ Z, data = sim_data, family = "binomial")
+
+# Get the actual propensity scores
+sim_data$PS <- dplyr::case_when(
+    A==1 ~ predict(ps_mod, type = "response"),
+    A==0 ~ 1-predict(ps_mod, type = "response")
+)
+
+# Form inverse probability weights
+sim_data$weight <- 1/sim_data$PS
+
+# Use the IP weights to estimate:
+# (1) the average outcome if all people were treated
+# (2) the average outcome if all people were untreated
+results <- sim_data %>%
+    group_by(A) %>%
+    summarize(Y_po_estim = sum(Y*weight)/n)
+
+# Display estimates (1) and (2)
+results
+
+# Compute the estimated average causal effect (ACE)
+# How does it compare to the truth from "do"ing?
+diff(results$Y_po_estim)
+```
+

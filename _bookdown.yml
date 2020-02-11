@@ -1,6 +1,6 @@
 book_filename: "causal_manual"
 output_dir: docs
-rmd_files: ["index.Rmd", "references.Rmd", "schedule.Rmd", "01-intro.Rmd", "02-probability-dags.Rmd", "03-d-separation-part1.Rmd", "04-d-separation-part2.Rmd", "hw1.Rmd", "portfolio.Rmd"]
+rmd_files: ["index.Rmd", "references.Rmd", "schedule.Rmd", "01-intro.Rmd", "02-probability-dags.Rmd", "03-d-separation-part1.Rmd", "04-d-separation-part2.Rmd", "05-estimating-causal-effects.Rmd", "hw1.Rmd", "portfolio.Rmd"]
 language:
   ui:
     chapter_name: "Topic "

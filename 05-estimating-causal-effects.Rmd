@@ -1,0 +1,187 @@
+```{r 05_setup, include=FALSE}
+knitr::opts_chunk$set(echo=TRUE, eval=FALSE)
+```
+
+# Estimating causal effects
+
+## Learning Goals {-}
+
+1. Practice constructing a causal diagram from the ground up in consultation with fellow experts
+2. Extend d-separation ideas to the estimation of causal effects
+3. Develop the idea of inverse probability of treatment weighting (IPW or IPTW) for causal effect estimation
+4. Understand how the do-operator is related to inverse probability weighting
+
+<br><br><br><br>
+
+## Exercise: DAG construction {-}
+
+**Research question:** What is the causal effect of participating in yoga once per week for 12 weeks on resting heart rate at the end of that period?
+
+- We are trying to design an observational study that could be carried out at Macalester.
+
+Recall our principles for constructing causal DAGs:
+
+- A DAG is a **causal DAG** if it is **common cause-complete**: for any two variables in the DAG, common causes (whether measured or unmeasured) of those variables are shown.
+- A causal DAG does **NOT** need to be **cause-complete** (infeasible due to infinite regress of causes).
+- It **should** contain variables that are selected on, and subsequently common causes between those variables and existing variables.
+
+<br><br>
+
+**Reflect:** Write about the process of constructing the causal diagram with your colleagues.
+
+- How did your discussions flow?
+- How did you resolve (or not) any disagreements on the structure?
+- Were you able to decide if your diagram was good enough? If so, how?
+- What questions or concerns do you still have about this process?
+
+<br>
+
+**Further reading:**
+
+- Chapter 9 of our WHATIF book (see [References]) introduces the consideration of measurement error. We won't talk about measurement error in this course but you are welcome to read about these ideas on your own.
+- Chapters 6, 7, and 8 talk about causal diagrams, confounding, and selection bias. This another resource to complement PRIMER.
+
+<br><br><br><br>
+
+## Warm-up: d-separation {-}
+
+Navigate to:
+
+<center>
+[PollEv.com/lesliemyint417](https://www.PollEv.com/lesliemyint417)
+</center>
+
+<br>
+
+Slides of the causal diagrams (with solutions) are available [here](https://docs.google.com/presentation/d/1tqrHo-zAPNkQ3dVfd8AVz3xCOVGwMiubDOAtQzO4GPg/edit?usp=sharing).
+
+<br><br><br><br>
+
+## Discussion: Estimating causal effects {-}
+
+In adjusting for variables in our analysis, we want to "do no harm":
+
+- Block non-causal paths that generate unwanted associations
+- Do not accidentally create non-causal paths that generate unwanted associations
+- Leave causal paths (chains) alone
+
+<br>
+
+This was actually the rationale behind the **backdoor criterion**. (We'll get back to this soon.)
+
+
+**The do-operator**
+
+- One notion of causation is that of **intervention**: setting a variable's value
+- There is a difference between $P(Y \mid A = a)$ and $P(Y \mid \hbox{do}(A = a))$.
+    - $P(Y \mid A = a)$ is an observational probability
+    - $P(Y \mid \hbox{do}(A = a))$ is an intervention probability
+- When we intervene on $A$, this amounts to removing all arrows *into* $A$.
+
+<center>
+![](images/d_sep_practice_05.png)
+</center>
+
+- The do-operator allows us to graphically simulate interventions.
+- In the world that was intervened on (manipulated), what do relationships between variables look like?
+- Rules of probability combined with a set of graph rules (called the **do-calculus**) allow us to relate the relationships in the manipulated graph to relationships that we observe in the real world.
+
+$$\hbox{Average causal effect} = P(Y = y \mid \hbox{do}(A = 1) - P(Y = y \mid \hbox{do}(A = 0)$$
+
+- $Y$ is the outcome and $A$ is the treatment (action) variable
+
+<br><br>
+
+Taste of do-calculus next week. For now, let's approach effect estimation from a different angle:
+
+- The mathematical expressions in PRIMER for $P(y \mid \hbox{do}(a))$ had something in common --> let's develop this idea and relate to something familiar: d-separation
+
+<br><br><br><br>
+
+### Worksheet: developing ideas {-}
+
+Worksheet (with solutions) available [here](https://docs.google.com/presentation/d/1BEK75PKWGWSmL9FxDmKLevJwPOXFsl70LtHJAnXZAko/edit?usp=sharing)
+
+
+<br><br><br><br>
+
+
+### Simulation example {-}
+
+A template Rmd is available [here](template_rmds/05-estimating-causal-effects.Rmd).
+
+```{r}
+library(dplyr)
+```
+
+```{r}
+set.seed(22)
+n <- 1e6
+Z <- rbinom(n, size = 1, prob = 0.5)
+p_A <- dplyr::case_when(
+    Z==1 ~ 0.8,
+    Z==0 ~ 0.3
+)
+A <- rbinom(n, size = 1, prob = p_A)
+p_Y <- dplyr::case_when(
+    Z==1 & A==1 ~ 0.3,
+    Z==1 & A==0 ~ 0.6,
+    Z==0 & A==1 ~ 0.9,
+    Z==0 & A==0 ~ 0.2
+)
+Y <- rbinom(n, size = 1, prob = p_Y)
+A_do_1 <- rep(1, n)
+A_do_0 <- rep(0, n)
+
+p_Y_Ado1 <- dplyr::case_when(
+    Z==1 & A_do_1==1 ~ 0.3,
+    Z==1 & A_do_1==0 ~ 0.6,
+    Z==0 & A_do_1==1 ~ 0.9,
+    Z==0 & A_do_1==0 ~ 0.2
+)
+Y_Ado1 <- rbinom(n, size = 1, prob = p_Y_Ado1)
+
+p_Y_Ado0 <- dplyr::case_when(
+    Z==1 & A_do_0==1 ~ 0.3,
+    Z==1 & A_do_0==0 ~ 0.6,
+    Z==0 & A_do_0==1 ~ 0.9,
+    Z==0 & A_do_0==0 ~ 0.2
+)
+Y_Ado0 <- rbinom(n, size = 1, prob = p_Y_Ado0)
+
+
+sim_data <- data.frame(Z, p_A, A, Y, Y_Ado1, Y_Ado0)
+
+sum(sim_data$Y_Ado1==1)/n
+sum(sim_data$Y_Ado0==1)/n
+
+(sum(sim_data$Y_Ado1==1)/n)-(sum(sim_data$Y_Ado0==1)/n)
+```
+
+```{r}
+# Fit a logistic regression model to estimate propensity scores
+ps_mod <- glm(A ~ Z, data = sim_data, family = "binomial")
+
+# Get the actual propensity scores
+sim_data$PS <- dplyr::case_when(
+    A==1 ~ predict(ps_mod, type = "response"),
+    A==0 ~ 1-predict(ps_mod, type = "response")
+)
+
+# Form inverse probability weights
+sim_data$weight <- 1/sim_data$PS
+
+# Use the IP weights to estimate:
+# (1) the average outcome if all people were treated
+# (2) the average outcome if all people were untreated
+results <- sim_data %>%
+    group_by(A) %>%
+    summarize(Y_po_estim = sum(Y*weight)/n)
+
+# Display estimates (1) and (2)
+results
+
+# Compute the estimated average causal effect (ACE)
+# How does it compare to the truth from "do"ing?
+diff(results$Y_po_estim)
+```

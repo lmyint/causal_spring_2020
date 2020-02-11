@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Portfolio | STAT 394: Causal Inference</title>
+  <title>Topic 5 Estimating causal effects | STAT 394: Causal Inference</title>
   <meta name="description" content="This is the class website for Causal Inference at Macalester College." />
   <meta name="generator" content="bookdown 0.14 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Portfolio | STAT 394: Causal Inference" />
+  <meta property="og:title" content="Topic 5 Estimating causal effects | STAT 394: Causal Inference" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="lmyint/causal_spring_2020" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Portfolio | STAT 394: Causal Inference" />
+  <meta name="twitter:title" content="Topic 5 Estimating causal effects | STAT 394: Causal Inference" />
   
   <meta name="twitter:description" content="This is the class website for Causal Inference at Macalester College." />
   
@@ -29,8 +29,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="homework-1.html"/>
-
+<link rel="prev" href="d-separation-part-2.html"/>
+<link rel="next" href="homework-1.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -200,52 +200,183 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="portfolio-1" class="section level1 unnumbered">
-<h1>Portfolio</h1>
-<p>Your portfolio is meant to be a well-written collection of documents about course topics. The hope is that this collection is a useful reference for yourself years down the line, but potentially it will be helpful for others who may happen across your material.</p>
-<p>Because of these goals, your portfolio will be a collection of blog posts. If you are keen on building your own website, you could publish these posts there as a part of building up an online presence. This is certainly not a requirement for class though.</p>
-<p>How you organize and structure your posts is up to you, but they need to address the topics below.</p>
-<p><br></p>
-<div id="required-topics" class="section level2 unnumbered">
-<h2>Required Topics</h2>
-<p>(This list will grow as the semester progresses.)</p>
+<div id="estimating-causal-effects" class="section level1">
+<h1><span class="header-section-number">Topic 5</span> Estimating causal effects</h1>
+<div id="learning-goals-4" class="section level2 unnumbered">
+<h2>Learning Goals</h2>
 <ol style="list-style-type: decimal">
-<li>An analysis of the article <em>The Birth Weight “Paradox” Uncovered?</em> at the level of detail of our in-class discussion.
+<li>Practice constructing a causal diagram from the ground up in consultation with fellow experts</li>
+<li>Extend d-separation ideas to the estimation of causal effects</li>
+<li>Develop the idea of inverse probability of treatment weighting (IPW or IPTW) for causal effect estimation</li>
+<li>Understand how the do-operator is related to inverse probability weighting</li>
+</ol>
+<p><br><br><br><br></p>
+</div>
+<div id="exercise-dag-construction" class="section level2 unnumbered">
+<h2>Exercise: DAG construction</h2>
+<p><strong>Research question:</strong> What is the causal effect of participating in yoga once per week for 12 weeks on resting heart rate at the end of that period?</p>
 <ul>
-<li>The post does not have to answer the exact same discussion questions posed in class.</li>
-<li>The post should explain the paradox and what the authors did to investigate it. This should include a discussion of how they proceeded through the various causal diagrams and why some were eliminated.</li>
-<li>The post should explain how the authors resolved the paradox in the most realistic causal diagrams.</li>
-<li>The post should conclude with general lessons learned from this example.</li>
+<li>We are trying to design an observational study that could be carried out at Macalester.</li>
+</ul>
+<p>Recall our principles for constructing causal DAGs:</p>
+<ul>
+<li>A DAG is a <strong>causal DAG</strong> if it is <strong>common cause-complete</strong>: for any two variables in the DAG, common causes (whether measured or unmeasured) of those variables are shown.</li>
+<li>A causal DAG does <strong>NOT</strong> need to be <strong>cause-complete</strong> (infeasible due to infinite regress of causes).</li>
+<li>It <strong>should</strong> contain variables that are selected on, and subsequently common causes between those variables and existing variables.</li>
+</ul>
+<p><br><br></p>
+<p><strong>Reflect:</strong> Write about the process of constructing the causal diagram with your colleagues.</p>
+<ul>
+<li>How did your discussions flow?</li>
+<li>How did you resolve (or not) any disagreements on the structure?</li>
+<li>Were you able to decide if your diagram was good enough? If so, how?</li>
+<li>What questions or concerns do you still have about this process?</li>
+</ul>
+<p><br></p>
+<p><strong>Further reading:</strong></p>
+<ul>
+<li>Chapter 9 of our WHATIF book (see <a href="references.html#references">References</a>) introduces the consideration of measurement error. We won’t talk about measurement error in this course but you are welcome to read about these ideas on your own.</li>
+<li>Chapters 6, 7, and 8 talk about causal diagrams, confounding, and selection bias. This another resource to complement PRIMER.</li>
+</ul>
+<p><br><br><br><br></p>
+</div>
+<div id="warm-up-d-separation" class="section level2 unnumbered">
+<h2>Warm-up: d-separation</h2>
+<p>Navigate to:</p>
+<center>
+<a href="https://www.PollEv.com/lesliemyint417">PollEv.com/lesliemyint417</a>
+</center>
+<p><br></p>
+<p>Slides of the causal diagrams (with solutions) are available <a href="https://docs.google.com/presentation/d/1tqrHo-zAPNkQ3dVfd8AVz3xCOVGwMiubDOAtQzO4GPg/edit?usp=sharing">here</a>.</p>
+<p><br><br><br><br></p>
+</div>
+<div id="discussion-estimating-causal-effects" class="section level2 unnumbered">
+<h2>Discussion: Estimating causal effects</h2>
+<p>In adjusting for variables in our analysis, we want to “do no harm”:</p>
+<ul>
+<li>Block non-causal paths that generate unwanted associations</li>
+<li>Do not accidentally create non-causal paths that generate unwanted associations</li>
+<li>Leave causal paths (chains) alone</li>
+</ul>
+<p><br></p>
+<p>This was actually the rationale behind the <strong>backdoor criterion</strong>. (We’ll get back to this soon.)</p>
+<p><strong>The do-operator</strong></p>
+<ul>
+<li>One notion of causation is that of <strong>intervention</strong>: setting a variable’s value</li>
+<li>There is a difference between <span class="math inline">\(P(Y \mid A = a)\)</span> and <span class="math inline">\(P(Y \mid \hbox{do}(A = a))\)</span>.
+<ul>
+<li><span class="math inline">\(P(Y \mid A = a)\)</span> is an observational probability</li>
+<li><span class="math inline">\(P(Y \mid \hbox{do}(A = a))\)</span> is an intervention probability</li>
 </ul></li>
-</ol>
-<p><br></p>
+<li>When we intervene on <span class="math inline">\(A\)</span>, this amounts to removing all arrows <em>into</em> <span class="math inline">\(A\)</span>.</li>
+</ul>
+<center>
+<img src="images/d_sep_practice_05.png" />
+</center>
+<ul>
+<li>The do-operator allows us to graphically simulate interventions.</li>
+<li>In the world that was intervened on (manipulated), what do relationships between variables look like?</li>
+<li>Rules of probability combined with a set of graph rules (called the <strong>do-calculus</strong>) allow us to relate the relationships in the manipulated graph to relationships that we observe in the real world.</li>
+</ul>
+<p><span class="math display">\[\hbox{Average causal effect} = P(Y = y \mid \hbox{do}(A = 1) - P(Y = y \mid \hbox{do}(A = 0)\]</span></p>
+<ul>
+<li><span class="math inline">\(Y\)</span> is the outcome and <span class="math inline">\(A\)</span> is the treatment (action) variable</li>
+</ul>
+<p><br><br></p>
+<p>Taste of do-calculus next week. For now, let’s approach effect estimation from a different angle:</p>
+<ul>
+<li>The mathematical expressions in PRIMER for <span class="math inline">\(P(y \mid \hbox{do}(a))\)</span> had something in common –&gt; let’s develop this idea and relate to something familiar: d-separation</li>
+</ul>
+<p><br><br><br><br></p>
+<div id="worksheet-developing-ideas" class="section level3 unnumbered">
+<h3>Worksheet: developing ideas</h3>
+<p>Worksheet (with solutions) available <a href="https://docs.google.com/presentation/d/1BEK75PKWGWSmL9FxDmKLevJwPOXFsl70LtHJAnXZAko/edit?usp=sharing">here</a></p>
+<p><br><br><br><br></p>
 </div>
-<div id="iterative-progress" class="section level2 unnumbered">
-<h2>Iterative Progress</h2>
-<p>You will work on these posts iteratively throughout the semester. The homework assignments will give deadlines for when a rough draft is due. Although writing rough drafts will be part of your homework duties, the drafts will not be part of your homework grade. You will only receive qualitative feedback from me on your drafts.</p>
-<p>This will be the process for writing and feedback for the semester:</p>
-<ol style="list-style-type: decimal">
-<li>Create one (and only one) new Google Doc. This will be where <strong>all</strong> of your drafts go.</li>
-<li>Enable link sharing so that those with the link can edit. Submit the link on Moodle &gt; Homework &gt; Portfolio Google Doc Link.</li>
-<li>Start writing!</li>
-<li>In the days after draft due dates, I will be reading your drafts and giving feedback by a fixed time. You are welcome to revise based on my feedback as many times as you want. When you would like another round of feedback, add a comment to the relevant section and tag me in it to bring it to my attention. (Type a “+” in the comment box followed by my email address.)</li>
-</ol>
-<p><br></p>
-</div>
-<div id="building-a-personal-website" class="section level2 unnumbered">
-<h2>Building a Personal Website</h2>
-<p>If you are curious about building your own website, read on!</p>
-<p>First check out the <a href="https://lmyint.github.io/">instructor’s website</a>. If you like the layout and want to try making a website using R (the <code>blogdown</code> package), read her <a href="https://lmyint.github.io/post/hugo-academic-tips/">blog post</a> about setting up her website.</p>
+<div id="simulation-example" class="section level3 unnumbered">
+<h3>Simulation example</h3>
+<p>A template Rmd is available <a href="template_rmds/05-estimating-causal-effects.Rmd">here</a>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">22</span>)
+n &lt;-<span class="st"> </span><span class="fl">1e6</span>
+Z &lt;-<span class="st"> </span><span class="kw">rbinom</span>(n, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> <span class="fl">0.5</span>)
+p_A &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">case_when</span>(
+    Z<span class="op">==</span><span class="dv">1</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.8</span>,
+    Z<span class="op">==</span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.3</span>
+)
+A &lt;-<span class="st"> </span><span class="kw">rbinom</span>(n, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> p_A)
+p_Y &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">case_when</span>(
+    Z<span class="op">==</span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>A<span class="op">==</span><span class="dv">1</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.3</span>,
+    Z<span class="op">==</span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>A<span class="op">==</span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.6</span>,
+    Z<span class="op">==</span><span class="dv">0</span> <span class="op">&amp;</span><span class="st"> </span>A<span class="op">==</span><span class="dv">1</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.9</span>,
+    Z<span class="op">==</span><span class="dv">0</span> <span class="op">&amp;</span><span class="st"> </span>A<span class="op">==</span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.2</span>
+)
+Y &lt;-<span class="st"> </span><span class="kw">rbinom</span>(n, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> p_Y)
+A_do_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">1</span>, n)
+A_do_<span class="dv">0</span> &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">0</span>, n)
+
+p_Y_Ado1 &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">case_when</span>(
+    Z<span class="op">==</span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>A_do_<span class="dv">1</span><span class="op">==</span><span class="dv">1</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.3</span>,
+    Z<span class="op">==</span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>A_do_<span class="dv">1</span><span class="op">==</span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.6</span>,
+    Z<span class="op">==</span><span class="dv">0</span> <span class="op">&amp;</span><span class="st"> </span>A_do_<span class="dv">1</span><span class="op">==</span><span class="dv">1</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.9</span>,
+    Z<span class="op">==</span><span class="dv">0</span> <span class="op">&amp;</span><span class="st"> </span>A_do_<span class="dv">1</span><span class="op">==</span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.2</span>
+)
+Y_Ado1 &lt;-<span class="st"> </span><span class="kw">rbinom</span>(n, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> p_Y_Ado1)
+
+p_Y_Ado0 &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">case_when</span>(
+    Z<span class="op">==</span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>A_do_<span class="dv">0</span><span class="op">==</span><span class="dv">1</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.3</span>,
+    Z<span class="op">==</span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>A_do_<span class="dv">0</span><span class="op">==</span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.6</span>,
+    Z<span class="op">==</span><span class="dv">0</span> <span class="op">&amp;</span><span class="st"> </span>A_do_<span class="dv">0</span><span class="op">==</span><span class="dv">1</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.9</span>,
+    Z<span class="op">==</span><span class="dv">0</span> <span class="op">&amp;</span><span class="st"> </span>A_do_<span class="dv">0</span><span class="op">==</span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.2</span>
+)
+Y_Ado0 &lt;-<span class="st"> </span><span class="kw">rbinom</span>(n, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> p_Y_Ado0)
+
+
+sim_data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(Z, p_A, A, Y, Y_Ado1, Y_Ado0)
+
+<span class="kw">sum</span>(sim_data<span class="op">$</span>Y_Ado1<span class="op">==</span><span class="dv">1</span>)<span class="op">/</span>n
+<span class="kw">sum</span>(sim_data<span class="op">$</span>Y_Ado0<span class="op">==</span><span class="dv">1</span>)<span class="op">/</span>n
+
+(<span class="kw">sum</span>(sim_data<span class="op">$</span>Y_Ado1<span class="op">==</span><span class="dv">1</span>)<span class="op">/</span>n)<span class="op">-</span>(<span class="kw">sum</span>(sim_data<span class="op">$</span>Y_Ado0<span class="op">==</span><span class="dv">1</span>)<span class="op">/</span>n)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Fit a logistic regression model to estimate propensity scores</span>
+ps_mod &lt;-<span class="st"> </span><span class="kw">glm</span>(A <span class="op">~</span><span class="st"> </span>Z, <span class="dt">data =</span> sim_data, <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>)
+
+<span class="co"># Get the actual propensity scores</span>
+sim_data<span class="op">$</span>PS &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">case_when</span>(
+    A<span class="op">==</span><span class="dv">1</span> <span class="op">~</span><span class="st"> </span><span class="kw">predict</span>(ps_mod, <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>),
+    A<span class="op">==</span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="dv">1</span><span class="op">-</span><span class="kw">predict</span>(ps_mod, <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>)
+)
+
+<span class="co"># Form inverse probability weights</span>
+sim_data<span class="op">$</span>weight &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">/</span>sim_data<span class="op">$</span>PS
+
+<span class="co"># Use the IP weights to estimate:</span>
+<span class="co"># (1) the average outcome if all people were treated</span>
+<span class="co"># (2) the average outcome if all people were untreated</span>
+results &lt;-<span class="st"> </span>sim_data <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">group_by</span>(A) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">summarize</span>(<span class="dt">Y_po_estim =</span> <span class="kw">sum</span>(Y<span class="op">*</span>weight)<span class="op">/</span>n)
+
+<span class="co"># Display estimates (1) and (2)</span>
+results
+
+<span class="co"># Compute the estimated average causal effect (ACE)</span>
+<span class="co"># How does it compare to the truth from &quot;do&quot;ing?</span>
+<span class="kw">diff</span>(results<span class="op">$</span>Y_po_estim)</code></pre></div>
 
 </div>
 </div>
+</div>
+
+
+
             </section>
 
           </div>
         </div>
       </div>
-<a href="homework-1.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="d-separation-part-2.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="homework-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
