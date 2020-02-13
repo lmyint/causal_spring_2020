@@ -14,6 +14,18 @@ library(dplyr)
 
 ## Example simulation
 
+The DAG under consideration is:
+
+```{r fig.width=6, fig.height=2, fig.align="center"}
+par(mar = rep(0,4))
+plot(1, type = "n", xaxt = "n", yaxt = "n", bty = "n", xlab = "", ylab = "", xlim = c(0,6), ylim = c(1,4))
+text(c("A", "Z", "Y"), x = c(1,3,5), y = c(1,4,1), cex = 2)
+arrows(x0 = c(3,3), y0 = c(4,4)-0.2, x1 = c(1,5), y1 = c(1,1)+0.2, angle = 25, lwd = 4)
+arrows(x0 = 1.7, y0 = 1, x1 = 4.5, y1 = 1, angle = 25, lwd = 4)
+```
+
+**Phase 1:**
+
 ```{r}
 set.seed(22)
 n <- 1e6
@@ -50,7 +62,7 @@ p_Y_Ado0 <- dplyr::case_when(
 Y_Ado0 <- rbinom(n, size = 1, prob = p_Y_Ado0)
 
 
-sim_data <- data.frame(Z, p_A, A, Y, Y_Ado1, Y_Ado0)
+sim_data <- data.frame(Z, A, Y, Y_Ado1, Y_Ado0)
 
 sum(sim_data$Y_Ado1==1)/n
 sum(sim_data$Y_Ado0==1)/n
@@ -58,11 +70,15 @@ sum(sim_data$Y_Ado0==1)/n
 (sum(sim_data$Y_Ado1==1)/n)-(sum(sim_data$Y_Ado0==1)/n)
 ```
 
+**Phase 2:**
+
 ```{r}
 # Fit a logistic regression model to estimate propensity scores
 ps_mod <- glm(A ~ Z, data = sim_data, family = "binomial")
 
 # Get the actual propensity scores
+# predict(..., type = "response") gives the predicted probabilities from logistic regression
+# What computations are going on behind the scenes?
 sim_data$PS <- dplyr::case_when(
     A==1 ~ predict(ps_mod, type = "response"),
     A==0 ~ 1-predict(ps_mod, type = "response")
@@ -74,9 +90,11 @@ sim_data$weight <- 1/sim_data$PS
 # Use the IP weights to estimate:
 # (1) the average outcome if all people were treated
 # (2) the average outcome if all people were untreated
+# group_by() forms groups according to the given variable
+# summarize() computes a summary measure for those groups
 results <- sim_data %>%
     group_by(A) %>%
-    summarize(Y_po_estim = sum(Y*weight)/n)
+    summarize(Y_po_estim = sum(Y*weight)/sum(weight))
 
 # Display estimates (1) and (2)
 results
@@ -85,4 +103,37 @@ results
 # How does it compare to the truth from "do"ing?
 diff(results$Y_po_estim)
 ```
+
+## On your own
+
+Adapt the simulation to a situation with 2 confounders `Z` and `W` as in the DAG below:
+
+```{r fig.width=6, fig.height=2, fig.align="center"}
+par(mar = rep(0,4))
+plot(1, type = "n", xaxt = "n", yaxt = "n", bty = "n", xlab = "", ylab = "", xlim = c(0,6), ylim = c(1,4))
+text(c("A", "Z", "W", "Y"), x = c(1,1.5,4.5,5), y = c(1,4,4,1), cex = 2)
+arrows(x0 = c(1.5,1.5), y0 = c(4,4)-0.2, x1 = c(1,4.8), y1 = c(1,1)+0.2, angle = 25, lwd = 4)
+arrows(x0 = c(4.5,4.5), y0 = c(4,4)-0.2, x1 = c(1.2,5), y1 = c(1,1)+0.2, angle = 25, lwd = 4)
+arrows(x0 = 1.7, y0 = 1, x1 = 4.5, y1 = 1, angle = 25, lwd = 4)
+```
+
+**Note:** To simulate dependence on 3 or more variables (e.g., A depends on B, C, and D), an easier approach is to do as below:
+
+```{r eval=FALSE}
+p_B <- dplyr::case_when(
+    B==1 ~ 0.8,
+    B==0 ~ 0.4
+)
+p_C <- dplyr::case_when(
+    C==1 ~ 0.9,
+    C==0 ~ 0.5
+)
+p_D <- dplyr::case_when(
+    D==1 ~ 0.7,
+    D==0 ~ 0.1
+)
+p_A <- p_B*p_C*p_D
+```
+
+
 

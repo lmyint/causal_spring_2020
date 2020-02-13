@@ -111,6 +111,7 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="" data-path="schedule.html"><a href="schedule.html#week-2"><i class="fa fa-check"></i>Week 2</a></li>
 <li class="chapter" data-level="" data-path="schedule.html"><a href="schedule.html#week-3"><i class="fa fa-check"></i>Week 3</a></li>
 <li class="chapter" data-level="" data-path="schedule.html"><a href="schedule.html#week-4"><i class="fa fa-check"></i>Week 4</a></li>
+<li class="chapter" data-level="" data-path="schedule.html"><a href="schedule.html#week-5"><i class="fa fa-check"></i>Week 5</a></li>
 </ul></li>
 <li class="part"><span><b>I Causal Diagram Fundamentals</b></span></li>
 <li class="chapter" data-level="1" data-path="introductions-review-and-motivation.html"><a href="introductions-review-and-motivation.html"><i class="fa fa-check"></i><b>1</b> Introductions, Review, and Motivation</a><ul>
@@ -156,7 +157,9 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="" data-path="estimating-causal-effects.html"><a href="estimating-causal-effects.html#warm-up-d-separation"><i class="fa fa-check"></i>Warm-up: d-separation</a></li>
 <li class="chapter" data-level="" data-path="estimating-causal-effects.html"><a href="estimating-causal-effects.html#discussion-estimating-causal-effects"><i class="fa fa-check"></i>Discussion: Estimating causal effects</a><ul>
 <li class="chapter" data-level="" data-path="estimating-causal-effects.html"><a href="estimating-causal-effects.html#worksheet-developing-ideas"><i class="fa fa-check"></i>Worksheet: developing ideas</a></li>
+<li class="chapter" data-level="" data-path="estimating-causal-effects.html"><a href="estimating-causal-effects.html#exercise-simulation-planning"><i class="fa fa-check"></i>Exercise: Simulation planning</a></li>
 <li class="chapter" data-level="" data-path="estimating-causal-effects.html"><a href="estimating-causal-effects.html#simulation-example"><i class="fa fa-check"></i>Simulation example</a></li>
+<li class="chapter" data-level="" data-path="estimating-causal-effects.html"><a href="estimating-causal-effects.html#on-your-own"><i class="fa fa-check"></i>On your own</a></li>
 </ul></li>
 </ul></li>
 <li class="part"><span><b>II Homework</b></span></li>
@@ -293,10 +296,33 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
 <p>Worksheet (with solutions) available <a href="https://docs.google.com/presentation/d/1BEK75PKWGWSmL9FxDmKLevJwPOXFsl70LtHJAnXZAko/edit?usp=sharing">here</a></p>
 <p><br><br><br><br></p>
 </div>
+<div id="exercise-simulation-planning" class="section level3 unnumbered">
+<h3>Exercise: Simulation planning</h3>
+<p><strong>Goal:</strong> Plan (then implement) a simulation that shows that inverse probability of treatment weighting (IPTW) to estimate average causal effects gives the same results as using the do-operator. This will be done in the context of the DAG below.</p>
+<p><img src="causal_manual_files/figure-html/05-fig-sim-plan-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p><strong>Plan:</strong> As you go through this planning, think about what code you would have to write (in broad terms) and the order in which you would have to run those commands. For this exercise, don’t look at the code below. We’ll get to it next.</p>
+<ul>
+<li>Phase 1:
+<ul>
+<li>How would you simulate the DAG below? (All variables binary.)</li>
+<li>How would you simulate new versions of <code>Y</code> under the manipulated graphs resulting from <code>do(A = 1)</code> and <code>do(A = 0)</code>?</li>
+<li>How would you compute the average causal effect from <code>do</code>-ing?</li>
+</ul></li>
+<li>Phase 2:
+<ul>
+<li>How would you estimate the propensity score for each individual?</li>
+<li>How would you estimate <code>P(Y = 1 | do(A = 1))</code> and <code>P(Y = 1 | do(A = 0))</code> using those estimated propensity scores?</li>
+</ul></li>
+</ul>
+<p><br></p>
+<p>After your planning phase, step through the code in the section below, and make sure that you understand what each line is doing. Clarify with the instructor as needed.</p>
+<p><br><br><br><br></p>
+</div>
 <div id="simulation-example" class="section level3 unnumbered">
 <h3>Simulation example</h3>
 <p>A template Rmd is available <a href="template_rmds/05-estimating-causal-effects.Rmd">here</a>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr)</code></pre></div>
+<p><strong>Phase 1:</strong></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">22</span>)
 n &lt;-<span class="st"> </span><span class="fl">1e6</span>
 Z &lt;-<span class="st"> </span><span class="kw">rbinom</span>(n, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> <span class="fl">0.5</span>)
@@ -332,16 +358,19 @@ p_Y_Ado0 &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span clas
 Y_Ado0 &lt;-<span class="st"> </span><span class="kw">rbinom</span>(n, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> p_Y_Ado0)
 
 
-sim_data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(Z, p_A, A, Y, Y_Ado1, Y_Ado0)
+sim_data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(Z, A, Y, Y_Ado1, Y_Ado0)
 
 <span class="kw">sum</span>(sim_data<span class="op">$</span>Y_Ado1<span class="op">==</span><span class="dv">1</span>)<span class="op">/</span>n
 <span class="kw">sum</span>(sim_data<span class="op">$</span>Y_Ado0<span class="op">==</span><span class="dv">1</span>)<span class="op">/</span>n
 
 (<span class="kw">sum</span>(sim_data<span class="op">$</span>Y_Ado1<span class="op">==</span><span class="dv">1</span>)<span class="op">/</span>n)<span class="op">-</span>(<span class="kw">sum</span>(sim_data<span class="op">$</span>Y_Ado0<span class="op">==</span><span class="dv">1</span>)<span class="op">/</span>n)</code></pre></div>
+<p><strong>Phase 2:</strong></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Fit a logistic regression model to estimate propensity scores</span>
 ps_mod &lt;-<span class="st"> </span><span class="kw">glm</span>(A <span class="op">~</span><span class="st"> </span>Z, <span class="dt">data =</span> sim_data, <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>)
 
 <span class="co"># Get the actual propensity scores</span>
+<span class="co"># predict(..., type = &quot;response&quot;) gives the predicted probabilities from logistic regression</span>
+<span class="co"># What computations are going on behind the scenes?</span>
 sim_data<span class="op">$</span>PS &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">case_when</span>(
     A<span class="op">==</span><span class="dv">1</span> <span class="op">~</span><span class="st"> </span><span class="kw">predict</span>(ps_mod, <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>),
     A<span class="op">==</span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="dv">1</span><span class="op">-</span><span class="kw">predict</span>(ps_mod, <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>)
@@ -353,9 +382,11 @@ sim_data<span class="op">$</span>weight &lt;-<span class="st"> </span><span clas
 <span class="co"># Use the IP weights to estimate:</span>
 <span class="co"># (1) the average outcome if all people were treated</span>
 <span class="co"># (2) the average outcome if all people were untreated</span>
+<span class="co"># group_by() forms groups according to the given variable</span>
+<span class="co"># summarize() computes a summary measure for those groups</span>
 results &lt;-<span class="st"> </span>sim_data <span class="op">%&gt;%</span>
 <span class="st">    </span><span class="kw">group_by</span>(A) <span class="op">%&gt;%</span>
-<span class="st">    </span><span class="kw">summarize</span>(<span class="dt">Y_po_estim =</span> <span class="kw">sum</span>(Y<span class="op">*</span>weight)<span class="op">/</span>n)
+<span class="st">    </span><span class="kw">summarize</span>(<span class="dt">Y_po_estim =</span> <span class="kw">sum</span>(Y<span class="op">*</span>weight)<span class="op">/</span><span class="kw">sum</span>(weight))
 
 <span class="co"># Display estimates (1) and (2)</span>
 results
@@ -363,6 +394,25 @@ results
 <span class="co"># Compute the estimated average causal effect (ACE)</span>
 <span class="co"># How does it compare to the truth from &quot;do&quot;ing?</span>
 <span class="kw">diff</span>(results<span class="op">$</span>Y_po_estim)</code></pre></div>
+</div>
+<div id="on-your-own" class="section level3 unnumbered">
+<h3>On your own</h3>
+<p>Adapt the simulation to a situation with 2 confounders <code>Z</code> and <code>W</code> as in the DAG below:</p>
+<p><img src="causal_manual_files/figure-html/05-fig-sim-exercise-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p><strong>Note:</strong> To simulate dependence on 3 or more variables (e.g., A depends on B, C, and D), an easier approach is to do as below:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p_B &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">case_when</span>(
+    B<span class="op">==</span><span class="dv">1</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.8</span>,
+    B<span class="op">==</span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.4</span>
+)
+p_C &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">case_when</span>(
+    C<span class="op">==</span><span class="dv">1</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.9</span>,
+    C<span class="op">==</span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.5</span>
+)
+p_D &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">case_when</span>(
+    D<span class="op">==</span><span class="dv">1</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.7</span>,
+    D<span class="op">==</span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.1</span>
+)
+p_A &lt;-<span class="st"> </span>p_B<span class="op">*</span>p_C<span class="op">*</span>p_D</code></pre></div>
 
 </div>
 </div>
