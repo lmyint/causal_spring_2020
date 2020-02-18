@@ -151,18 +151,20 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="" data-path="d-separation-part-2.html"><a href="d-separation-part-2.html#example-estrogens-and-uterine-cancer"><i class="fa fa-check"></i>Example: Estrogens and Uterine Cancer</a></li>
 <li class="chapter" data-level="" data-path="d-separation-part-2.html"><a href="d-separation-part-2.html#principles-of-building-causal-diagrams"><i class="fa fa-check"></i>Principles of building causal diagrams</a></li>
 </ul></li>
+<li class="part"><span><b>II Causal Effect Estimation</b></span></li>
 <li class="chapter" data-level="5" data-path="estimating-causal-effects.html"><a href="estimating-causal-effects.html"><i class="fa fa-check"></i><b>5</b> Estimating causal effects</a><ul>
 <li class="chapter" data-level="" data-path="estimating-causal-effects.html"><a href="estimating-causal-effects.html#learning-goals-4"><i class="fa fa-check"></i>Learning Goals</a></li>
 <li class="chapter" data-level="" data-path="estimating-causal-effects.html"><a href="estimating-causal-effects.html#exercise-dag-construction"><i class="fa fa-check"></i>Exercise: DAG construction</a></li>
 <li class="chapter" data-level="" data-path="estimating-causal-effects.html"><a href="estimating-causal-effects.html#warm-up-d-separation"><i class="fa fa-check"></i>Warm-up: d-separation</a></li>
 <li class="chapter" data-level="" data-path="estimating-causal-effects.html"><a href="estimating-causal-effects.html#discussion-estimating-causal-effects"><i class="fa fa-check"></i>Discussion: Estimating causal effects</a><ul>
 <li class="chapter" data-level="" data-path="estimating-causal-effects.html"><a href="estimating-causal-effects.html#worksheet-developing-ideas"><i class="fa fa-check"></i>Worksheet: developing ideas</a></li>
+<li class="chapter" data-level="" data-path="estimating-causal-effects.html"><a href="estimating-causal-effects.html#notes-deriving-inverse-probability-weighting"><i class="fa fa-check"></i>Notes: deriving inverse probability weighting</a></li>
 <li class="chapter" data-level="" data-path="estimating-causal-effects.html"><a href="estimating-causal-effects.html#exercise-simulation-planning"><i class="fa fa-check"></i>Exercise: Simulation planning</a></li>
 <li class="chapter" data-level="" data-path="estimating-causal-effects.html"><a href="estimating-causal-effects.html#simulation-example"><i class="fa fa-check"></i>Simulation example</a></li>
 <li class="chapter" data-level="" data-path="estimating-causal-effects.html"><a href="estimating-causal-effects.html#on-your-own"><i class="fa fa-check"></i>On your own</a></li>
 </ul></li>
 </ul></li>
-<li class="part"><span><b>II Homework</b></span></li>
+<li class="part"><span><b>III Homework</b></span></li>
 <li class="chapter" data-level="" data-path="homework-1.html"><a href="homework-1.html"><i class="fa fa-check"></i>Homework 1</a><ul>
 <li class="chapter" data-level="" data-path="homework-1.html"><a href="homework-1.html#conceptual-exercises-1"><i class="fa fa-check"></i>Conceptual Exercises</a><ul>
 <li class="chapter" data-level="" data-path="homework-1.html"><a href="homework-1.html#exercise-1-2"><i class="fa fa-check"></i>Exercise 1</a></li>
@@ -177,7 +179,11 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
 </ul></li>
 <li class="chapter" data-level="" data-path="homework-1.html"><a href="homework-1.html#portfolio"><i class="fa fa-check"></i>Portfolio</a></li>
 </ul></li>
-<li class="part"><span><b>III Projects</b></span></li>
+<li class="chapter" data-level="" data-path="homework-2.html"><a href="homework-2.html"><i class="fa fa-check"></i>Homework 2</a><ul>
+<li class="chapter" data-level="" data-path="homework-2.html"><a href="homework-2.html#in-class-activities-estimating-causal-effects"><i class="fa fa-check"></i>In-class activities: Estimating causal effects</a></li>
+<li class="chapter" data-level="" data-path="homework-2.html"><a href="homework-2.html#in-class-activities-ip-weighting-in-practice"><i class="fa fa-check"></i>In-class activities: IP weighting in practice</a></li>
+</ul></li>
+<li class="part"><span><b>IV Projects</b></span></li>
 <li class="chapter" data-level="" data-path="portfolio-1.html"><a href="portfolio-1.html"><i class="fa fa-check"></i>Portfolio</a><ul>
 <li class="chapter" data-level="" data-path="portfolio-1.html"><a href="portfolio-1.html#required-topics"><i class="fa fa-check"></i>Required Topics</a></li>
 <li class="chapter" data-level="" data-path="portfolio-1.html"><a href="portfolio-1.html#iterative-progress"><i class="fa fa-check"></i>Iterative Progress</a></li>
@@ -281,7 +287,7 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
 <li>In the world that was intervened on (manipulated), what do relationships between variables look like?</li>
 <li>Rules of probability combined with a set of graph rules (called the <strong>do-calculus</strong>) allow us to relate the relationships in the manipulated graph to relationships that we observe in the real world.</li>
 </ul>
-<p><span class="math display">\[\hbox{Average causal effect} = P(Y = y \mid \hbox{do}(A = 1) - P(Y = y \mid \hbox{do}(A = 0)\]</span></p>
+<p><span class="math display">\[ \hbox{Average causal effect} = P(Y = y \mid \hbox{do}(A = 1)) - P(Y = y \mid \hbox{do}(A = 0)) \]</span></p>
 <ul>
 <li><span class="math inline">\(Y\)</span> is the outcome and <span class="math inline">\(A\)</span> is the treatment (action) variable</li>
 </ul>
@@ -294,6 +300,76 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
 <div id="worksheet-developing-ideas" class="section level3 unnumbered">
 <h3>Worksheet: developing ideas</h3>
 <p>Worksheet (with solutions) available <a href="https://docs.google.com/presentation/d/1BEK75PKWGWSmL9FxDmKLevJwPOXFsl70LtHJAnXZAko/edit?usp=sharing">here</a></p>
+<p><br><br><br><br></p>
+</div>
+<div id="notes-deriving-inverse-probability-weighting" class="section level3 unnumbered">
+<h3>Notes: deriving inverse probability weighting</h3>
+<ul>
+<li>If treatment <span class="math inline">\(A\)</span> and outcome <span class="math inline">\(Y\)</span> are d-separated given <span class="math inline">\(Z\)</span> under the null (under the null hypothesis of no causal effect), then there are no open “spurious” paths generating unwanted associations between <span class="math inline">\(A\)</span> and <span class="math inline">\(Y\)</span>.
+<ul>
+<li>No open <strong>backdoor paths</strong> (paths with arrows into <span class="math inline">\(A\)</span>): these generate confounding.</li>
+<li>No paths with collision nodes or descendants of collision nodes that are conditioned on: this opens paths that would otherwise be naturally blocked by the collision nodes.</li>
+</ul></li>
+</ul>
+<p><br><br></p>
+<ul>
+<li>Then the outcomes of the treated and untreated are “comparable”.
+<ul>
+<li>No open spurious paths.</li>
+</ul></li>
+</ul>
+<p><br><br><br><br></p>
+<ul>
+<li>If the outcomes of the treated and untreated are “comparable”, then…
+<ul>
+<li>We can upweight those <em>treated</em> to “create” a population where everyone was <em>treated</em> –&gt; look at outcome distributions in this population (e.g., <span class="math inline">\(P(Y = 1)\)</span>).
+<ul>
+<li>These weights are the inverse of <span class="math inline">\(P(A = 1\mid Z)\)</span>.</li>
+</ul></li>
+<li>We can upweight those <em>not treated</em> to “create” a population where everyone was <em>not treated</em> –&gt; look at outcome distributions in this population (e.g., <span class="math inline">\(P(Y = 1)\)</span>).
+<ul>
+<li>These weights are the inverse of <span class="math inline">\(P(A = 0\mid Z)\)</span>.</li>
+</ul></li>
+</ul></li>
+</ul>
+<p><br><br><br><br></p>
+<ul>
+<li>These outcome distributions are actually interpreted as:
+<ul>
+<li>All treated: <span class="math inline">\(P(Y = 1 \mid \hbox{do}(A = 1))\)</span></li>
+<li>All not treated: <span class="math inline">\(P(Y = 1 \mid \hbox{do}(A = 0))\)</span></li>
+<li>Note: we have appealed to what it conceptually means to do/intervene. We haven’t done any “graph surgery”.</li>
+</ul></li>
+</ul>
+<p><span class="math display">\[ \hbox{Average causal effect} = \hbox{ACE} = P(Y = 1 \mid \hbox{do}(A = 1)) - P(Y = 1 \mid \hbox{do}(A = 0)) \]</span></p>
+<ul>
+<li>If ACE = 0.1, interpreted as:
+<ul>
+<li>The probability of recovery (<span class="math inline">\(Y = 1\)</span>) is 10% higher if we treat everyone, as compared to if we treat no one.</li>
+</ul></li>
+</ul>
+<p><br><br><br><br></p>
+<ul>
+<li>The individual “do” probabilities are actually weighted averages of the outcome variable: <span class="math display">\[ P(Y = 1 \mid \hbox{do}(A = a)) = \frac{\sum_i w_i y_i}{\sum_i w_i} \]</span>
+<ul>
+<li><span class="math inline">\(w_i\)</span> is the appropriate weight for case <span class="math inline">\(i\)</span></li>
+<li><span class="math inline">\(y_i\)</span> is the outcome for case <span class="math inline">\(i\)</span></li>
+<li>The sum is over all treated for <span class="math inline">\(a = 1\)</span> and over all untreated for <span class="math inline">\(a = 0\)</span>.</li>
+</ul></li>
+</ul>
+<p><br><br><br><br></p>
+<p><strong>Punchline:</strong> If treatment <span class="math inline">\(A\)</span> and outcome <span class="math inline">\(Y\)</span> are d-separated given <span class="math inline">\(Z\)</span> under the null, we can estimate desired “do” probabilities with</p>
+<p><span class="math display">\[ P(Y = 1 \mid \hbox{do}(A = a)) = \frac{\sum_i w_i y_i}{\sum_i w_i} \]</span></p>
+<p>where the weights <span class="math inline">\(w_i\)</span> are the inverse propensity scores:</p>
+<ul>
+<li><span class="math inline">\(w_i = 1/P(A = 1 \mid Z)\)</span> if <span class="math inline">\(a = 1\)</span></li>
+<li><span class="math inline">\(w_i = 1/P(A = 0 \mid Z)\)</span> if <span class="math inline">\(a = 0\)</span></li>
+</ul>
+<p>When <span class="math inline">\(Z\)</span> contains many variables, we can’t tabulate as we did by hand (too many combinations of predictor levels relative to our sample size). Need to <strong>model</strong> treatment as a function of the variables in <span class="math inline">\(Z\)</span>.</p>
+<ul>
+<li>Logistic regression</li>
+<li>Other techniques from Statistical Machine Learning</li>
+</ul>
 <p><br><br><br><br></p>
 </div>
 <div id="exercise-simulation-planning" class="section level3 unnumbered">
@@ -321,6 +397,8 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
 <div id="simulation-example" class="section level3 unnumbered">
 <h3>Simulation example</h3>
 <p>A template Rmd is available <a href="template_rmds/05-estimating-causal-effects.Rmd">here</a>.</p>
+<p><strong>Task 1:</strong> What is the point of this simulation exercise? What are we trying to show? Clearly explain how we are approaching causal effect estimation from two seemingly different viewpoints.</p>
+<p><strong>Task 2:</strong> Explain in detail all steps taken in this code. Do this by breaking the code into smaller code chunks and adding text in between.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr)</code></pre></div>
 <p><strong>Phase 1:</strong></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">22</span>)
@@ -413,6 +491,32 @@ p_D &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw
     D<span class="op">==</span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.1</span>
 )
 p_A &lt;-<span class="st"> </span>p_B<span class="op">*</span>p_C<span class="op">*</span>p_D</code></pre></div>
+<p>If ever <code>D</code> is equal to 1 for all cases, <code>p_A</code> can be updated as:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p_A_D1 &lt;-<span class="st"> </span>p_B<span class="op">*</span>p_C<span class="op">*</span><span class="fl">0.7</span></code></pre></div>
+<p>If ever <code>D</code> is equal to 0 for all cases, <code>p_A</code> can be updated as:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p_A_D1 &lt;-<span class="st"> </span>p_B<span class="op">*</span>p_C<span class="op">*</span><span class="fl">0.1</span></code></pre></div>
+<p><br><br></p>
+<p><strong>Questions and Tasks:</strong></p>
+<p>When you generate <span class="math inline">\(A\)</span>, use the following probabilities:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p_A &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">case_when</span>(
+    Z<span class="op">==</span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>W<span class="op">==</span><span class="dv">1</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.3</span>,
+    Z<span class="op">==</span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>W<span class="op">==</span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.6</span>,
+    Z<span class="op">==</span><span class="dv">0</span> <span class="op">&amp;</span><span class="st"> </span>W<span class="op">==</span><span class="dv">1</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.9</span>,
+    Z<span class="op">==</span><span class="dv">0</span> <span class="op">&amp;</span><span class="st"> </span>W<span class="op">==</span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.2</span>
+)</code></pre></div>
+<ol style="list-style-type: decimal">
+<li><p>How close are your estimates of the ACE from IP weighting and from graph surgery?</p></li>
+<li><p>Take a careful look at the probabilities used to generate the treatment <span class="math inline">\(A\)</span>, and re-examine the form of your propensity score model. Thinking about what the coefficients mean in your propensity score (PS) model, what would you need to do to improve your propensity score model?</p></li>
+<li><p>Fit this new PS model as <code>ps_mod2</code>. Add a second PS variable <code>PS2</code>, and create a corresponding <code>weight2</code> variable.</p></li>
+<li><p>Store the results from both PS models with something similar to below, Display the estimated ACE resulting from both models.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">results &lt;-<span class="st"> </span>sim_data <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">group_by</span>(A) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">summarize</span>(
+        <span class="dt">Y_po_estim1 =</span> <span class="kw">sum</span>(Y<span class="op">*</span>weight1)<span class="op">/</span><span class="kw">sum</span>(weight1),
+        <span class="dt">Y_po_estim2 =</span> <span class="kw">sum</span>(Y<span class="op">*</span>weight2)<span class="op">/</span><span class="kw">sum</span>(weight2)
+    )</code></pre></div></li>
+<li><p>Repeat this simulation using numbers for <code>p_A</code> that make the simpler PS model valid. As before, show the results of both the simpler and more complex PS model.</p></li>
+</ol>
 
 </div>
 </div>

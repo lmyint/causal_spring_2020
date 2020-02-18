@@ -1,0 +1,23 @@
+```{r hw2_setup, include=FALSE}
+knitr::opts_chunk$set(echo=TRUE, eval=FALSE)
+```
+
+# Homework 2 {-}
+
+<center>
+**Due Tuesday, February 25 at midnight on Moodle**
+</center>
+
+## In-class activities: Estimating causal effects {-}
+
+Turn in required parts of the class exercises from Topic 5: [Estimating causal effects]. These parts include:
+
+- Simulation example: Tasks 1 and 2
+- On your own: Questions and Tasks 1 to 5
+
+<br><br>
+
+## In-class activities: IP weighting in practice {-}
+
+Turn in all class exercises from Topic 6: IP weighting in practice
+

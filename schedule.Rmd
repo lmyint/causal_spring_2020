@@ -44,6 +44,8 @@
 ### Week 5 {-}
 
 - Tuesday, February 18    
+    The do-operator and estimating causal effects (continued)
+- Thursday, February 20    
     Inverse probability weighting and structural models    
     - **Before class:**    
         Required reading: WHATIF Sections 1.1 to 1.3 (Chapter 1: A definition of causal effect) and Chapter 12: IP weighting and marginal structural models.    
@@ -52,5 +54,5 @@
         - How are stabilized IP weights different from ordinary (unstabilized) weights? Why would we want to use stabilized weights?
         - What is a marginal structural model, and how are they fit? What parameters of these models are of interest?
         - How is IP weighting used in dealing with censoring (loss-to-follow up / selection bias)?
-- Thursday, February 20
+
 

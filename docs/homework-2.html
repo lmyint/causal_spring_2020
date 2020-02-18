@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Topic 1 Introductions, Review, and Motivation | STAT 394: Causal Inference</title>
+  <title>Homework 2 | STAT 394: Causal Inference</title>
   <meta name="description" content="This is the class website for Causal Inference at Macalester College." />
   <meta name="generator" content="bookdown 0.14 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Topic 1 Introductions, Review, and Motivation | STAT 394: Causal Inference" />
+  <meta property="og:title" content="Homework 2 | STAT 394: Causal Inference" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="lmyint/causal_spring_2020" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Topic 1 Introductions, Review, and Motivation | STAT 394: Causal Inference" />
+  <meta name="twitter:title" content="Homework 2 | STAT 394: Causal Inference" />
   
   <meta name="twitter:description" content="This is the class website for Causal Inference at Macalester College." />
   
@@ -29,8 +29,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="schedule.html"/>
-<link rel="next" href="probability-and-dags.html"/>
+<link rel="prev" href="homework-1.html"/>
+<link rel="next" href="portfolio-1.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -209,96 +209,36 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="introductions-review-and-motivation" class="section level1">
-<h1><span class="header-section-number">Topic 1</span> Introductions, Review, and Motivation</h1>
-<p><strong>Slides from today are available <a href="https://docs.google.com/presentation/d/1SNGxtjUwv4T-hDY7fgamMCF0I5-WpzOv6G1jRzw3QhA/edit?usp=sharing">here</a>.</strong></p>
-<div id="learning-goals" class="section level2 unnumbered">
-<h2>Learning Goals</h2>
+<div id="homework-2" class="section level1 unnumbered">
+<h1>Homework 2</h1>
+<center>
+<strong>Due Tuesday, February 25 at midnight on Moodle</strong>
+</center>
+<div id="in-class-activities-estimating-causal-effects" class="section level2 unnumbered">
+<h2>In-class activities: Estimating causal effects</h2>
+<p>Turn in required parts of the class exercises from Topic 5: <a href="estimating-causal-effects.html#estimating-causal-effects">Estimating causal effects</a>. These parts include:</p>
 <ul>
-<li>Understand the instances in which we care about causation more than association</li>
-<li>Review regression modeling and develop some ideas about its relation to causal inference goals</li>
-<li>Develop some ideas for why causal stories (i.e., expert knowledge) are crucial for causal inference goals</li>
+<li>Simulation example: Tasks 1 and 2</li>
+<li>On your own: Questions and Tasks 1 to 5</li>
 </ul>
-<p><br><br><br><br></p>
+<p><br><br></p>
 </div>
-<div id="review-regression-models" class="section level2 unnumbered">
-<h2>Review: Regression Models</h2>
-<p>Discuss the following questions with your group members.</p>
-<ol style="list-style-type: decimal">
-<li>What does a linear regression model formula look like?<br />
-If you covered logistic regression in STAT 155, what does a logistic regression model formula look like? When would you use logistic vs. linear regression?<br><br></li>
-<li>In general, how do we interpret the intercept in a regression model (both linear and logistic)?<br><br></li>
-<li>How do we interpret the other coefficients in a regression model (both linear and logistic)? How can we justify this interpretation mathematically?<br><br></li>
-<li>How might regression models be useful in understanding the causal effect of some variable on an outcome?</li>
-</ol>
-<p><br><br><br><br></p>
-</div>
-<div id="exercises" class="section level2 unnumbered">
-<h2>Exercises</h2>
-<p><strong>You can download a template RMarkdown file to start from <a href="template_rmds/01-intro.Rmd">here</a>.</strong></p>
-<p>We will look at (simulated) data from a study that looked at the effectiveness of chemotherapy for treating colon cancer. Chemotherapy is effectively a poison that kills cells in the body that are rapidly proliferating: these cells include the cancer cells (often in a mass called a tumor) but also cells in bone marrow involved in sustaining the immune system.</p>
-<p>In this study, researchers measured the following variables:</p>
-<ul>
-<li><code>pre_tumor_size</code>: Tumor size before the chemotherapy/placebo treatment (<code>Small</code> or <code>Large</code>).</li>
-<li><code>treated</code>: <code>ChemoYes</code> if the patient received chemotherapy or <code>ChemoNo</code> if not.</li>
-<li><code>post_tumor_size</code>: Tumor size 3 months after the chemotherapy/placebo treatment (<code>Small</code> or <code>Large</code>).</li>
-<li><code>recovery</code>: <code>Yes</code> if the patient recovered from their cancer. <code>No</code> otherwise.</li>
-</ul>
-<p>You can read in the data as follows:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">chemo_study_data &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;https://www.dropbox.com/s/vl06j75a8afw8ct/chemo_study.csv?dl=1&quot;</span>)</code></pre></div>
-<div id="exercise-1" class="section level3 unnumbered">
-<h3>Exercise 1</h3>
-<p>The first step in any data analysis is to visualize your data. Let’s refamiliarize ourselves with the <code>ggplot2</code> package in R. It may be helpful to have <a href="https://rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf">this ggplot2 cheat sheet</a> open. Make sure to load the <code>ggplot2</code> package by including <code>library(ggplot2)</code> at the top of your RMarkdown document.</p>
-<ol style="list-style-type: lower-alpha">
-<li>Look at the distribution of each of the 4 measured variables. What plot type is most appropriate for this type of variable?</li>
-</ol>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(chemo_study_data, <span class="kw">aes</span>(<span class="dt">x =</span> pre_tumor_size)) <span class="op">+</span><span class="st"> </span>???</code></pre></div>
-<ol start="2" style="list-style-type: lower-alpha">
-<li>Is pre-treatment tumor size predictive of whether or not a patient received chemotherapy? Make a plot to assess this, and briefly state what conclusions can be drawn from the plot. (Hint: it will be helpful to look at the second page of the cheat sheet in the section labeled “Position Adjustments”.)</li>
-</ol>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(chemo_study_data, <span class="kw">aes</span>(<span class="dt">x =</span> pre_tumor_size, <span class="dt">fill =</span> treated)) <span class="op">+</span><span class="st"> </span>???</code></pre></div>
-<ol start="3" style="list-style-type: lower-alpha">
-<li>Is pre-treatment tumor size predictive of whether or not a patient recovered? Make a plot, and briefly state your conclusions.</li>
-<li>A variable is a <strong>confounder</strong> if it is a common cause of both the treatment and outcome. This is shown in the diagram below. Given your results from parts b and c, could pre-treatment tumor size be a confounder of the relationship between chemotherapy treatment and recovery? If yes, what is the concern here?</li>
-</ol>
-<p>Note: the causal relationships of interest so far can be depicted in a <strong>causal diagram</strong>, shown below. An arrow between two variables indicates that one is a cause of the other (an arrow points from a cause to its effect).</p>
-<p><img src="causal_manual_files/figure-html/01-fig-dag-chemo-1.png" width="576" style="display: block; margin: auto;" /></p>
-</div>
-<div id="exercise-2" class="section level3 unnumbered">
-<h3>Exercise 2</h3>
-<p>One way to “adjust for” the influence of counfounders is to include them as predictors/explanatory variables in regression models.</p>
-<p>We can model recovery using a <strong>logistic regression model</strong> (used when the outcome variable is binary). In R, we can fit a logistic regression model using code like the following:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Fit the model and store it in the &quot;mod&quot; object</span>
-mod &lt;-<span class="st"> </span><span class="kw">glm</span>(outcome_variable <span class="op">~</span><span class="st"> </span>explanatory_variable1<span class="op">+</span>explanatory_variable2,
-    <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>, <span class="dt">data =</span> your_data)
-<span class="co"># Display model output</span>
-<span class="kw">summary</span>(mod)</code></pre></div>
-<ol style="list-style-type: lower-alpha">
-<li>Fit a logistic regression model with only treatment as a predictor. Interpret the treatment coefficient. Is this the interpretation you expected?</li>
-<li>Fit a logistic regression model with both treatment and pre-treatment tumor size as predictors. Interpret the treatment coefficient. Is this the interpretation you expected?</li>
-</ol>
-</div>
-<div id="exercise-3" class="section level3 unnumbered">
-<h3>Exercise 3</h3>
-<p>So far, we have not considered the <code>post_tumor_size</code> variable at all in our analyses.</p>
-<ol style="list-style-type: lower-alpha">
-<li>Let’s get some visual understanding of this variable. Make 2 plots: one showing its relationship with the <code>treated</code> variable and the second showing its relationship with the <code>recovery</code> variable.</li>
-<li>What is your intuition - should we include <code>post_tumor_size</code> as an explanatory variable in our logistic regression model? Why or why not?</li>
-<li>Fit the logistic regression model (<code>mod3</code>) with all 3 explanatory variables, and interpret the treatment coefficient. How do the results compare to <code>mod2</code>?</li>
-<li>The diagram that we considered at the end of Exercise 1 only included the treatment, recovery, and pre-treatment tumor size variables. Draw (on paper) an expanded causal diagram that includes post-treatment tumor size. In light of where post-treatment tumor size appears on your diagram, what does it mean to include it in the logistic regression model?</li>
-<li>The data in this investigation were simulated. That is, your instructor generated them, and thus, she actually knows the truth behind the data. The truth is that chemotherapy does have a true beneficial causal impact on recovery. Chemotherapy does increases the chance of recovery. Given this information and the insights you gained from these three exercises, try to put all of this information together. What makes sense? What remains unclear?</li>
-</ol>
+<div id="in-class-activities-ip-weighting-in-practice" class="section level2 unnumbered">
+<h2>In-class activities: IP weighting in practice</h2>
+<p>Turn in all class exercises from Topic 6: IP weighting in practice</p>
 
 </div>
 </div>
-</div>
+
+
+
             </section>
 
           </div>
         </div>
       </div>
-<a href="schedule.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="probability-and-dags.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="homework-1.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="portfolio-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

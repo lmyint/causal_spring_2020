@@ -16,13 +16,17 @@ library(dplyr)
 
 The DAG under consideration is:
 
-```{r fig.width=6, fig.height=2, fig.align="center"}
+```{r fig.width=6, fig.height=2.5, fig.align="center"}
 par(mar = rep(0,4))
-plot(1, type = "n", xaxt = "n", yaxt = "n", bty = "n", xlab = "", ylab = "", xlim = c(0,6), ylim = c(1,4))
+plot(1, type = "n", xaxt = "n", yaxt = "n", bty = "n", xlab = "", ylab = "", xlim = c(0,6), ylim = c(0,5))
 text(c("A", "Z", "Y"), x = c(1,3,5), y = c(1,4,1), cex = 2)
 arrows(x0 = c(3,3), y0 = c(4,4)-0.2, x1 = c(1,5), y1 = c(1,1)+0.2, angle = 25, lwd = 4)
 arrows(x0 = 1.7, y0 = 1, x1 = 4.5, y1 = 1, angle = 25, lwd = 4)
 ```
+
+**Task 1:** What is the point of this simulation exercise? What are we trying to show? Clearly explain how we are approaching causal effect estimation from two seemingly different viewpoints.
+
+**Task 2:** Explain in detail all steps taken in this code. Do this by breaking the code into smaller code chunks and adding text in between.
 
 **Phase 1:**
 
@@ -108,10 +112,10 @@ diff(results$Y_po_estim)
 
 Adapt the simulation to a situation with 2 confounders `Z` and `W` as in the DAG below:
 
-```{r fig.width=6, fig.height=2, fig.align="center"}
+```{r fig.width=6, fig.height=2.5, fig.align="center", echo=FALSE, eval=TRUE}
 par(mar = rep(0,4))
-plot(1, type = "n", xaxt = "n", yaxt = "n", bty = "n", xlab = "", ylab = "", xlim = c(0,6), ylim = c(1,4))
-text(c("A", "Z", "W", "Y"), x = c(1,1.5,4.5,5), y = c(1,4,4,1), cex = 2)
+plot(1, type = "n", xaxt = "n", yaxt = "n", bty = "n", xlab = "", ylab = "", xlim = c(0,6), ylim = c(0,5))
+text(c("A", "Z", "W", "Y"), x = c(1,1.5,4.5,5), y = c(1,4,4,1), cex = 1.3)
 arrows(x0 = c(1.5,1.5), y0 = c(4,4)-0.2, x1 = c(1,4.8), y1 = c(1,1)+0.2, angle = 25, lwd = 4)
 arrows(x0 = c(4.5,4.5), y0 = c(4,4)-0.2, x1 = c(1.2,5), y1 = c(1,1)+0.2, angle = 25, lwd = 4)
 arrows(x0 = 1.7, y0 = 1, x1 = 4.5, y1 = 1, angle = 25, lwd = 4)
@@ -119,7 +123,7 @@ arrows(x0 = 1.7, y0 = 1, x1 = 4.5, y1 = 1, angle = 25, lwd = 4)
 
 **Note:** To simulate dependence on 3 or more variables (e.g., A depends on B, C, and D), an easier approach is to do as below:
 
-```{r eval=FALSE}
+```{r}
 p_B <- dplyr::case_when(
     B==1 ~ 0.8,
     B==0 ~ 0.4
@@ -135,5 +139,48 @@ p_D <- dplyr::case_when(
 p_A <- p_B*p_C*p_D
 ```
 
+If ever `D` is equal to 1 for all cases, `p_A` can be updated as:
 
+```{r}
+p_A_D1 <- p_B*p_C*0.7
+```
+
+If ever `D` is equal to 0 for all cases, `p_A` can be updated as:
+
+```{r}
+p_A_D1 <- p_B*p_C*0.1
+```
+
+<br><br>
+
+**Questions and Tasks:**
+
+When you generate $A$, use the following probabilities:
+
+```{r}
+p_A <- dplyr::case_when(
+    Z==1 & W==1 ~ 0.3,
+    Z==1 & W==0 ~ 0.6,
+    Z==0 & W==1 ~ 0.9,
+    Z==0 & W==0 ~ 0.2
+)
+```
+
+1. How close are your estimates of the ACE from IP weighting and from graph surgery?
+
+2. Take a careful look at the probabilities used to generate the treatment $A$, and re-examine the form of your propensity score model. Thinking about what the coefficients mean in your propensity score (PS) model, what would you need to do to improve your propensity score model?
+
+3. Fit this new PS model as `ps_mod2`. Add a second PS variable `PS2`, and create a corresponding `weight2` variable.
+
+4. Store the results from both PS models with something similar to below, Display the estimated ACE resulting from both models.
+    ```{r}
+    results <- sim_data %>%
+        group_by(A) %>%
+        summarize(
+            Y_po_estim1 = sum(Y*weight1)/sum(weight1),
+            Y_po_estim2 = sum(Y*weight2)/sum(weight2)
+        )
+    ```
+
+5. Repeat this simulation using numbers for `p_A` that make the simpler PS model valid. As before, show the results of both the simpler and more complex PS model.
 
