@@ -1,0 +1,168 @@
+```{r 06_setup, include=FALSE}
+knitr::opts_chunk$set(echo=TRUE, eval=FALSE)
+```
+
+# IP weighting in practice
+
+## Learning Goals {-}
+
+1. Practice an analysis workflow from start to finish
+2. Formulate generalized causal research questions using marginal structural models
+3. Interpret results from fitting MSMs
+
+<br><br><br><br>
+
+
+## Analysis {-}
+
+A template Rmd is available [here](template_rmds/06-ipw-in-practice.Rmd).
+
+Our data come from the National Health and Nutrition Examination Survey Data I Epidemiologic Follow-up Study (NHEFS).
+
+```{r}
+nhefs <- read_csv("https://cdn1.sph.harvard.edu/wp-content/uploads/sites/1268/1268/20/nhefs.csv")
+```
+
+Download the codebook for the dataset [here](https://cdn1.sph.harvard.edu/wp-content/uploads/sites/1268/2012/10/NHEFS_Codebook.xls), and have it open for reference.
+
+> **Research goal:** What is the average causal effect of smoking cessation on weight gain at a follow-up visit about 10 years later?
+
+```{r}
+library(readr)
+library(dplyr)
+library(ggplot2)
+```
+
+**Part 1: Getting a feel for the data**
+
+Tabulate the treatment variable `qsmk`, visualize the outcome variable, and get summary statistics for the outcome variable.
+
+How many missing values are there for these variables? What key implication does this have for our DAG?
+
+```{r}
+# Tabulate with the count() function from dplyr
+# count() does show NAs, if present
+nhefs %>%
+    count(qsmk)
+
+# Construct a visualization of the weight gain variable
+
+
+# Summary statistics for the weight gain variable
+summary(nhefs$wt82_71)
+```
+
+We will need to exclude cases with missing data for the outcome. Work with the `nhefs_subs` for the remainder of this analysis:
+
+```{r}
+nhefs_subs <- nhefs %>%
+    filter(!is.na(wt82_71))
+```
+
+Let's look at the variable distributions within the treated (`qsmk = 1`: the quitters) and the untreated (`qsmk = 0`).
+
+```{r}
+# Here we enumerate the quantitative and the categorical variables
+quant_vars <- c("age", "alcoholhowmuch", "cholesterol", "ht", "pregnancies", "price71", "smokeintensity", "smokeyrs", "tax71", "wt71")
+
+categ_vars <- c("active", "alcoholfreq", "alcoholpy", "alcoholtype", "allergies", "asthma", "boweltrouble", "bronch", "chroniccough", "colitis", "diabetes", "education", "exercise", "hayfever", "hbp", "hbpmed", "headache", "hepatitis", "hf", "hightax82", "income", "infection", "lackpep", "marital", "nerves", "nervousbreak", "otherpain", "pepticulcer", "pica", "polio", "race", "school", "sex", "tb", "tumor", "weakheart", "wtloss")
+
+# Compare the means of the quantitative variables in the treated and untreated
+nhefs_subs %>%
+    group_by(qsmk) %>%
+    summarize_at(.vars = quant_vars, .funs = mean) %>%
+    as.data.frame()
+
+# Compare the distributions of the categorical variables in the treated and untreated
+# First row numbers are P(covariate | qsmk=0)
+# Second row numbers are P(covariate | qsmk=1)
+for (c_var in categ_vars) {
+    cat(c_var, ":\n")
+    table(qsmk = nhefs_subs$qsmk, nhefs_subs[[c_var]], useNA = "ifany") %>% prop.table(margin = 1) %>% print()
+    cat("\n")
+}
+```
+
+How could you use these data summaries to help with DAG construction (coming next)?
+
+<br><br><br>
+
+**Part 2: Causal DAG construction**
+
+Building the causal DAG from start to finish would normally be a much longer process. So that we can get to the data analysis practice, we'll abbreviate this crucial step. We'll start with the following d-separating set:
+
+- `sex`
+- `age`
+- `race`
+- `education`
+- `smokeintensity`
+- `smokeyrs`
+- `active`
+- `exercise`
+- `wt71`
+
+Open up the [web version](http://www.dagitty.net/dags.html) of [DAGitty](http://www.dagitty.net/), which we'll use to draw our causal diagram.
+
+- In the top menu bar, click "Model" > "New model".
+- Also go through the "How to ..."
+- Add the treatment and outcome nodes as well as the above variables. Also add the relevant edges.
+- Looking briefly through the codebook and your data summaries above, do you think that there are other key variables to include in the DAG?
+- There is potential selection bias at play. (There were missing values for the response variable.) Add a selection node and give it the "adjusted" status (under the left "Variable" menu). What factors do you think are related to not showing up for the second study visit (and thus not having weight gain measured)? Based on this add edges between the selection node and other variables.
+- What is your d-separating set?
+
+So that you can come back to your DAG easily, copy and paste the "Model code" in the right side menu into a separate text document.
+
+<br><br><br>
+
+**Part 3: Propensity score modeling**
+
+In order to fit marginal structural models (MSMs) that allow us to estimate average causal effects, we need to estimate the propensity scores.
+
+Make visualizations to inform the nature of the relationship between treatment and the quantitative predictors. For example, you can use code like the following to see if the observed probabilities (in blue) match up with those predicted by a logistic regression model with a quadratic function of age (in red). The `y~poly(x,2)` could be changed to `y~x` to see the results of having `age` linearly related to the log odds of treatment.
+
+State your conclusions from these visualizations.
+
+```{r}
+ggplot(nhefs, aes(x = age, y = qsmk)) +
+    geom_point() +
+    geom_smooth(method = "loess", se = FALSE, color = "blue") +
+    geom_smooth(formula = y~poly(x,2), method="glm", method.args=list(family="binomial"), se = FALSE, color = "red")
+```
+
+Based on your visualizations, construct an appropriate propensity score model. To include polynomial relationships in the model you can use `+poly(age, 2)`, for example, in the model formula.
+
+Compute the estimated propensity scores and inverse probability weights as we did in our simulations. Call the weight variable `weight1`. Here you'll want to check if `nhefs_subs$qsmk==1` or `nhefs_subs$qsmk==0`. Store the IP weights in your `nhefs_subs` dataset.
+
+<br><br><br>
+
+**Part 4: Fitting marginal structural models**
+
+Install the `geepack` package which we'll be using to fit MSMs. This package fits linear and logistic regression models like `lm()` and `glm()` do, but it uses a better estimate of the standard error in the presence of weights.
+
+The code below fits the MSM:
+
+$$ E[Y^a] = \beta_0 + \beta_1 \hbox{qsmk} $$
+
+```{r}
+library(geepack)
+msm_fit1 <- geeglm(
+    wt82_71 ~ qsmk,
+    data = nhefs_subs,
+    weights = weight1,
+    id = seqn,
+    corstr = "independence"
+)
+summary(msm_fit1)
+```
+
+- Interpret both the intercept and `qsmk` coefficients.
+- Confidence intervals are not displayed in the output, so we'll compute them by hand. (p-values are displayed, but it'll be nice to have confidence intervals because they nicely convey both the estimate itself and its uncertainty.) The coefficient estimates are expected to be normally distributed with mean equal to the true population value and standard deviation equal to the standard error. Use the `qnorm()` function to obtain the 95% confidence interval for the `qsmk` coefficient.
+- Summarize your results from this analysis.
+
+
+Adapt the above code to fit an effect modification MSM:
+
+$$ E[Y^a] = \beta_0 + \beta_1 \hbox{qsmk} + \beta_2 \hbox{sex} + \beta_1 \hbox{qsmk}\times \hbox{sex} $$
+
+Interpret both the `qsmk` and interaction coefficients. Compute confidence intervals for those coefficients, and summarize your results.
+
