@@ -30,7 +30,7 @@
   
   
 <link rel="prev" href="estimating-causal-effects.html"/>
-<link rel="next" href="homework-1.html"/>
+<link rel="next" href="ip-weighting-for-censoring.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -168,6 +168,15 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="" data-path="ip-weighting-in-practice.html"><a href="ip-weighting-in-practice.html#learning-goals-5"><i class="fa fa-check"></i>Learning Goals</a></li>
 <li class="chapter" data-level="" data-path="ip-weighting-in-practice.html"><a href="ip-weighting-in-practice.html#analysis"><i class="fa fa-check"></i>Analysis</a></li>
 </ul></li>
+<li class="chapter" data-level="7" data-path="ip-weighting-for-censoring.html"><a href="ip-weighting-for-censoring.html"><i class="fa fa-check"></i><b>7</b> IP weighting for censoring</a><ul>
+<li class="chapter" data-level="" data-path="ip-weighting-for-censoring.html"><a href="ip-weighting-for-censoring.html#learning-goals-6"><i class="fa fa-check"></i>Learning Goals</a></li>
+<li class="chapter" data-level="" data-path="ip-weighting-for-censoring.html"><a href="ip-weighting-for-censoring.html#discussion-1"><i class="fa fa-check"></i>Discussion</a></li>
+<li class="chapter" data-level="" data-path="ip-weighting-for-censoring.html"><a href="ip-weighting-for-censoring.html#exercises-1"><i class="fa fa-check"></i>Exercises</a><ul>
+<li class="chapter" data-level="" data-path="ip-weighting-for-censoring.html"><a href="ip-weighting-for-censoring.html#setup"><i class="fa fa-check"></i>Setup</a></li>
+<li class="chapter" data-level="" data-path="ip-weighting-for-censoring.html"><a href="ip-weighting-for-censoring.html#part-1-modeling-to-obtain-weights"><i class="fa fa-check"></i>Part 1: Modeling to obtain weights</a></li>
+<li class="chapter" data-level="" data-path="ip-weighting-for-censoring.html"><a href="ip-weighting-for-censoring.html#part-2-fitting-msms"><i class="fa fa-check"></i>Part 2: Fitting MSMs</a></li>
+</ul></li>
+</ul></li>
 <li class="part"><span><b>III Homework</b></span></li>
 <li class="chapter" data-level="" data-path="homework-1.html"><a href="homework-1.html"><i class="fa fa-check"></i>Homework 1</a><ul>
 <li class="chapter" data-level="" data-path="homework-1.html"><a href="homework-1.html#conceptual-exercises-1"><i class="fa fa-check"></i>Conceptual Exercises</a><ul>
@@ -228,14 +237,15 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
 <h2>Analysis</h2>
 <p>A template Rmd is available <a href="template_rmds/06-ipw-in-practice.Rmd">here</a>.</p>
 <p>Our data come from the National Health and Nutrition Examination Survey Data I Epidemiologic Follow-up Study (NHEFS).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nhefs &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;https://cdn1.sph.harvard.edu/wp-content/uploads/sites/1268/1268/20/nhefs.csv&quot;</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(readr)
+<span class="kw">library</span>(dplyr)
+<span class="kw">library</span>(ggplot2)
+
+nhefs &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;https://cdn1.sph.harvard.edu/wp-content/uploads/sites/1268/1268/20/nhefs.csv&quot;</span>)</code></pre></div>
 <p>Download the codebook for the dataset <a href="https://cdn1.sph.harvard.edu/wp-content/uploads/sites/1268/2012/10/NHEFS_Codebook.xls">here</a>, and have it open for reference.</p>
 <blockquote>
 <p><strong>Research goal:</strong> What is the average causal effect of smoking cessation on weight gain at a follow-up visit about 10 years later?</p>
 </blockquote>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(readr)
-<span class="kw">library</span>(dplyr)
-<span class="kw">library</span>(ggplot2)</code></pre></div>
 <p><strong>Part 1: Getting a feel for the data</strong></p>
 <p>Tabulate the treatment variable <code>qsmk</code>, visualize the outcome variable, and get summary statistics for the outcome variable.</p>
 <p>How many missing values are there for these variables? What key implication does this have for our DAG?</p>
@@ -333,16 +343,13 @@ msm_fit1 &lt;-<span class="st"> </span><span class="kw">geeglm</span>(
 
 </div>
 </div>
-
-
-
             </section>
 
           </div>
         </div>
       </div>
 <a href="estimating-causal-effects.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="homework-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="ip-weighting-for-censoring.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

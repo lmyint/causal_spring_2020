@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Topic 1 Introductions, Review, and Motivation | STAT 394: Causal Inference</title>
+  <title>Topic 7 IP weighting for censoring | STAT 394: Causal Inference</title>
   <meta name="description" content="This is the class website for Causal Inference at Macalester College." />
   <meta name="generator" content="bookdown 0.14 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Topic 1 Introductions, Review, and Motivation | STAT 394: Causal Inference" />
+  <meta property="og:title" content="Topic 7 IP weighting for censoring | STAT 394: Causal Inference" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="lmyint/causal_spring_2020" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Topic 1 Introductions, Review, and Motivation | STAT 394: Causal Inference" />
+  <meta name="twitter:title" content="Topic 7 IP weighting for censoring | STAT 394: Causal Inference" />
   
   <meta name="twitter:description" content="This is the class website for Causal Inference at Macalester College." />
   
@@ -29,8 +29,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="schedule.html"/>
-<link rel="next" href="probability-and-dags.html"/>
+<link rel="prev" href="ip-weighting-in-practice.html"/>
+<link rel="next" href="homework-1.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -222,96 +222,215 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="introductions-review-and-motivation" class="section level1">
-<h1><span class="header-section-number">Topic 1</span> Introductions, Review, and Motivation</h1>
-<p><strong>Slides from today are available <a href="https://docs.google.com/presentation/d/1SNGxtjUwv4T-hDY7fgamMCF0I5-WpzOv6G1jRzw3QhA/edit?usp=sharing">here</a>.</strong></p>
-<div id="learning-goals" class="section level2 unnumbered">
+<div id="ip-weighting-for-censoring" class="section level1">
+<h1><span class="header-section-number">Topic 7</span> IP weighting for censoring</h1>
+<div id="learning-goals-6" class="section level2 unnumbered">
 <h2>Learning Goals</h2>
-<ul>
-<li>Understand the instances in which we care about causation more than association</li>
-<li>Review regression modeling and develop some ideas about its relation to causal inference goals</li>
-<li>Develop some ideas for why causal stories (i.e., expert knowledge) are crucial for causal inference goals</li>
-</ul>
-<p><br><br><br><br></p>
-</div>
-<div id="review-regression-models" class="section level2 unnumbered">
-<h2>Review: Regression Models</h2>
-<p>Discuss the following questions with your group members.</p>
 <ol style="list-style-type: decimal">
-<li>What does a linear regression model formula look like?<br />
-If you covered logistic regression in STAT 155, what does a logistic regression model formula look like? When would you use logistic vs. linear regression?<br><br></li>
-<li>In general, how do we interpret the intercept in a regression model (both linear and logistic)?<br><br></li>
-<li>How do we interpret the other coefficients in a regression model (both linear and logistic)? How can we justify this interpretation mathematically?<br><br></li>
-<li>How might regression models be useful in understanding the causal effect of some variable on an outcome?</li>
+<li>Understand how IP weighting can be used to address the lack of generalizability caused by censoring</li>
 </ol>
 <p><br><br><br><br></p>
 </div>
-<div id="exercises" class="section level2 unnumbered">
-<h2>Exercises</h2>
-<p><strong>You can download a template RMarkdown file to start from <a href="template_rmds/01-intro.Rmd">here</a>.</strong></p>
-<p>We will look at (simulated) data from a study that looked at the effectiveness of chemotherapy for treating colon cancer. Chemotherapy is effectively a poison that kills cells in the body that are rapidly proliferating: these cells include the cancer cells (often in a mass called a tumor) but also cells in bone marrow involved in sustaining the immune system.</p>
-<p>In this study, researchers measured the following variables:</p>
+<div id="discussion-1" class="section level2 unnumbered">
+<h2>Discussion</h2>
+<p><strong>Language for interpreting coefficients in MSMs</strong></p>
+<p><span class="math display">\[ E[Y^a] = \beta_0 + \beta_1 a \]</span></p>
 <ul>
-<li><code>pre_tumor_size</code>: Tumor size before the chemotherapy/placebo treatment (<code>Small</code> or <code>Large</code>).</li>
-<li><code>treated</code>: <code>ChemoYes</code> if the patient received chemotherapy or <code>ChemoNo</code> if not.</li>
-<li><code>post_tumor_size</code>: Tumor size 3 months after the chemotherapy/placebo treatment (<code>Small</code> or <code>Large</code>).</li>
-<li><code>recovery</code>: <code>Yes</code> if the patient recovered from their cancer. <code>No</code> otherwise.</li>
+<li>Context: Y is cholesterol, A is medication (a = 1: on medication)</li>
+<li><span class="math inline">\(\beta_0\)</span>: The average potential cholesterol level when all are not on medication</li>
+<li><span class="math inline">\(\beta_1\)</span>: The average causal effect: the change in average potential cholesterol level if everyone were on medication compared to if no one were on medication</li>
 </ul>
-<p>You can read in the data as follows:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">chemo_study_data &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;https://www.dropbox.com/s/vl06j75a8afw8ct/chemo_study.csv?dl=1&quot;</span>)</code></pre></div>
-<div id="exercise-1" class="section level3 unnumbered">
-<h3>Exercise 1</h3>
-<p>The first step in any data analysis is to visualize your data. Let’s refamiliarize ourselves with the <code>ggplot2</code> package in R. It may be helpful to have <a href="https://rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf">this ggplot2 cheat sheet</a> open. Make sure to load the <code>ggplot2</code> package by including <code>library(ggplot2)</code> at the top of your RMarkdown document.</p>
-<ol style="list-style-type: lower-alpha">
-<li>Look at the distribution of each of the 4 measured variables. What plot type is most appropriate for this type of variable?</li>
+<p><br><br><br><br></p>
+<p><strong>Do we really care about the ACE?</strong></p>
+<ul>
+<li>Depends on research goals, but yes, sometimes ACE is of interest.
+<ul>
+<li>Is it a nationwide policy? If so, then enacting the policy means “treating” everyone and not enacting means treating no one.</li>
+</ul></li>
+<li>May care about the ACE within subgroups. We’ve seen this with effect modfication MSMs:</li>
+</ul>
+<p><span class="math display">\[ E[Y^a] = \beta_0 + \beta_1 a + \beta_2 M + \beta_3 a\times M \]</span></p>
+<ul>
+<li>Say <span class="math inline">\(M\)</span> indicates history of heart disease (1: history. 0: no history)</li>
+<li><strong>Question:</strong> What are the interpretation of <span class="math inline">\(\beta_1\)</span> and <span class="math inline">\(\beta_3\)</span> in this model?</li>
+</ul>
+<p><br><br><br><br></p>
+<p><strong>What is the difference between regular and IP-weighted GLMs?</strong></p>
+<ul>
+<li>Our tree diagrams showed that weighting allows us to create “populations” of all treated and all untreated.
+<ul>
+<li>Our WHATIF book calls the combined population of the all treated and the all untreated a <strong>pseudopopulation</strong></li>
+</ul></li>
+<li>We can model the outcomes in this pseudopopulation with standard regression models (marginal structural models).
+<ul>
+<li>Allows us to estimate causal quantities: <span class="math inline">\(P(Y \mid \hbox{do}(A=a))\)</span>, <span class="math inline">\(E[Y \mid \hbox{do}(A=a)]\)</span> (in potential outcome notation: <span class="math inline">\(P(Y^a)\)</span>, <span class="math inline">\(E[Y^a]\)</span>)</li>
+<li>Standard regression models without IP weights do not estimate these causal quantities.</li>
+</ul></li>
+</ul>
+<p><br><br><br><br></p>
+<p><strong>Censoring and selection bias</strong></p>
+<p>Reminder: NHEFS investigation from last time</p>
+<blockquote>
+<p><strong>Research goal:</strong> What is the average causal effect of smoking cessation on weight gain at a follow-up visit about 10 years later?</p>
+</blockquote>
+<ul>
+<li>There were some people who did not have their weight measured at Visit 2. They must be excluded from our analysis.
+<ul>
+<li>Define a censoring indicator <span class="math inline">\(C\)</span> where <span class="math inline">\(C = 1\)</span> means censored/excluded and <span class="math inline">\(C = 0\)</span> means uncensored/included.</li>
+<li>Our analysis only generalizes to uncensored individuals–the types of people who would stay in the study!</li>
+</ul></li>
+</ul>
+<p><img src="causal_manual_files/figure-html/unnamed-chunk-26-1.png" width="1440" /></p>
+<ul>
+<li>Before: just wanted to find <span class="math inline">\(Z\)</span> such that conditional on <span class="math inline">\(Z\)</span> (within subsets defined by <span class="math inline">\(Z\)</span>), the outcomes of the treated and untreated were comparable.
+<ul>
+<li>Could appropriately upweight the treated and untreated to get “populations” of all treated and all untreated.</li>
+</ul></li>
+</ul>
+<p><br></p>
+<ul>
+<li>Now: also want to ensure that the outcomes in the censored and uncensored are comparable.
+<ul>
+<li>Can appropriately upweight the uncensored to represent everyone had they not been censored.</li>
+<li>The censored get zero weight. (We don’t observe them!)</li>
+</ul></li>
+</ul>
+<p><br></p>
+<ul>
+<li>When are the outcomes in the censored and uncensored comparable?
+<ul>
+<li>When variables in <span class="math inline">\(A\)</span> and <span class="math inline">\(Z_2\)</span> together d-separate <span class="math inline">\(C\)</span> and the outcome <span class="math inline">\(Y\)</span>.</li>
+<li>e.g., The DAG below. View <span class="math inline">\(C\)</span> as the new “treatment” variable.</li>
+<li>Another way to put it: when we put a box around <span class="math inline">\(C\)</span> in the DAG, <span class="math inline">\(Z\)</span> must d-separate <span class="math inline">\(A\)</span> and <span class="math inline">\(Y\)</span> under the null.<br />
+Same condition as before, now explicit about paths with conditioned-on colliders (non-backdoor paths).</li>
+</ul></li>
+</ul>
+<p><img src="causal_manual_files/figure-html/unnamed-chunk-27-1.png" width="1440" /></p>
+<p><strong>Questions:</strong> <span class="math inline">\(C\)</span> is inherently conditioned on in our analysis (<span class="math inline">\(C = 0\)</span>).</p>
+<ul>
+<li>What set <span class="math inline">\(Z\)</span> d-separates the treatment and outcome under the null?</li>
+<li>What is a set <span class="math inline">\(Z_2\)</span> such that <span class="math inline">\(Z_2 \cup A\)</span> (read <span class="math inline">\(Z_2\)</span> “union” <span class="math inline">\(A\)</span>, or <span class="math inline">\(Z_2\)</span> and <span class="math inline">\(A\)</span> together) d-separate <span class="math inline">\(C\)</span> and the outcome?</li>
+</ul>
+<p><br><br><br><br></p>
+<p><strong>Conclusion:</strong></p>
+<ul>
+<li><span class="math inline">\(Z\)</span> should include:<br />
+<code>sex</code>, <code>age</code>, <code>race</code>, <code>education</code>, <code>smokeintensity</code>, <code>smokeyrs</code>, <code>active</code>, <code>exercise</code>, <code>wt71</code>, and <code>VidGames</code><br />
+(Same as before with the addition of <code>VidGames</code>)</li>
+<li><span class="math inline">\(Z\)</span> blocks spurious, non-causal paths between <span class="math inline">\(A\)</span> (<code>qsmk</code>) and <span class="math inline">\(Y\)</span> (<code>wt82_71</code>)</li>
+</ul>
+<p><br></p>
+<ul>
+<li><span class="math inline">\(Z_2\)</span> should include <code>VidGames</code></li>
+<li>Together with <span class="math inline">\(A\)</span>, <span class="math inline">\(Z_2\)</span> blocks spurious, non-causal paths between <span class="math inline">\(C\)</span> and <span class="math inline">\(Y\)</span></li>
+<li>Note that <span class="math inline">\(Z_2\)</span> is contained within <span class="math inline">\(Z\)</span>.
+<ul>
+<li>This will be the case when <span class="math inline">\(A\)</span> is a cause of <span class="math inline">\(C\)</span> (often true).</li>
+</ul></li>
+</ul>
+<p><br><br><br><br></p>
+<p><strong>Ultimate goal:</strong> Want to upweight individuals using <span class="math inline">\(P(A, C = 0 \mid Z)\)</span></p>
+<ul>
+<li>Why? Same rationale as our tree diagram with additional <span class="math inline">\(C = 1\)</span> and <span class="math inline">\(C = 0\)</span> branches.</li>
+<li>Allows us to estimate <span class="math inline">\(E[Y^{a, c = 0}]\)</span>: expected potential outcome under treatment <span class="math inline">\(a\)</span> and when no one has been censored (<span class="math inline">\(C = 0\)</span>)</li>
+</ul>
+<p><br><br><br><br></p>
+<p>We can express <span class="math inline">\(P(A, C = 0 \mid Z)\)</span> as the following:</p>
+<p><span class="math display">\[
+\begin{align*}
+P(A, C = 0 \mid Z) &amp;= P(A, C = 0, Z)/P(Z) \\
+&amp;= P(A \mid Z) P(C = 0 \mid A, Z)
+\end{align*}
+\]</span></p>
+<ul>
+<li>Based on the last line, we see (1) the propensity score and (2) another “propensity” of being uncensored.</li>
+<li>Will want models for both.</li>
+<li>(The censoring probability is not typically called a propensity score.)</li>
+</ul>
+<p><br><br><br><br></p>
+<p>A little extra theory (don’t worry about the math part below if you haven’t taken Probability):</p>
+<p><span class="math inline">\(Z\)</span> may contain extra variables not in <span class="math inline">\(Z_2\)</span> if there are, say, many common causes of <span class="math inline">\(A\)</span> and <span class="math inline">\(Y\)</span>, but only a few of these are a cause of <span class="math inline">\(C\)</span>. Let’s say that these extra variables are in the set <span class="math inline">\(Z_1\)</span>. (<span class="math inline">\(Z = Z_1 \cup Z_2\)</span>)</p>
+<p>If the variables in <span class="math inline">\(Z_1\)</span> are not causes of <span class="math inline">\(C\)</span>, then <span class="math inline">\(C\)</span> and <span class="math inline">\(Z_1\)</span> are conditionally independent given <span class="math inline">\(A\)</span> and <span class="math inline">\(Z_2\)</span>.</p>
+<p>Going through the work below…</p>
+<p><span class="math display">\[
+\begin{align*}
+P(A, C = 0 \mid Z) &amp;= P(A, C = 0 \mid Z_1, Z_2) \\
+&amp;= P(A, C = 0, Z_1, Z_2)/P(Z_1, Z_2) \\
+&amp;= P(A \mid Z_1, Z_2) P(C = 0 \mid A, Z_1, Z_2) \\
+&amp;= P(A \mid Z_1, Z_2) P(C = 0 \mid A, Z_2)
+\end{align*}
+\]</span></p>
+<p>…this implies that the propensity score model (for <span class="math inline">\(A\)</span>) should depend on all variables in <span class="math inline">\(Z\)</span> (the set <span class="math inline">\(Z_1\)</span> and <span class="math inline">\(Z_2\)</span> together) and that the censoring probability model only need depend on <span class="math inline">\(Z_2\)</span>.</p>
+<p><br><br><br><br></p>
+<p><strong>Analysis plan:</strong></p>
+<p>Notation:</p>
+<ul>
+<li><span class="math inline">\(Z\)</span> is the set that d-separates <span class="math inline">\(A\)</span> and <span class="math inline">\(Y\)</span> when <span class="math inline">\(C\)</span> is conditioned on.</li>
+<li><span class="math inline">\(Z_2\)</span> (a subset of <span class="math inline">\(Z\)</span>) that, together with <span class="math inline">\(A\)</span>, d-separates <span class="math inline">\(C\)</span> and <span class="math inline">\(Y\)</span></li>
+</ul>
+<ol style="list-style-type: decimal">
+<li><p>Model the propensity scores <span class="math inline">\(P(A\mid Z)\)</span> using all variables <span class="math inline">\(Z\)</span> in the d-separating set. Create inverse probability weights <span class="math inline">\(W^A = 1/P(A\mid Z)\)</span> (treatment weights).</p></li>
+<li><p>Model the probability of censoring <span class="math inline">\(P(C \mid A, Z_2)\)</span>. Create inverse probability weights <span class="math inline">\(W^C = 1/P(C = 0\mid A, Z_2)\)</span> (censoring weights).</p></li>
+<li><p>Create final weights (for treatment and censoring) <span class="math inline">\(W^{A,C} = W^A\times W^C\)</span>.</p></li>
+<li><p>Fit the desired marginal structural model with these final weights.</p></li>
 </ol>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(chemo_study_data, <span class="kw">aes</span>(<span class="dt">x =</span> pre_tumor_size)) <span class="op">+</span><span class="st"> </span>???</code></pre></div>
-<ol start="2" style="list-style-type: lower-alpha">
-<li>Is pre-treatment tumor size predictive of whether or not a patient received chemotherapy? Make a plot to assess this, and briefly state what conclusions can be drawn from the plot. (Hint: it will be helpful to look at the second page of the cheat sheet in the section labeled “Position Adjustments”.)</li>
-</ol>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(chemo_study_data, <span class="kw">aes</span>(<span class="dt">x =</span> pre_tumor_size, <span class="dt">fill =</span> treated)) <span class="op">+</span><span class="st"> </span>???</code></pre></div>
-<ol start="3" style="list-style-type: lower-alpha">
-<li>Is pre-treatment tumor size predictive of whether or not a patient recovered? Make a plot, and briefly state your conclusions.</li>
-<li>A variable is a <strong>confounder</strong> if it is a common cause of both the treatment and outcome. This is shown in the diagram below. Given your results from parts b and c, could pre-treatment tumor size be a confounder of the relationship between chemotherapy treatment and recovery? If yes, what is the concern here?</li>
-</ol>
-<p>Note: the causal relationships of interest so far can be depicted in a <strong>causal diagram</strong>, shown below. An arrow between two variables indicates that one is a cause of the other (an arrow points from a cause to its effect).</p>
-<p><img src="causal_manual_files/figure-html/01-fig-dag-chemo-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p><br><br><br><br></p>
 </div>
-<div id="exercise-2" class="section level3 unnumbered">
-<h3>Exercise 2</h3>
-<p>One way to “adjust for” the influence of counfounders is to include them as predictors/explanatory variables in regression models.</p>
-<p>We can model recovery using a <strong>logistic regression model</strong> (used when the outcome variable is binary). In R, we can fit a logistic regression model using code like the following:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Fit the model and store it in the &quot;mod&quot; object</span>
-mod &lt;-<span class="st"> </span><span class="kw">glm</span>(outcome_variable <span class="op">~</span><span class="st"> </span>explanatory_variable1<span class="op">+</span>explanatory_variable2,
-    <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>, <span class="dt">data =</span> your_data)
-<span class="co"># Display model output</span>
-<span class="kw">summary</span>(mod)</code></pre></div>
-<ol style="list-style-type: lower-alpha">
-<li>Fit a logistic regression model with only treatment as a predictor. Interpret the treatment coefficient. Is this the interpretation you expected?</li>
-<li>Fit a logistic regression model with both treatment and pre-treatment tumor size as predictors. Interpret the treatment coefficient. Is this the interpretation you expected?</li>
-</ol>
+<div id="exercises-1" class="section level2 unnumbered">
+<h2>Exercises</h2>
+<p>A template Rmd is available <a href="template_rmds/07-ipw-censoring.Rmd">here</a>.</p>
+<div id="setup" class="section level3 unnumbered">
+<h3>Setup</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(readr)
+<span class="kw">library</span>(dplyr)
+<span class="kw">library</span>(ggplot2)
+<span class="kw">library</span>(geepack)
+
+nhefs &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;https://cdn1.sph.harvard.edu/wp-content/uploads/sites/1268/1268/20/nhefs.csv&quot;</span>)</code></pre></div>
+<p>Create a censoring indicator variable that will be <code>TRUE</code> if the individual was censored and <code>FALSE</code> otherwise.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nhefs<span class="op">$</span>cens &lt;-<span class="st"> </span><span class="kw">is.na</span>(nhefs<span class="op">$</span>wt82_<span class="dv">71</span>)</code></pre></div>
+<p>Throughout we’ll use the full <code>nhefs</code> dataset, and we’ll work from the DAG below (<span class="math inline">\(C\)</span> has been conditioned on):</p>
+<p><img src="causal_manual_files/figure-html/unnamed-chunk-30-1.png" width="1440" /></p>
+<p><br><br></p>
 </div>
-<div id="exercise-3" class="section level3 unnumbered">
-<h3>Exercise 3</h3>
-<p>So far, we have not considered the <code>post_tumor_size</code> variable at all in our analyses.</p>
+<div id="part-1-modeling-to-obtain-weights" class="section level3 unnumbered">
+<h3>Part 1: Modeling to obtain weights</h3>
 <ol style="list-style-type: lower-alpha">
-<li>Let’s get some visual understanding of this variable. Make 2 plots: one showing its relationship with the <code>treated</code> variable and the second showing its relationship with the <code>recovery</code> variable.</li>
-<li>What is your intuition - should we include <code>post_tumor_size</code> as an explanatory variable in our logistic regression model? Why or why not?</li>
-<li>Fit the logistic regression model (<code>mod3</code>) with all 3 explanatory variables, and interpret the treatment coefficient. How do the results compare to <code>mod2</code>?</li>
-<li>The diagram that we considered at the end of Exercise 1 only included the treatment, recovery, and pre-treatment tumor size variables. Draw (on paper) an expanded causal diagram that includes post-treatment tumor size. In light of where post-treatment tumor size appears on your diagram, what does it mean to include it in the logistic regression model?</li>
-<li>The data in this investigation were simulated. That is, your instructor generated them, and thus, she actually knows the truth behind the data. The truth is that chemotherapy does have a true beneficial causal impact on recovery. Chemotherapy does increases the chance of recovery. Given this information and the insights you gained from these three exercises, try to put all of this information together. What makes sense? What remains unclear?</li>
+<li><p>Based on the DAG above, identify the set of variables <span class="math inline">\(Z\)</span> that d-separates <code>qsmk</code> and weight gain.</p></li>
+<li><p>Fit an appropriate treatment propensity score model, and call this <code>ps_treat_mod</code>. For simplicity, assume that a quadratic relationship for the quantitative variables gives a good fit. Make sure to wrap categorical variables inside <code>factor()</code> in your model formula.</p></li>
+<li><p>Add a new variable to your dataset called <code>weights_treat</code> that contains the IP weights for treatment.</p></li>
+<li><p>Is it believable that quitting smoking (treatment) is a cause of censoring? How do the tabulations/calculations below help answer this?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># P(censored | quitters) and P(censored | nonquitter)</span>
+<span class="kw">table</span>(<span class="dt">qsmk =</span> nhefs<span class="op">$</span>qsmk, <span class="dt">cens =</span> nhefs<span class="op">$</span>cens)
+<span class="kw">table</span>(<span class="dt">qsmk =</span> nhefs<span class="op">$</span>qsmk, <span class="dt">cens =</span> nhefs<span class="op">$</span>cens) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">prop.table</span>(<span class="dt">margin =</span> <span class="dv">1</span>)</code></pre></div></li>
+<li><p>How would you see if the data support the <code>age --&gt; C</code> and <code>education --&gt; C</code> arrows? Describe, but don’t actually perform this analysis.</p></li>
+<li><p>Fit an appropriate model for the probability of censoring, and call this <code>prob_cens_mod</code>. For simplicity, assume that a quadratic relationship for the quantitative variables gives a good fit. Make sure to wrap categorical variables inside <code>factor()</code> in your model formula.</p></li>
+<li><p>Add a new variable to your dataset called <code>weights_cens</code> that contains the IP weights for censoring. (Note that in R, the default for logistic regression is to model the probability of the outcome variable equaling 1.)</p></li>
+<li><p>Add a final weight variable to your dataset called <code>weight_TC</code>.</p></li>
 </ol>
+<p><br><br><br></p>
+</div>
+<div id="part-2-fitting-msms" class="section level3 unnumbered">
+<h3>Part 2: Fitting MSMs</h3>
+<p>Fit the following two MSMs (<span class="math inline">\(A\)</span> is <code>qsmk</code>, and for <code>sex</code>, 0 indicates males and 1 indicates females):</p>
+<p><span class="math display">\[ E[Y^{a, c=0}] = \beta_0 + \beta_1 a \]</span> <span class="math display">\[ E[Y^{a, c=0}] = \beta_0 + \beta_1 a + \beta_2\hbox{sex} + \beta_3 a\times\hbox{sex} \]</span></p>
+<p>Note: In our previous analysis where we worked with <code>nhefs_subs</code>, we had actually fit the following:</p>
+<p><span class="math display">\[ E[Y^{a} \mid C = 0] = \beta_0 + \beta_1 a \]</span> <span class="math display">\[ E[Y^{a} \mid C = 0] = \beta_0 + \beta_1 a + \beta_2\hbox{sex} + \beta_3 a\times\hbox{sex} \]</span></p>
+<p>Refit these models here using the relevant weights. How do your results compare?</p>
 
 </div>
 </div>
 </div>
+
+
+
             </section>
 
           </div>
         </div>
       </div>
-<a href="schedule.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="probability-and-dags.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="ip-weighting-in-practice.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="homework-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

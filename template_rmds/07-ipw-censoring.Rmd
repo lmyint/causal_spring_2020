@@ -1,0 +1,128 @@
+---
+title: "IPW in practice"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+## Setup
+
+The dataset codebook is available [here](https://cdn1.sph.harvard.edu/wp-content/uploads/sites/1268/2012/10/NHEFS_Codebook.xls).
+
+```{r}
+library(readr)
+library(dplyr)
+library(ggplot2)
+library(geepack)
+
+nhefs <- read_csv("https://cdn1.sph.harvard.edu/wp-content/uploads/sites/1268/1268/20/nhefs.csv")
+```
+
+Create a censoring indicator variable that will be `TRUE` if the individual was censored and `FALSE` otherwise.
+
+```{r}
+nhefs$cens <- is.na(nhefs$wt82_71)
+```
+
+Throughout we'll use the full `nhefs` dataset, and we'll work from the DAG below ($C$ has been conditioned on):
+
+```{r fig.width=15, fig.height=6}
+# Install the dagitty package if you want this to display
+library(dagitty)
+dag2 <- dagitty("dag {
+bb=\"0,0,1,1\"
+C [adjusted,pos=\"0.453,0.521\"]
+Personality [latent,pos=\"0.268,0.107\"]
+active [pos=\"0.632,0.207\"]
+age [pos=\"0.214,0.207\"]
+education [pos=\"0.338,0.207\"]
+exercise [pos=\"0.700,0.207\"]
+qsmk [exposure,pos=\"0.139,0.484\"]
+race [pos=\"0.278,0.207\"]
+sex [pos=\"0.146,0.207\"]
+smokeintensity [pos=\"0.442,0.206\"]
+smokeyrs [pos=\"0.560,0.206\"]
+wt71 [pos=\"0.762,0.206\"]
+wt82_71 [outcome,pos=\"0.828,0.484\"]
+Personality -> education
+active -> exercise
+active -> qsmk
+active -> wt82_71
+age -> C
+age -> qsmk
+age -> wt82_71
+education -> C
+education -> qsmk
+education -> wt82_71
+exercise -> qsmk
+exercise -> wt82_71
+qsmk -> C
+qsmk -> wt82_71
+race -> qsmk
+race -> wt82_71
+sex -> qsmk
+sex -> wt82_71
+smokeintensity -> qsmk
+smokeintensity -> smokeyrs
+smokeintensity -> wt82_71
+smokeyrs -> qsmk
+smokeyrs -> wt82_71
+wt71 -> qsmk
+wt71 -> wt82_71
+}")
+plot(dag2)
+```
+
+
+
+
+
+
+## Part 1: Modeling to obtain weights
+
+a. Based on the DAG above, identify the set of variables $Z$ that d-separates `qsmk` and weight gain.
+
+b. Fit an appropriate treatment propensity score model, and call this `ps_treat_mod`. For simplicity, assume that a quadratic relationship for the quantitative variables gives a good fit. Make sure to wrap categorical variables inside `factor()` in your model formula.
+
+c. Add a new variable to your dataset called `weights_treat` that contains the IP weights for treatment.
+
+d. Is it believable that quitting smoking (treatment) is a cause of censoring? How do the tabulations/calculations below help answer this?    
+
+```{r}
+# P(censored | quitters) and P(censored | nonquitter)
+table(qsmk = nhefs$qsmk, cens = nhefs$cens)
+table(qsmk = nhefs$qsmk, cens = nhefs$cens) %>% prop.table(margin = 1)
+```
+
+e. How would you see if the data support the `age --> C` and `education --> C` arrows? Describe, but don't actually perform this analysis.
+
+f. Fit an appropriate model for the probability of censoring, and call this `prob_cens_mod`. For simplicity, assume that a quadratic relationship for the quantitative variables gives a good fit. Make sure to wrap categorical variables inside `factor()` in your model formula.
+
+g. Add a new variable to your dataset called `weights_cens` that contains the IP weights for censoring. (Note that in R, the default for logistic regression is to model the probability of the outcome variable equaling 1.)
+
+h. Add a final weight variable to your dataset called `weight_TC`.
+
+
+
+
+
+## Part 2: Fitting MSMs
+
+Fit the following two MSMs ($A$ is `qsmk`, and for `sex`, 0 indicates males and 1 indicates females):
+
+$$ E[Y^{a, c=0}] = \beta_0 + \beta_1 a $$
+$$ E[Y^{a, c=0}] = \beta_0 + \beta_1 a + \beta_2\hbox{sex} + \beta_3 a\times\hbox{sex} $$
+
+Note: In our previous analysis where we worked with `nhefs_subs`, we had actually fit the following:
+
+$$ E[Y^{a} \mid C = 0] = \beta_0 + \beta_1 a $$
+$$ E[Y^{a} \mid C = 0] = \beta_0 + \beta_1 a + \beta_2\hbox{sex} + \beta_3 a\times\hbox{sex} $$
+
+Refit these models here using the relevant weights. How do your results compare?
+
+
+
+
+
+

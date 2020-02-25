@@ -20,18 +20,16 @@ A template Rmd is available [here](template_rmds/06-ipw-in-practice.Rmd).
 Our data come from the National Health and Nutrition Examination Survey Data I Epidemiologic Follow-up Study (NHEFS).
 
 ```{r}
+library(readr)
+library(dplyr)
+library(ggplot2)
+
 nhefs <- read_csv("https://cdn1.sph.harvard.edu/wp-content/uploads/sites/1268/1268/20/nhefs.csv")
 ```
 
 Download the codebook for the dataset [here](https://cdn1.sph.harvard.edu/wp-content/uploads/sites/1268/2012/10/NHEFS_Codebook.xls), and have it open for reference.
 
 > **Research goal:** What is the average causal effect of smoking cessation on weight gain at a follow-up visit about 10 years later?
-
-```{r}
-library(readr)
-library(dplyr)
-library(ggplot2)
-```
 
 **Part 1: Getting a feel for the data**
 
