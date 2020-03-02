@@ -19,5 +19,5 @@ Turn in required parts of the class exercises from Topic 5: [Estimating causal e
 
 ## In-class activities: IP weighting in practice {-}
 
-Turn in all class exercises from Topic 6: IP weighting in practice
+Turn in all class exercises from Topic 6: [IP weighting in practice]
 
