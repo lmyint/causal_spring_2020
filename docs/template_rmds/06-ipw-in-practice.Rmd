@@ -152,7 +152,7 @@ summary(msm_fit1)
 
 Adapt the above code to fit an effect modification MSM:
 
-$$ E[Y^a] = \beta_0 + \beta_1 \hbox{qsmk} + \beta_2 \hbox{sex} + \beta_1 \hbox{qsmk}\times \hbox{sex} $$
+$$ E[Y^a] = \beta_0 + \beta_1\,\hbox{qsmk} + \beta_2\,\hbox{sex} + \beta_3\,\hbox{qsmk}\times \hbox{sex} $$
 
 Interpret both the `qsmk` and interaction coefficients. Compute confidence intervals for those coefficients, and summarize your results.
 

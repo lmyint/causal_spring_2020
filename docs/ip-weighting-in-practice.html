@@ -166,11 +166,12 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
 </ul></li>
 <li class="chapter" data-level="6" data-path="ip-weighting-in-practice.html"><a href="ip-weighting-in-practice.html"><i class="fa fa-check"></i><b>6</b> IP weighting in practice</a><ul>
 <li class="chapter" data-level="" data-path="ip-weighting-in-practice.html"><a href="ip-weighting-in-practice.html#learning-goals-5"><i class="fa fa-check"></i>Learning Goals</a></li>
+<li class="chapter" data-level="" data-path="ip-weighting-in-practice.html"><a href="ip-weighting-in-practice.html#discussion-1"><i class="fa fa-check"></i>Discussion</a></li>
 <li class="chapter" data-level="" data-path="ip-weighting-in-practice.html"><a href="ip-weighting-in-practice.html#analysis"><i class="fa fa-check"></i>Analysis</a></li>
 </ul></li>
 <li class="chapter" data-level="7" data-path="ip-weighting-for-censoring.html"><a href="ip-weighting-for-censoring.html"><i class="fa fa-check"></i><b>7</b> IP weighting for censoring</a><ul>
 <li class="chapter" data-level="" data-path="ip-weighting-for-censoring.html"><a href="ip-weighting-for-censoring.html#learning-goals-6"><i class="fa fa-check"></i>Learning Goals</a></li>
-<li class="chapter" data-level="" data-path="ip-weighting-for-censoring.html"><a href="ip-weighting-for-censoring.html#discussion-1"><i class="fa fa-check"></i>Discussion</a></li>
+<li class="chapter" data-level="" data-path="ip-weighting-for-censoring.html"><a href="ip-weighting-for-censoring.html#discussion-2"><i class="fa fa-check"></i>Discussion</a></li>
 <li class="chapter" data-level="" data-path="ip-weighting-for-censoring.html"><a href="ip-weighting-for-censoring.html#exercises-1"><i class="fa fa-check"></i>Exercises</a><ul>
 <li class="chapter" data-level="" data-path="ip-weighting-for-censoring.html"><a href="ip-weighting-for-censoring.html#setup"><i class="fa fa-check"></i>Setup</a></li>
 <li class="chapter" data-level="" data-path="ip-weighting-for-censoring.html"><a href="ip-weighting-for-censoring.html#part-1-modeling-to-obtain-weights"><i class="fa fa-check"></i>Part 1: Modeling to obtain weights</a></li>
@@ -231,6 +232,95 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
 <li>Formulate generalized causal research questions using marginal structural models</li>
 <li>Interpret results from fitting MSMs</li>
 </ol>
+<p><br><br><br><br></p>
+</div>
+<div id="discussion-1" class="section level2 unnumbered">
+<h2>Discussion</h2>
+<p>Last time, we derived the following result:</p>
+<p>If treatment <span class="math inline">\(A\)</span> and outcome <span class="math inline">\(Y\)</span> are d-separated given <span class="math inline">\(Z\)</span> under the null, we can estimate desired “do” probabilities with a weighted average of the outcomes:</p>
+<p><span class="math display">\[ P(Y = 1 \mid \hbox{do}(A = a)) = \frac{\sum_i w_i y_i}{\sum_i w_i} \]</span></p>
+<p>where the weights <span class="math inline">\(w_i\)</span> are the inverse propensity scores:</p>
+<ul>
+<li><span class="math inline">\(w_i = 1/P(A = 1 \mid Z)\)</span> if <span class="math inline">\(a = 1\)</span></li>
+<li><span class="math inline">\(w_i = 1/P(A = 0 \mid Z)\)</span> if <span class="math inline">\(a = 0\)</span></li>
+</ul>
+<p>When <span class="math inline">\(Z\)</span> contains many variables, we need to <strong>model</strong> treatment as a function of the variables in <span class="math inline">\(Z\)</span> to obtain estimates of the propensity scores. Can use:</p>
+<ul>
+<li>Logistic regression</li>
+<li>Other techniques from Statistical Machine Learning</li>
+</ul>
+<p><br><br><br><br></p>
+<p>In particular, this weighted average</p>
+<p><span class="math display">\[ P(Y = 1 \mid \hbox{do}(A = a)) = \frac{\sum_i w_i y_i}{\sum_i w_i} \]</span></p>
+<p>is specific to the situation where <span class="math inline">\(Y\)</span> is a binary outcome variable, and we want to know <span class="math inline">\(P(Y = 1)\)</span> (which also happens to be equal to the expected value of <span class="math inline">\(Y\)</span>: <span class="math inline">\(E[Y] = P(Y = 1)\)</span>).</p>
+<p>Inverse probability weighting works more generally:</p>
+<ul>
+<li>Treatment <span class="math inline">\(A\)</span> does not have to be binary
+<ul>
+<li>A continuous treatment is generally difficult to work with</li>
+<li>Categorical treatments with 3+ categories are naturally handled with extensions of logistic regression (e.g., multinomial regression, other statistical machine learning methods)</li>
+</ul></li>
+<li>Outcome <span class="math inline">\(Y\)</span> does not have to be binary</li>
+</ul>
+<p><br><br><br><br></p>
+<p>Recall from our tree diagrams that inverse probability weighting (see our worksheet with solutions <a href="https://docs.google.com/presentation/d/1BEK75PKWGWSmL9FxDmKLevJwPOXFsl70LtHJAnXZAko/edit?usp=sharing">here</a>)</p>
+<ul>
+<li>upweights the treated to create a population where everyone had been treated</li>
+<li>upweights the untreated to create a population where everyone had been untreated</li>
+</ul>
+<p>In these two populations, we counted up the number of instances where <span class="math inline">\(Y=1\)</span> to obtain our “do” probabilities of interest.</p>
+<ul>
+<li>In essence, the IP weighting created these populations of all treated and all untreated.
+<ul>
+<li>Considered together, these two populations are called a <strong>pseudopopulation</strong> because everyone exists twice (as a treated and as an untreated individual).</li>
+</ul></li>
+<li>In this pseudopopulation, we essentially fit the simple logistic regression model:</li>
+</ul>
+<p><span class="math display">\[ \log\hbox{odds}(Y = 1) = \beta_0 + \beta_1 A \]</span></p>
+<ul>
+<li>So in summary: we fit a logistic regression model using inverse probability weights.
+<ul>
+<li>Each individual received the appropriate <span class="math inline">\(1/P(A=1\mid Z)\)</span> or <span class="math inline">\(1/P(A=0\mid Z)\)</span> weight.</li>
+<li>Normally with ordinary unweighted logistic regression, every individual receives a weight of 1. (They appear exactly once in the dataset.)</li>
+</ul></li>
+</ul>
+<p><br><br><br><br></p>
+<p>We can make this idea more general:</p>
+<ul>
+<li>The inverse probability weights effectively repeat certain individuals a number of times so that their data “represents” the other individuals who had received another value of the treatment variable.
+<ul>
+<li>The IP weights create the pseudopopulation where each individual receives every version of the treatment variable.</li>
+</ul></li>
+<li>We can fit any model we want (e.g., linear regression, logistic regression) in this pseudopopulation to relate the outcome to the treatment variable.
+<ul>
+<li>The process of fitting such a model (i.e., fitting a standard regression model supplemented with IP weights) is the process of fitting <strong>marginal structural models</strong></li>
+</ul></li>
+</ul>
+<p><br><br><br><br></p>
+<p>New notation:</p>
+<ul>
+<li>The <span class="math inline">\(Y\)</span> that results when we <span class="math inline">\(\hbox{do}(A=1)\)</span> can also be notated as <span class="math inline">\(Y^{a=1}\)</span>, called the <strong>potential outcome under treatment</strong>.</li>
+<li>The <span class="math inline">\(Y\)</span> that results when we <span class="math inline">\(\hbox{do}(A=0)\)</span> can also be notated as <span class="math inline">\(Y^{a=0}\)</span>, called the <strong>potential outcome under no treatment</strong>.</li>
+<li>In general the potential outcome when we <span class="math inline">\(\hbox{do}(A=a)\)</span> is denoted <span class="math inline">\(Y^a\)</span>.
+<ul>
+<li>In words, this potential outcome means: “the outcome that would result if we intervened to set <span class="math inline">\(A=a\)</span>”</li>
+</ul></li>
+</ul>
+<p>A <strong>marginal structural model (MSM)</strong> is a model that relates <em>potential outcomes</em> <span class="math inline">\(Y^a\)</span> to the treatment variable (as opposed to the naturally observed outcomes <span class="math inline">\(Y\)</span>):</p>
+<ul>
+<li>A linear regression MSM for continuous/quantitative outcomes <span class="math inline">\(Y\)</span>:</li>
+</ul>
+<p><span class="math display">\[ E[Y^a] = \beta_0 + \beta_1 a \]</span></p>
+<ul>
+<li>A logistic regression MSM for binary outcomes <span class="math inline">\(Y\)</span>:</li>
+</ul>
+<p><span class="math display">\[ \log\left( \frac{P(Y^a = 1)}{1-P(Y^a = 1)} \right) = \beta_0 + \beta_1 a \]</span></p>
+<p><br><br></p>
+<p>Where does the name “marginal structural model” come from?</p>
+<ul>
+<li>Marginal: refers to the fact that the marginal mean (as opposed to a conditional mean, which is a mean in a subgroup) is being modeled (much like how it’s used in “marginally dependent/independent”)</li>
+<li>Structural: In general models in causal inference that describe potential outcomes are referred to as “structural” to indicate a describing of relationships beyond only associations</li>
+</ul>
 <p><br><br><br><br></p>
 </div>
 <div id="analysis" class="section level2 unnumbered">
@@ -338,7 +428,7 @@ msm_fit1 &lt;-<span class="st"> </span><span class="kw">geeglm</span>(
 <li>Summarize your results from this analysis.</li>
 </ul>
 <p>Adapt the above code to fit an effect modification MSM:</p>
-<p><span class="math display">\[ E[Y^a] = \beta_0 + \beta_1 \hbox{qsmk} + \beta_2 \hbox{sex} + \beta_1 \hbox{qsmk}\times \hbox{sex} \]</span></p>
+<p><span class="math display">\[ E[Y^a] = \beta_0 + \beta_1\,\hbox{qsmk} + \beta_2\,\hbox{sex} + \beta_3\,\hbox{qsmk}\times \hbox{sex} \]</span></p>
 <p>Interpret both the <code>qsmk</code> and interaction coefficients. Compute confidence intervals for those coefficients, and summarize your results.</p>
 
 </div>

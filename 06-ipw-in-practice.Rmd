@@ -13,6 +13,96 @@ knitr::opts_chunk$set(echo=TRUE, eval=FALSE)
 <br><br><br><br>
 
 
+## Discussion {-}
+
+Last time, we derived the following result:
+
+If treatment $A$ and outcome $Y$ are d-separated given $Z$ under the null, we can estimate desired "do" probabilities with a weighted average of the outcomes:
+
+$$ P(Y = 1 \mid \hbox{do}(A = a)) = \frac{\sum_i w_i y_i}{\sum_i w_i} $$
+
+where the weights $w_i$ are the inverse propensity scores:
+
+- $w_i = 1/P(A = 1 \mid Z)$ if $a = 1$
+- $w_i = 1/P(A = 0 \mid Z)$ if $a = 0$
+
+When $Z$ contains many variables, we need to **model** treatment as a function of the variables in $Z$ to obtain estimates of the propensity scores. Can use:
+
+- Logistic regression
+- Other techniques from Statistical Machine Learning
+
+<br><br><br><br>
+
+In particular, this weighted average
+
+$$ P(Y = 1 \mid \hbox{do}(A = a)) = \frac{\sum_i w_i y_i}{\sum_i w_i} $$
+
+is specific to the situation where $Y$ is a binary outcome variable, and we want to know $P(Y = 1)$ (which also happens to be equal to the expected value of $Y$: $E[Y] = P(Y = 1)$).
+
+Inverse probability weighting works more generally:
+
+- Treatment $A$ does not have to be binary
+    - A continuous treatment is generally difficult to work with
+    - Categorical treatments with 3+ categories are naturally handled with extensions of logistic regression (e.g., multinomial regression, other statistical machine learning methods)
+- Outcome $Y$ does not have to be binary
+
+<br><br><br><br>
+
+Recall from our tree diagrams that inverse probability weighting (see our worksheet with solutions [here](https://docs.google.com/presentation/d/1BEK75PKWGWSmL9FxDmKLevJwPOXFsl70LtHJAnXZAko/edit?usp=sharing))
+
+- upweights the treated to create a population where everyone had been treated
+- upweights the untreated to create a population where everyone had been untreated
+
+In these two populations, we counted up the number of instances where $Y=1$ to obtain our "do" probabilities of interest.
+
+- In essence, the IP weighting created these populations of all treated and all untreated.
+    - Considered together, these two populations are called a **pseudopopulation** because everyone exists twice (as a treated and as an untreated individual).
+- In this pseudopopulation, we essentially fit the simple logistic regression model:
+
+$$ \log\hbox{odds}(Y = 1) = \beta_0 + \beta_1 A $$
+
+- So in summary: we fit a logistic regression model using inverse probability weights.
+    - Each individual received the appropriate $1/P(A=1\mid Z)$ or $1/P(A=0\mid Z)$ weight.
+    - Normally with ordinary unweighted logistic regression, every individual receives a weight of 1. (They appear exactly once in the dataset.)
+
+<br><br><br><br>
+
+We can make this idea more general:
+
+- The inverse probability weights effectively repeat certain individuals a number of times so that their data "represents" the other individuals who had received another value of the treatment variable.
+    - The IP weights create the pseudopopulation where each individual receives every version of the treatment variable.
+- We can fit any model we want (e.g., linear regression, logistic regression) in this pseudopopulation to relate the outcome to the treatment variable.
+    - The process of fitting such a model (i.e., fitting a standard regression model supplemented with IP weights) is the process of fitting **marginal structural models**
+
+<br><br><br><br>
+
+New notation:
+
+- The $Y$ that results when we $\hbox{do}(A=1)$ can also be notated as $Y^{a=1}$, called the **potential outcome under treatment**.
+- The $Y$ that results when we $\hbox{do}(A=0)$ can also be notated as $Y^{a=0}$, called the **potential outcome under no treatment**.
+- In general the potential outcome when we $\hbox{do}(A=a)$ is denoted $Y^a$.
+    - In words, this potential outcome means: "the outcome that would result if we intervened to set $A=a$"
+
+A **marginal structural model (MSM)** is a model that relates *potential outcomes* $Y^a$ to the treatment variable (as opposed to the naturally observed outcomes $Y$):
+
+- A linear regression MSM for continuous/quantitative outcomes $Y$:
+
+$$ E[Y^a] = \beta_0 + \beta_1 a $$
+
+- A logistic regression MSM for binary outcomes $Y$:
+
+$$ \log\left( \frac{P(Y^a = 1)}{1-P(Y^a = 1)} \right) = \beta_0 + \beta_1 a $$
+
+<br><br>
+
+Where does the name "marginal structural model" come from?
+
+- Marginal: refers to the fact that the marginal mean (as opposed to a conditional mean, which is a mean in a subgroup) is being modeled (much like how it's used in "marginally dependent/independent")
+- Structural: In general models in causal inference that describe potential outcomes are referred to as "structural" to indicate a describing of relationships beyond only associations
+
+
+<br><br><br><br>
+
 ## Analysis {-}
 
 A template Rmd is available [here](template_rmds/06-ipw-in-practice.Rmd).
@@ -160,7 +250,7 @@ summary(msm_fit1)
 
 Adapt the above code to fit an effect modification MSM:
 
-$$ E[Y^a] = \beta_0 + \beta_1 \hbox{qsmk} + \beta_2 \hbox{sex} + \beta_1 \hbox{qsmk}\times \hbox{sex} $$
+$$ E[Y^a] = \beta_0 + \beta_1\,\hbox{qsmk} + \beta_2\,\hbox{sex} + \beta_3\,\hbox{qsmk}\times \hbox{sex} $$
 
 Interpret both the `qsmk` and interaction coefficients. Compute confidence intervals for those coefficients, and summarize your results.
 
