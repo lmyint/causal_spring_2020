@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Homework 1 | STAT 394: Causal Inference</title>
+  <title>Topic 8 Causal Discovery (Part 1) | STAT 394: Causal Inference</title>
   <meta name="description" content="This is the class website for Causal Inference at Macalester College." />
   <meta name="generator" content="bookdown 0.14 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Homework 1 | STAT 394: Causal Inference" />
+  <meta property="og:title" content="Topic 8 Causal Discovery (Part 1) | STAT 394: Causal Inference" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="lmyint/causal_spring_2020" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Homework 1 | STAT 394: Causal Inference" />
+  <meta name="twitter:title" content="Topic 8 Causal Discovery (Part 1) | STAT 394: Causal Inference" />
   
   <meta name="twitter:description" content="This is the class website for Causal Inference at Macalester College." />
   
@@ -29,8 +29,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="causal-discovery-part-1.html"/>
-<link rel="next" href="homework-2.html"/>
+<link rel="prev" href="ip-weighting-for-censoring.html"/>
+<link rel="next" href="homework-1.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -232,124 +232,63 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="homework-1" class="section level1 unnumbered">
-<h1>Homework 1</h1>
-<center>
-<strong>Due Thursday, February 13 in class</strong>
-</center>
-<div id="conceptual-exercises-1" class="section level2 unnumbered">
-<h2>Conceptual Exercises</h2>
-<p>These exercises can be turned in on paper in class.</p>
-<div id="exercise-1-3" class="section level3 unnumbered">
-<h3>Exercise 1</h3>
-<p>We have looked at 3 DAG structures (chains, forks, and colliders) and claimed that they are the building blocks of all DAGs. Is this true? We will verify this premise in this exercise.</p>
-<p>Let’s start by considering all possible directed (not necessarily acyclic) graphs with 3 variables. (Three is the smallest number of nodes where any interesting structures can arise.) There are 27 of these graphs.</p>
-<ol style="list-style-type: lower-alpha">
-<li><p>Draw all of these graphs with the aid of the <code>expand.grid()</code> function in R. First, look up the documentation for this function. Second, run the command below to get a sense for how the function can help you. For this part, display the 27 graphs, and provide a brief explanation of how <code>expand.grid()</code> helped.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">expand.grid</span>(
-    <span class="dt">X_to_Y =</span> <span class="kw">c</span>(<span class="st">&quot;-&gt;&quot;</span>, <span class="st">&quot;&lt;-&quot;</span>, <span class="st">&quot;absent&quot;</span>),
-    <span class="dt">Y_to_Z =</span> <span class="kw">c</span>(<span class="st">&quot;-&gt;&quot;</span>, <span class="st">&quot;&lt;-&quot;</span>, <span class="st">&quot;absent&quot;</span>),
-    <span class="dt">X_to_Z =</span> <span class="kw">c</span>(<span class="st">&quot;-&gt;&quot;</span>, <span class="st">&quot;&lt;-&quot;</span>, <span class="st">&quot;absent&quot;</span>)
-)</code></pre></div></li>
-<li>From your list of graphs, indicate which graphs can be eliminated because they are cyclic.</li>
-<li>From your list of graphs, indicate which graphs can be eliminated because they are useless causal models.</li>
-<li>In your list of graphs, some graphs are essentially the same. Group these together, and draw one representative graph from each group.</li>
-<li><p>Briefly form a conclusion based on these investigations.</p></li>
+<div id="causal-discovery-part-1" class="section level1">
+<h1><span class="header-section-number">Topic 8</span> Causal Discovery (Part 1)</h1>
+<div id="learning-goals-7" class="section level2 unnumbered">
+<h2>Learning Goals</h2>
+<ol style="list-style-type: decimal">
+<li>Understand when causal discovery might be useful</li>
+<li>Understand the ideas underlying causal discovery algorithms</li>
 </ol>
-<p><br></p>
+<p><br><br></p>
 </div>
-<div id="exercise-2-3" class="section level3 unnumbered">
+<div id="discussion-3" class="section level2 unnumbered">
+<h2>Discussion</h2>
+<p>Slides are available <a href="https://docs.google.com/presentation/d/1ckMGQ9YbjrUM5JCZ7EdNLrVfpS9pLYV0JUYMo9P0-xU/edit?usp=sharing">here</a>.</p>
+<p><br><br></p>
+</div>
+<div id="exercises-2" class="section level2 unnumbered">
+<h2>Exercises</h2>
+<div id="exercise-1-2" class="section level3 unnumbered">
+<h3>Exercise 1</h3>
+<p>The SGS algorithm will find the correct equivalence class of graphs but is quite slow. We’ll build up the ideas underlying a faster algorithm, the PC algorithm (stands for Peter-Clark).</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>Consider the testing of whether or not two variables are conditionally independent. How would you expect the computing time of this test to change as the variable set being conditioned on increases? Explain.</p></li>
+<li>Recall the edge deletion step of SGS: For every pair of variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> and all other sets <span class="math inline">\(Z\)</span> of other variables, check if we can make <span class="math inline">\(X \perp \!\!\! \perp Y \mid Z\)</span>. If so, remove the edge between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>.
+<ul>
+<li>What strategies might we employ to make this step faster?</li>
+<li>What might be a better order in which to</li>
+</ul></li>
+<li><p>What statistical advantages are linked to the better order you decided on in (b)? Think in terms of statistical power.</p></li>
+</ol>
+<p><br><br></p>
+</div>
+<div id="exercise-2-2" class="section level3 unnumbered">
 <h3>Exercise 2</h3>
-<p>PRIMER, Study question 2.3.1: Parts (c), (e), and (f). For parts (e) and (f), explain your thinking.</p>
-<p><br></p>
-</div>
-<div id="exercise-3-2" class="section level3 unnumbered">
-<h3>Exercise 3</h3>
-<p>PRIMER, Study question 2.4.1: Parts (a), (b), and (c). For part (b), only d-separate pairs of non-adjacent <strong>measured</strong> variables.</p>
-<p><br><br><br></p>
-</div>
-</div>
-<div id="simulation-exercises" class="section level2 unnumbered">
-<h2>Simulation Exercises</h2>
-<p>On Moodle, turn these exercises in by submitting both your Rmd file and the knitted HTML.</p>
-<p>For these exercises, ensure that your plots are well-labeled. Add the following to the ends of your plots to label your plots accurately:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;x axis label&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;y axis label&quot;</span>, <span class="dt">title =</span> <span class="st">&quot;overall plot title&quot;</span>)</code></pre></div>
-<p>A refresher on <code>facet_grid()</code> that may be useful:</p>
+<p>It’ll be handy to have the <a href="http://www.phil.cmu.edu/tetrad/revised%20Tetrad%20Manual-JUNE-2017.pdf">TETRAD manual</a> open.</p>
+<p><strong>Phase 1:</strong> Simulate data for a chain X -&gt; Y -&gt; Z and for a collider X -&gt; Y &lt;- Z. For each, write the data to a CSV file using the following. (Assuming that you will save this data in a folder called <code>tetrad</code>.)</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">write.csv</span>(sim_data, <span class="dt">file =</span> <span class="st">&quot;tetrad/chain_binary.csv&quot;</span>)
+<span class="kw">write.csv</span>(sim_data, <span class="dt">file =</span> <span class="st">&quot;tetrad/collider_binary.csv&quot;</span>)</code></pre></div>
+<p><strong>Phase 2:</strong> Exploration of TETRAD functionality as a class.</p>
+<p><strong>Phase 3:</strong> In groups, explore select aspects of the parameters window:</p>
 <ul>
-<li><p>To form panels across columns by variable Y:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="op">+</span><span class="st"> </span><span class="kw">facet_grid</span>(<span class="op">~</span><span class="st"> </span>Y)</code></pre></div></li>
-<li><p>To form a grid of panels where rows correspond to X and columns to Y:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="op">+</span><span class="st"> </span><span class="kw">facet_grid</span>(X <span class="op">~</span><span class="st"> </span>Y)</code></pre></div></li>
-<li><p>To form a grid of panels where rows correspond to X and columns to Y <em>and</em> Z:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="op">+</span><span class="st"> </span><span class="kw">facet_grid</span>(X <span class="op">~</span><span class="st"> </span>Y<span class="op">+</span>Z)</code></pre></div></li>
-<li><p>In case you’re curious about how to change the labeling of facet titles, see <a href="https://ggplot2.tidyverse.org/reference/labellers.html">here</a>.</p></li>
+<li>Collider discovery: experiment with options 2 (CPC, the default) and 3 (Max-P)</li>
+<li>Cutoff for p-values</li>
 </ul>
-<p>(Optional) You may or may not find it helpful/enjoyable to use the <code>gridExtra</code> package for arranging your plots. Example use case:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(gridExtra)
-p1 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(...) <span class="co"># Plot 1</span>
-p2 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(...) <span class="co"># Plot 2</span>
-p3 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(...) <span class="co"># Plot 3</span>
-p4 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(...) <span class="co"># Plot 4</span>
-
-<span class="co"># To arrange the 4 plots in a 2x2 grid:</span>
-<span class="kw">grid.arrange</span>(p1, p2, p3, p4, <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">nrow =</span> <span class="dv">2</span>)</code></pre></div>
-<p>If you look at your knitted HTML and think that your plots are too small, you can change the beginning of your code chunks to the following (playing with the numbers as needed):</p>
-<p><code>```{r fig.width=12, fig.height=5}</code></p>
-<div id="exercise-4-1" class="section level3 unnumbered">
-<h3>Exercise 4</h3>
-<p>Simulate data for a chain <code>X -&gt; Y -&gt; Z</code> where all variables are binary. Make plots to show the following properties:</p>
-<ul>
-<li><code>X</code> and <code>Z</code> are marginally dependent</li>
-<li><code>X</code> and <code>Z</code> are conditionally independent given <code>Y</code></li>
-</ul>
-<p>Clearly explain how the plots show the dependence or independence.</p>
-<p>When you use <code>dplyr::case_when()</code> to generate probabilities that depend on another single variable, will any set of numbers work? Explain. Give an example of a set of numbers that would not generate the desired results.</p>
-<p><br></p>
-</div>
-<div id="exercise-5-1" class="section level3 unnumbered">
-<h3>Exercise 5</h3>
-<p>Simulate data for a fork <code>Y &lt;- X -&gt; Z</code> where all variables are binary. Make plots to show the following properties:</p>
-<ul>
-<li><code>Y</code> and <code>Z</code> are marginally dependent</li>
-<li><code>Y</code> and <code>Z</code> are conditionally independent given X</li>
-</ul>
-<p><br></p>
-</div>
-<div id="exercise-6" class="section level3 unnumbered">
-<h3>Exercise 6</h3>
-<p>Simulate data for a collider <code>X -&gt; Z &lt;- Y</code> where all variables are binary. Make plots to show the following properties:</p>
-<ul>
-<li><code>X</code> and <code>Y</code> are marginally independent</li>
-<li><code>X</code> and <code>Y</code> are conditionally dependent given <code>Z</code></li>
-</ul>
-<p>When you use <code>dplyr::case_when()</code> to generate probabilities that depend on two variables, will any set of numbers work? Explain. Give an example of a set of numbers that would not generate the desired results.</p>
-<p><br></p>
-</div>
-<div id="exercise-7" class="section level3 unnumbered">
-<h3>Exercise 7</h3>
-<p>Simulate data corresponding to the causal diagram in Figure 2.8 of PRIMER. Ignore the <code>U</code> variables (error terms) in the diagram, and treat all variables (<code>T</code>, <code>Z</code>, <code>W</code>, <code>X</code>, <code>Y</code>, and <code>U</code>) as binary. Make plots to show the following properties, and explain why they hold using the rules of d-separation:</p>
-<ul>
-<li><code>Z</code> and <code>Y</code> are marginally dependent</li>
-<li><code>Z</code> and <code>Y</code> are conditionally independent given <code>T</code></li>
-<li><code>Z</code> and <code>Y</code> are conditionally dependent given <code>T</code> and <code>W</code></li>
-<li><code>Z</code> and <code>Y</code> are conditionally independent given <code>T</code>, <code>W</code>, and <code>X</code></li>
-</ul>
-<p><br><br><br></p>
-</div>
-</div>
-<div id="portfolio" class="section level2 unnumbered">
-<h2>Portfolio</h2>
-<p>Work on a draft post for required topic #1 (the birth weight paradox).</p>
 
 </div>
 </div>
+</div>
+
+
+
             </section>
 
           </div>
         </div>
       </div>
-<a href="causal-discovery-part-1.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="homework-2.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="ip-weighting-for-censoring.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="homework-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

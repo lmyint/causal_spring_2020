@@ -29,7 +29,7 @@ $$ E[Y^a] = \beta_0 + \beta_1 a $$
 
 - Depends on research goals, but yes, sometimes ACE is of interest.
     - Is it a nationwide policy? If so, then enacting the policy means "treating" everyone and not enacting means treating no one.
-- May care about the ACE within subgroups. We've seen this with effect modfication MSMs:
+- May care about the ACE within subgroups. We've seen this with effect modification MSMs:
 
 $$ E[Y^a] = \beta_0 + \beta_1 a + \beta_2 M + \beta_3 a\times M $$
 
