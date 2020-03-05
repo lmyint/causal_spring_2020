@@ -1,0 +1,120 @@
+```{r 08_setup, include=FALSE}
+knitr::opts_chunk$set(echo=TRUE, eval=FALSE)
+```
+
+# (PART) Causal Discovery {-}
+
+# Causal Discovery
+
+## Learning Goals {-}
+
+1. Understand when causal discovery might be useful
+2. Understand the ideas underlying causal discovery algorithms
+3. Predict how algorithm output is affected by tuning parameters
+4. Extend core ideas of discovery algorithms to new situations
+
+<br><br>
+
+## Discussion {-}
+
+Slides are available [here](https://docs.google.com/presentation/d/1ckMGQ9YbjrUM5JCZ7EdNLrVfpS9pLYV0JUYMo9P0-xU/edit?usp=sharing).
+
+<br><br>
+
+## Exercises {-}
+
+### Exercise 1 {-}
+
+The SGS algorithm will find the correct equivalence class of graphs but is quite slow. We'll build up the ideas underlying a faster algorithm, the PC algorithm (stands for Peter-Clark).
+
+a. Consider the testing of whether or not two variables are conditionally independent. How would you expect the computing time of this test to change as the variable set being conditioned on increases? Explain.
+
+b. Recall the edge deletion step of SGS: For every pair of variables $X$ and $Y$ and all other sets $Z$ of other variables, check if we can make $X \perp \!\!\! \perp Y \mid Z$. If so, remove the edge between $X$ and $Y$.    
+    - What strategies might we employ to make this step faster?
+    - What might be a better order in which to test these sets $Z$?
+
+c. What statistical advantages are linked to the better order you decided on in (b)? Think in terms of statistical power.
+
+<br><br>
+
+### Exercise 2 {-}
+
+It'll be handy to have the [TETRAD manual](https://cmu-phil.github.io/tetrad/manual/) open.
+
+**Phase 1:** Simulate data for a chain X -> Y -> Z and for a collider X -> Y <- Z. For each, write the data to a CSV file using the following. (Assuming that you will save this data in a folder called `tetrad`.)
+
+```{r}
+write.csv(sim_data, file = "tetrad/chain_binary.csv")
+write.csv(sim_data, file = "tetrad/collider_binary.csv")
+```
+
+**Phase 2:** Exploration of TETRAD functionality as a class.
+
+**Phase 3:** In groups, explore select aspects of the parameters window:
+
+- Collider discovery: experiment with options 2 (CPC, the default) and 3 (Max-P)
+- Cutoff for p-values
+
+<br><br>
+
+### Exercise 3 {-}
+
+There are two genes (Gene A and Gene B) that produce Protein X. Gene A is the primary producer. Whenever Gene A is functional, Gene B is inactive and produces nothing. However, if Gene A loses function, Gene B becomes active and produces Protein X in Gene A's place in exactly the same amounts.
+
+a. Draw the DAG implied by this expert knowledge.
+
+b. We can view Gene A as a binary variable with values "functional" and "non-functional". Will Gene A and Protein X be marginally independent or marginally dependent in the data?
+
+c. Discuss your answers to (a) and (b) in the context of a relevant concept.
+
+<br><br>
+
+### Exercise 4 {-}
+
+In this exercise, we'll think about the conditional independence test and the role of the p-value cutoff parameter.
+
+a. In what phase(s) of causal discovery algorithms do we need to test for conditional (in)dependence?
+
+b. These conditional independence tests need to test statements of the form: $X \perp \!\!\! \perp Y \mid Z$. Describe how regression models could test this. Make sure to clearly describe the null hypothesis.
+
+c. As the p-value cutoff is lowered to 0, what would you expect to happen to the graph pattern learned by causal discovery algorithms? As the p-value cutoff is increased to 1?
+
+<br><br>
+
+### Exercise 5 {-}
+
+The algorithms we've discussed so far are called **constraint-based methods** because they test conditional independence constraints. Another class of methods are called **score-based methods**.
+
+Read over a description of the Greedy Equivalence Search algorithm [here](https://rdrr.io/cran/pcalg/man/ges.html), and provide a high-level overview of how the algorithm works in your own words.
+
+<br><br>
+
+### Exercise 6 {-}
+
+Consider data that truly come from a chain `X -> Y -> Z`. Step through the full causal discovery algorithm and report the output that it would give.
+
+Suppose you could give background knowledge on just one edge that is required to be present. (Perhaps you have temporal information on those variables.) What edge would allow the entire structure to be learned?
+
+<br><br>
+
+### Exercise 7 {-}
+
+Consider data that truly come from a fork `X <- Y -> Z`. What output would a causal discovery algorithm give?
+
+What type of background information could be given to help uncover the true structure? A required edge? Temporal information?
+
+<br><br>
+
+### Exercise 8 {-}
+
+The PC algorithm assumes that the set of observed variables is the complete set present in the graph. That is, it assumes no unmeasured (latent) variables.
+
+How could we modify the PC algorithm to account for latent variables?
+
+
+
+
+
+
+
+

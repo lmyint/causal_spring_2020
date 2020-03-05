@@ -55,4 +55,31 @@
         - What is a marginal structural model, and how are they fit? What parameters of these models are of interest?
         - How is IP weighting used in dealing with censoring (loss-to-follow up / selection bias)?
 
+### Week 6 {-}
+
+- Tuesday, February 25    
+    IP weighting to account for selection bias
+- Thursday, February 27    
+    No class - Capstone Days!
+
+
+### Week 7 {-}
+
+- Tuesday, March 3    
+    Causal discovery
+- Thursday, March 5    
+    Causal discovery
+
+
+### Week 8 {-}
+
+- Tuesday, March 3    
+    Sensitivity analyses for unmeasured confounding
+- Thursday, March 5    
+    Project work day
+
+
+
+
+
 
