@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Schedule | STAT 394: Causal Inference</title>
+  <title>Topic 9 Sensitivity Analyses for Unmeasured Confounding | STAT 394: Causal Inference</title>
   <meta name="description" content="This is the class website for Causal Inference at Macalester College." />
   <meta name="generator" content="bookdown 0.17 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Schedule | STAT 394: Causal Inference" />
+  <meta property="og:title" content="Topic 9 Sensitivity Analyses for Unmeasured Confounding | STAT 394: Causal Inference" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="lmyint/causal_spring_2020" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Schedule | STAT 394: Causal Inference" />
+  <meta name="twitter:title" content="Topic 9 Sensitivity Analyses for Unmeasured Confounding | STAT 394: Causal Inference" />
   
   <meta name="twitter:description" content="This is the class website for Causal Inference at Macalester College." />
   
@@ -29,8 +29,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="references.html"/>
-<link rel="next" href="introductions-review-and-motivation.html"/>
+<link rel="prev" href="causal-discovery.html"/>
+<link rel="next" href="homework-1.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -246,109 +246,81 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="schedule" class="section level1 unnumbered">
-<h1>Schedule</h1>
-<div id="week-1" class="section level3 unnumbered">
-<h3>Week 1</h3>
-<ul>
-<li>Thursday, January 23<br />
-Introductions, review of key ideas from STAT 155, why we need causal stories (graphs!)<br />
-Slides from class are available <a href="https://docs.google.com/presentation/d/1SNGxtjUwv4T-hDY7fgamMCF0I5-WpzOv6G1jRzw3QhA/edit?usp=sharing">here</a>.
-<ul>
-<li><strong>After class:</strong><br />
-Recommended reading: PRIMER, Chapter 1: Sections 1.1, 1.2<br />
-Required reading: PRIMER, Chapter 1: 1.4, 1.5.1</li>
-</ul></li>
-</ul>
+<div id="sensitivity-analyses-for-unmeasured-confounding" class="section level1">
+<h1><span class="header-section-number">Topic 9</span> Sensitivity Analyses for Unmeasured Confounding</h1>
+<div id="learning-goals-8" class="section level2 unnumbered">
+<h2>Learning Goals</h2>
+<ol style="list-style-type: decimal">
+<li>Understand the role of sensitivity analyses in sound scientific practice</li>
+<li>Implement and interpret the results of sensitivity analyses</li>
+</ol>
+<p><br><br></p>
 </div>
-<div id="week-2" class="section level3 unnumbered">
-<h3>Week 2</h3>
+<div id="exercises-3" class="section level2 unnumbered">
+<h2>Exercises</h2>
+<p>A template Rmd is available <a href="template_rmds/09-sensitivity.Rmd">here</a>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)
+<span class="kw">library</span>(dplyr)
+<span class="kw">library</span>(geepack)</code></pre></div>
+<p>Given the code below, what is the underlying DAG?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">302</span>)
+n &lt;-<span class="st"> </span><span class="dv">5000</span>
+Z &lt;-<span class="st"> </span><span class="kw">rbinom</span>(n, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> <span class="fl">0.5</span>)
+p_X &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">case_when</span>(
+    Z<span class="op">==</span><span class="dv">1</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.6</span>,
+    Z<span class="op">==</span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.2</span>
+)
+X &lt;-<span class="st"> </span><span class="kw">rbinom</span>(n, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> p_X)
+Y &lt;-<span class="st"> </span><span class="fl">0.1</span><span class="op">*</span>X <span class="op">+</span><span class="st"> </span><span class="fl">0.3</span><span class="op">*</span>Z <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(n)
+
+sim_data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(X, Y, Z)
+
+<span class="co"># Create a subject ID variable</span>
+sim_data<span class="op">$</span>subj_id &lt;-<span class="st"> </span><span class="kw">seq_len</span>(n)</code></pre></div>
+<p>First <em>outline</em> the process for fitting a marginal structural model to estimate the average causal effect. Then write the relevant code. You will need to use <code>subj_id</code> as the <code>id</code> variable.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Original MSM fit</span></code></pre></div>
+<p>Here we begin our sensitivity analysis. We’ll create a binary unmeasured variable <span class="math inline">\(U\)</span> that has varying degrees of association with both <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>.</p>
 <ul>
-<li>Thursday, January 30<br />
-The mathematics (probability) of graphs
-<ul>
-<li><strong>Before class:</strong><br />
-Please watch the following two videos and/or read the corresponding sections of PRIMER. Answer the Moodle questions before class.<br />
-Video 1: <a href="https://youtu.be/acofPsJDq5Y">Essentials of Probability</a>, (<a href="https://drive.google.com/file/d/1D8abGhrW99kbrlrMeLi3yogfpXwMmBc7/view?usp=sharing">slides</a>)<br />
-Video 2: <a href="https://youtu.be/Mh4G4QgrzYs">Key Structure in DAGs</a>, (<a href="https://drive.google.com/file/d/1F2hHqMOzyABQ7RH7owUdutWGrsdCR1qu/view?usp=sharing">slides</a>)<br />
-Reading: PRIMER, Chapter 1: Sections 1.3.1 to 1.3.5, Chapter 2: Sections 2.1 to 2.3</li>
-</ul></li>
+<li>Add extra comments throughout the code to better document this implementation of a sensitivity analysis.</li>
+<li>Complete the sensitivity analysis by completing the <code>TASK</code> referred to within the for-loop.</li>
 </ul>
-</div>
-<div id="week-3" class="section level3 unnumbered">
-<h3>Week 3</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Create a vector of possible associations that U has with X and Y</span>
+U_assocs &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="fl">0.05</span>,<span class="dv">2</span>,<span class="fl">0.1</span>)
+
+<span class="co"># Create empty storage containers to store the new ACEs and CI bounds</span>
+new_aces &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">0</span>, <span class="kw">length</span>(U_assocs))
+new_ci_upper &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">0</span>, <span class="kw">length</span>(U_assocs))
+new_ci_lower &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">0</span>, <span class="kw">length</span>(U_assocs))
+
+<span class="co"># Loop over possible values of the association</span>
+<span class="cf">for</span> (i <span class="cf">in</span> <span class="kw">seq_along</span>(U_assocs)) {
+    U_assoc &lt;-<span class="st"> </span>U_assocs[i]
+    log_odds_U &lt;-<span class="st"> </span>U_assoc<span class="op">*</span>sim_data<span class="op">$</span>Y <span class="op">+</span><span class="st"> </span>U_assoc<span class="op">*</span>sim_data<span class="op">$</span>X
+    p_U &lt;-<span class="st"> </span><span class="kw">exp</span>(log_odds_U)<span class="op">/</span>(<span class="dv">1</span><span class="op">+</span><span class="kw">exp</span>(log_odds_U))
+    U &lt;-<span class="st"> </span><span class="kw">rbinom</span>(n, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> p_U)
+    sim_data<span class="op">$</span>U &lt;-<span class="st"> </span>U
+
+    <span class="co"># </span><span class="al">TASK</span><span class="co">: Fit the new MSM that accounts for U</span>
+    new_msm_fit &lt;-<span class="st"> </span>???
+
+    <span class="co"># Store relevant values</span>
+    new_aces[i] &lt;-<span class="st"> </span><span class="kw">summary</span>(new_msm_fit)<span class="op">$</span>coefficients[<span class="st">&quot;X&quot;</span>, <span class="st">&quot;Estimate&quot;</span>]
+    se &lt;-<span class="st"> </span><span class="kw">summary</span>(new_msm_fit)<span class="op">$</span>coefficients[<span class="st">&quot;X&quot;</span>, <span class="st">&quot;Std.err&quot;</span>]
+    new_ci_upper[i] &lt;-<span class="st"> </span>new_aces[i]<span class="op">+</span>(<span class="kw">qnorm</span>(<span class="fl">0.975</span>)<span class="op">*</span>se)
+    new_ci_lower[i] &lt;-<span class="st"> </span>new_aces[i]<span class="op">-</span>(<span class="kw">qnorm</span>(<span class="fl">0.975</span>)<span class="op">*</span>se)
+}</code></pre></div>
+<p>Below we plot the results of this sensitivity analysis. The black line shows the different ACEs, and the ribbon shows the corresponding 95% confidence interval. The red line shows the original ACE estimate.</p>
 <ul>
-<li>Tuesday, February 4<br />
-d-separation and its applications for understanding bias
-<ul>
-<li><strong>Before class:</strong><br />
-Reading: PRIMER, Chapter 2: Section 2.4. There is one associated Moodle question for this reading.<br />
-Please also read the article <em>The Birth Weight “Paradox” Uncovered?</em> available in the Readings section on Moodle. We will discuss in class on Tuesday.</li>
-</ul></li>
-<li>Tuesday, February 4<br />
-d-separation and its applications for understanding bias (continued)<br />
-No new reading. Work on <a href="homework-1.html#homework-1">Homework 1</a>, due Thursday, February 13 in class.</li>
+<li>What information can be gained from this plot?</li>
+<li>What is the smallest magnitude of association with <span class="math inline">\(U\)</span> that leads to qualitatively different conclusions?</li>
+<li>Look back to where we simulated <span class="math inline">\(Y\)</span>. How could we change this so that the smallest magnitude referred to in the previous question is bigger?</li>
 </ul>
-</div>
-<div id="week-4" class="section level3 unnumbered">
-<h3>Week 4</h3>
-<ul>
-<li>Tuesday, February 11<br />
-The do-operator and estimating causal effects
-<ul>
-<li><strong>Before class:</strong><br />
-Required reading: PRIMER, Chapter 1: 1.3.6 and 1.3.7, Chapter 3: Sections 3.1 through 3.3 (skip 3.2.2 on Multiple Interventions). Answer the Moodle questions (under “The do-operator and estimating causal effects”) before class.</li>
-</ul></li>
-<li>Thursday, February 13<br />
-The do-operator and estimating causal effects (continued)</li>
-</ul>
-</div>
-<div id="week-5" class="section level3 unnumbered">
-<h3>Week 5</h3>
-<ul>
-<li>Tuesday, February 18<br />
-The do-operator and estimating causal effects (continued)</li>
-<li>Thursday, February 20<br />
-Inverse probability weighting and structural models
-<ul>
-<li><strong>Before class:</strong><br />
-Required reading: WHATIF Sections 1.1 to 1.3 (Chapter 1: A definition of causal effect) and Chapter 12: IP weighting and marginal structural models.<br />
-No Moodle questions this week. Just read to familiarize yourselves with the ideas, which we’ll discuss in class this week. Chapter 12 is a little more technical - let the following questions guide your reading:
-<ul>
-<li>What is the concept of the “pseudo-population”? What is the nice characteristic that it has? How does IP weighting achieve that characteristic?</li>
-<li>How are stabilized IP weights different from ordinary (unstabilized) weights? Why would we want to use stabilized weights?</li>
-<li>What is a marginal structural model, and how are they fit? What parameters of these models are of interest?</li>
-<li>How is IP weighting used in dealing with censoring (loss-to-follow up / selection bias)?</li>
-</ul></li>
-</ul></li>
-</ul>
-</div>
-<div id="week-6" class="section level3 unnumbered">
-<h3>Week 6</h3>
-<ul>
-<li>Tuesday, February 25<br />
-IP weighting to account for selection bias</li>
-<li>Thursday, February 27<br />
-No class - Capstone Days!</li>
-</ul>
-</div>
-<div id="week-7" class="section level3 unnumbered">
-<h3>Week 7</h3>
-<ul>
-<li>Tuesday, March 3<br />
-Causal discovery</li>
-<li>Thursday, March 5<br />
-Causal discovery</li>
-</ul>
-</div>
-<div id="week-8" class="section level3 unnumbered">
-<h3>Week 8</h3>
-<ul>
-<li>Tuesday, March 3<br />
-Sensitivity analyses for unmeasured confounding</li>
-<li>Thursday, March 5<br />
-Project work day</li>
-</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sens_data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">lnOR =</span> U_assocs, <span class="dt">ace =</span> new_aces, <span class="dt">ci_lower =</span> new_ci_lower, <span class="dt">ci_upper =</span> new_ci_upper)
+<span class="kw">ggplot</span>(sens_data, <span class="kw">aes</span>(<span class="dt">x =</span> lnOR, <span class="dt">y =</span> ace)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_ribbon</span>(<span class="kw">aes</span>(<span class="dt">ymin =</span> ci_lower, <span class="dt">ymax =</span> ci_upper), <span class="dt">fill =</span> <span class="st">&quot;grey70&quot;</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_line</span>() <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_hline</span>(<span class="kw">aes</span>(<span class="dt">yintercept =</span> <span class="kw">summary</span>(orig_msm_fit)<span class="op">$</span>coefficients[<span class="st">&quot;X&quot;</span>, <span class="st">&quot;Estimate&quot;</span>]), <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>)</code></pre></div>
+<p><strong>Closing questions:</strong> How could we adapt this structure for a sensitivity analysis to situations where the variables under consideration are of different types (quantitative vs. categorical) than what we considered here? How could these sensitivity analyses be used for assessing the impact of even more general structures of unmeasured confounding?</p>
 
 </div>
 </div>
@@ -360,8 +332,8 @@ Project work day</li>
           </div>
         </div>
       </div>
-<a href="references.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="introductions-review-and-motivation.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="causal-discovery.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="homework-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
