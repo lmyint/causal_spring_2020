@@ -115,6 +115,8 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="" data-path="schedule.html"><a href="schedule.html#week-6"><i class="fa fa-check"></i>Week 6</a></li>
 <li class="chapter" data-level="" data-path="schedule.html"><a href="schedule.html#week-7"><i class="fa fa-check"></i>Week 7</a></li>
 <li class="chapter" data-level="" data-path="schedule.html"><a href="schedule.html#week-8"><i class="fa fa-check"></i>Week 8</a></li>
+<li class="chapter" data-level="" data-path="schedule.html"><a href="schedule.html#spring-break-316---327"><i class="fa fa-check"></i>Spring Break: 3/16 - 3/27</a></li>
+<li class="chapter" data-level="" data-path="schedule.html"><a href="schedule.html#week-9-330---43"><i class="fa fa-check"></i>Week 9: 3/30 - 4/3</a></li>
 </ul></li>
 <li class="part"><span><b>I Causal Diagram Fundamentals</b></span></li>
 <li class="chapter" data-level="1" data-path="introductions-review-and-motivation.html"><a href="introductions-review-and-motivation.html"><i class="fa fa-check"></i><b>1</b> Introductions, Review, and Motivation</a><ul>
@@ -266,25 +268,25 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">302</span>)
 n &lt;-<span class="st"> </span><span class="dv">5000</span>
 Z &lt;-<span class="st"> </span><span class="kw">rbinom</span>(n, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> <span class="fl">0.5</span>)
-p_X &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">case_when</span>(
+p_A &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">case_when</span>(
     Z<span class="op">==</span><span class="dv">1</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.6</span>,
     Z<span class="op">==</span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.2</span>
 )
-X &lt;-<span class="st"> </span><span class="kw">rbinom</span>(n, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> p_X)
-Y &lt;-<span class="st"> </span><span class="fl">0.1</span><span class="op">*</span>X <span class="op">+</span><span class="st"> </span><span class="fl">0.3</span><span class="op">*</span>Z <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(n)
+A &lt;-<span class="st"> </span><span class="kw">rbinom</span>(n, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> p_A)
+Y &lt;-<span class="st"> </span><span class="fl">0.1</span><span class="op">*</span>A <span class="op">+</span><span class="st"> </span><span class="fl">0.3</span><span class="op">*</span>Z <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(n)
 
-sim_data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(X, Y, Z)
+sim_data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(A, Y, Z)
 
 <span class="co"># Create a subject ID variable</span>
 sim_data<span class="op">$</span>subj_id &lt;-<span class="st"> </span><span class="kw">seq_len</span>(n)</code></pre></div>
-<p>First <em>outline</em> the process for fitting a marginal structural model to estimate the average causal effect. Then write the relevant code. You will need to use <code>subj_id</code> as the <code>id</code> variable.</p>
+<p>First <em>outline</em> the process for fitting a marginal structural model to estimate the average causal effect of treatment <span class="math inline">\(A\)</span> on outcome <span class="math inline">\(Y\)</span>. Then write the relevant code. You will need to use <code>subj_id</code> as the <code>id</code> variable within <code>geeglm()</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Original MSM fit</span></code></pre></div>
-<p>Here we begin our sensitivity analysis. We’ll create a binary unmeasured variable <span class="math inline">\(U\)</span> that has varying degrees of association with both <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>.</p>
+<p>Here we begin our sensitivity analysis. We’ll create a binary unmeasured variable <span class="math inline">\(U\)</span> that has varying degrees of association with both <span class="math inline">\(A\)</span> and <span class="math inline">\(Y\)</span>.</p>
 <ul>
 <li>Add extra comments throughout the code to better document this implementation of a sensitivity analysis.</li>
 <li>Complete the sensitivity analysis by completing the <code>TASK</code> referred to within the for-loop.</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Create a vector of possible associations that U has with X and Y</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Create a vector of possible associations that U has with A and Y</span>
 U_assocs &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="fl">0.05</span>,<span class="dv">2</span>,<span class="fl">0.1</span>)
 
 <span class="co"># Create empty storage containers to store the new ACEs and CI bounds</span>
@@ -295,7 +297,7 @@ new_ci_lower &lt;-<span class="st"> </span><span class="kw">rep</span>(<span cla
 <span class="co"># Loop over possible values of the association</span>
 <span class="cf">for</span> (i <span class="cf">in</span> <span class="kw">seq_along</span>(U_assocs)) {
     U_assoc &lt;-<span class="st"> </span>U_assocs[i]
-    log_odds_U &lt;-<span class="st"> </span>U_assoc<span class="op">*</span>sim_data<span class="op">$</span>Y <span class="op">+</span><span class="st"> </span>U_assoc<span class="op">*</span>sim_data<span class="op">$</span>X
+    log_odds_U &lt;-<span class="st"> </span>U_assoc<span class="op">*</span>sim_data<span class="op">$</span>Y <span class="op">+</span><span class="st"> </span>U_assoc<span class="op">*</span>sim_data<span class="op">$</span>A
     p_U &lt;-<span class="st"> </span><span class="kw">exp</span>(log_odds_U)<span class="op">/</span>(<span class="dv">1</span><span class="op">+</span><span class="kw">exp</span>(log_odds_U))
     U &lt;-<span class="st"> </span><span class="kw">rbinom</span>(n, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> p_U)
     sim_data<span class="op">$</span>U &lt;-<span class="st"> </span>U
@@ -304,8 +306,8 @@ new_ci_lower &lt;-<span class="st"> </span><span class="kw">rep</span>(<span cla
     new_msm_fit &lt;-<span class="st"> </span>???
 
     <span class="co"># Store relevant values</span>
-    new_aces[i] &lt;-<span class="st"> </span><span class="kw">summary</span>(new_msm_fit)<span class="op">$</span>coefficients[<span class="st">&quot;X&quot;</span>, <span class="st">&quot;Estimate&quot;</span>]
-    se &lt;-<span class="st"> </span><span class="kw">summary</span>(new_msm_fit)<span class="op">$</span>coefficients[<span class="st">&quot;X&quot;</span>, <span class="st">&quot;Std.err&quot;</span>]
+    new_aces[i] &lt;-<span class="st"> </span><span class="kw">summary</span>(new_msm_fit)<span class="op">$</span>coefficients[<span class="st">&quot;A&quot;</span>, <span class="st">&quot;Estimate&quot;</span>]
+    se &lt;-<span class="st"> </span><span class="kw">summary</span>(new_msm_fit)<span class="op">$</span>coefficients[<span class="st">&quot;A&quot;</span>, <span class="st">&quot;Std.err&quot;</span>]
     new_ci_upper[i] &lt;-<span class="st"> </span>new_aces[i]<span class="op">+</span>(<span class="kw">qnorm</span>(<span class="fl">0.975</span>)<span class="op">*</span>se)
     new_ci_lower[i] &lt;-<span class="st"> </span>new_aces[i]<span class="op">-</span>(<span class="kw">qnorm</span>(<span class="fl">0.975</span>)<span class="op">*</span>se)
 }</code></pre></div>
@@ -319,7 +321,7 @@ new_ci_lower &lt;-<span class="st"> </span><span class="kw">rep</span>(<span cla
 <span class="kw">ggplot</span>(sens_data, <span class="kw">aes</span>(<span class="dt">x =</span> lnOR, <span class="dt">y =</span> ace)) <span class="op">+</span>
 <span class="st">    </span><span class="kw">geom_ribbon</span>(<span class="kw">aes</span>(<span class="dt">ymin =</span> ci_lower, <span class="dt">ymax =</span> ci_upper), <span class="dt">fill =</span> <span class="st">&quot;grey70&quot;</span>) <span class="op">+</span>
 <span class="st">    </span><span class="kw">geom_line</span>() <span class="op">+</span>
-<span class="st">    </span><span class="kw">geom_hline</span>(<span class="kw">aes</span>(<span class="dt">yintercept =</span> <span class="kw">summary</span>(orig_msm_fit)<span class="op">$</span>coefficients[<span class="st">&quot;X&quot;</span>, <span class="st">&quot;Estimate&quot;</span>]), <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>)</code></pre></div>
+<span class="st">    </span><span class="kw">geom_hline</span>(<span class="kw">aes</span>(<span class="dt">yintercept =</span> <span class="kw">summary</span>(orig_msm_fit)<span class="op">$</span>coefficients[<span class="st">&quot;A&quot;</span>, <span class="st">&quot;Estimate&quot;</span>]), <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>)</code></pre></div>
 <p><strong>Closing questions:</strong> How could we adapt this structure for a sensitivity analysis to situations where the variables under consideration are of different types (quantitative vs. categorical) than what we considered here? How could these sensitivity analyses be used for assessing the impact of even more general structures of unmeasured confounding?</p>
 
 </div>

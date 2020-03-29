@@ -29,33 +29,33 @@ Given the code below, what is the underlying DAG?
 set.seed(302)
 n <- 5000
 Z <- rbinom(n, size = 1, prob = 0.5)
-p_X <- dplyr::case_when(
+p_A <- dplyr::case_when(
     Z==1 ~ 0.6,
     Z==0 ~ 0.2
 )
-X <- rbinom(n, size = 1, prob = p_X)
-Y <- 0.1*X + 0.3*Z + rnorm(n)
+A <- rbinom(n, size = 1, prob = p_A)
+Y <- 0.1*A + 0.3*Z + rnorm(n)
 
-sim_data <- data.frame(X, Y, Z)
+sim_data <- data.frame(A, Y, Z)
 
 # Create a subject ID variable
 sim_data$subj_id <- seq_len(n)
 ```
 
-First *outline* the process for fitting a marginal structural model to estimate the average causal effect. Then write the relevant code. You will need to use `subj_id` as the `id` variable.
+First *outline* the process for fitting a marginal structural model to estimate the average causal effect of treatment $A$ on outcome $Y$. Then write the relevant code. You will need to use `subj_id` as the `id` variable within `geeglm()`.
 
 ```{r}
 # Original MSM fit
 
 ```
 
-Here we begin our sensitivity analysis. We'll create a binary unmeasured variable $U$ that has varying degrees of association with both $X$ and $Y$.
+Here we begin our sensitivity analysis. We'll create a binary unmeasured variable $U$ that has varying degrees of association with both $A$ and $Y$.
 
 - Add extra comments throughout the code to better document this implementation of a sensitivity analysis.
 - Complete the sensitivity analysis by completing the `TASK` referred to within the for-loop.
 
 ```{r}
-# Create a vector of possible associations that U has with X and Y
+# Create a vector of possible associations that U has with A and Y
 U_assocs <- seq(0.05,2,0.1)
 
 # Create empty storage containers to store the new ACEs and CI bounds
@@ -66,7 +66,7 @@ new_ci_lower <- rep(0, length(U_assocs))
 # Loop over possible values of the association
 for (i in seq_along(U_assocs)) {
     U_assoc <- U_assocs[i]
-    log_odds_U <- U_assoc*sim_data$Y + U_assoc*sim_data$X
+    log_odds_U <- U_assoc*sim_data$Y + U_assoc*sim_data$A
     p_U <- exp(log_odds_U)/(1+exp(log_odds_U))
     U <- rbinom(n, size = 1, prob = p_U)
     sim_data$U <- U
@@ -75,8 +75,8 @@ for (i in seq_along(U_assocs)) {
     new_msm_fit <- ???
 
     # Store relevant values
-    new_aces[i] <- summary(new_msm_fit)$coefficients["X", "Estimate"]
-    se <- summary(new_msm_fit)$coefficients["X", "Std.err"]
+    new_aces[i] <- summary(new_msm_fit)$coefficients["A", "Estimate"]
+    se <- summary(new_msm_fit)$coefficients["A", "Std.err"]
     new_ci_upper[i] <- new_aces[i]+(qnorm(0.975)*se)
     new_ci_lower[i] <- new_aces[i]-(qnorm(0.975)*se)
 }
@@ -93,7 +93,7 @@ sens_data <- data.frame(lnOR = U_assocs, ace = new_aces, ci_lower = new_ci_lower
 ggplot(sens_data, aes(x = lnOR, y = ace)) +
     geom_ribbon(aes(ymin = ci_lower, ymax = ci_upper), fill = "grey70") +
     geom_line() +
-    geom_hline(aes(yintercept = summary(orig_msm_fit)$coefficients["X", "Estimate"]), color = "red")
+    geom_hline(aes(yintercept = summary(orig_msm_fit)$coefficients["A", "Estimate"]), color = "red")
 ```
 
 **Closing questions:** How could we adapt this structure for a sensitivity analysis to situations where the variables under consideration are of different types (quantitative vs. categorical) than what we considered here? How could these sensitivity analyses be used for assessing the impact of even more general structures of unmeasured confounding?
