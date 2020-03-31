@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Topic 9 Sensitivity Analyses for Unmeasured Confounding | STAT 394: Causal Inference</title>
+  <title>Topic 10 Graphical Structure of Mediation | STAT 394: Causal Inference</title>
   <meta name="description" content="This is the class website for Causal Inference at Macalester College." />
   <meta name="generator" content="bookdown 0.17 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Topic 9 Sensitivity Analyses for Unmeasured Confounding | STAT 394: Causal Inference" />
+  <meta property="og:title" content="Topic 10 Graphical Structure of Mediation | STAT 394: Causal Inference" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="lmyint/causal_spring_2020" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Topic 9 Sensitivity Analyses for Unmeasured Confounding | STAT 394: Causal Inference" />
+  <meta name="twitter:title" content="Topic 10 Graphical Structure of Mediation | STAT 394: Causal Inference" />
   
   <meta name="twitter:description" content="This is the class website for Causal Inference at Macalester College." />
   
@@ -29,8 +29,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="causal-discovery.html"/>
-<link rel="next" href="graphical-structure-of-mediation.html"/>
+<link rel="prev" href="sensitivity-analyses-for-unmeasured-confounding.html"/>
+<link rel="next" href="homework-1.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -263,82 +263,84 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="sensitivity-analyses-for-unmeasured-confounding" class="section level1">
-<h1><span class="header-section-number">Topic 9</span> Sensitivity Analyses for Unmeasured Confounding</h1>
-<div id="learning-goals-8" class="section level2 unnumbered">
+<div id="graphical-structure-of-mediation" class="section level1">
+<h1><span class="header-section-number">Topic 10</span> Graphical Structure of Mediation</h1>
+<div id="learning-goals-9" class="section level2 unnumbered">
 <h2>Learning Goals</h2>
 <ol style="list-style-type: decimal">
-<li>Understand the role of sensitivity analyses in sound scientific practice</li>
-<li>Implement and interpret the results of sensitivity analyses</li>
+<li>Understand scientific motivations for mediation analysis and pose research questions that can be investigated by direct and indirect effects.</li>
+<li>Describe how regression models can be used to estimate direct and indirect effects.</li>
+<li>Apply d-separation ideas to understand the graphical reasoning behind the confounding assumptions needed to identify direct and indirect effects.</li>
+</ol>
+<p><br><br><br><br></p>
+</div>
+<div id="warm-up" class="section level2 unnumbered">
+<h2>Warm-up</h2>
+<p>In your groups, discuss responses to the video questions corresponding to the Mediation Analysis video.</p>
+<p><br><br><br><br></p>
+</div>
+<div id="exercises-4" class="section level2 unnumbered">
+<h2>Exercises</h2>
+<div id="background" class="section level3 unnumbered">
+<h3>Background</h3>
+<p>Consider the following causal diagram representing variables important in mediation analysis:</p>
+<div class="figure">
+<img src="images/10_mediation_dag.png" />
+
+</div>
+<p>Consider the following 4 assumptions:</p>
+<ol style="list-style-type: decimal">
+<li>No unmeasured confounding of the treatment-outcome relationship (<span class="math inline">\(A\)</span> and <span class="math inline">\(Y\)</span>).</li>
+<li>No unmeasured confounding of the mediator-outcome relationship (<span class="math inline">\(M\)</span> and <span class="math inline">\(Y\)</span>).</li>
+<li>No unmeasured confounding of the treatment-mediator relationship (<span class="math inline">\(A\)</span> and <span class="math inline">\(M\)</span>).</li>
+<li>No confounder of the mediator-outcome relationship is affected by treatment (arrows from <span class="math inline">\(A\)</span> to <span class="math inline">\(C_2\)</span>).</li>
+</ol>
+<p>When these 4 assumptions hold, the CDE, NDE, and NIE are <strong>identifiable</strong>, and we can use models such as the regression models below to estimate them. (<span class="math inline">\(C = \{C_1, C_2, C_3\}\)</span>)</p>
+<p><span class="math display">\[ E[Y\mid A, M, C] = \theta_0 + \theta_1 A + \theta_2 M + \theta_3 AM + \mathbf{\theta_4&#39;C} \]</span> <span class="math display">\[ E[M\mid A, C] = \beta_0 + \beta_1 A + \mathbf{\beta_2&#39;C} \]</span></p>
+<blockquote>
+<p><strong>Identifiability:</strong> A quantity (here, the different direct and indirect effects) is <strong>identifiable</strong> if the true value is able to be learned from an infinite amount of data. In causal inference, threats to identifiability are usually the result of unmeasured variables that create undesired non-causal paths.</p>
+</blockquote>
+<p><br></p>
+<p>In the later exercises, it will be helpful to refer to the following list of paths from <span class="math inline">\(A\)</span> to <span class="math inline">\(Y\)</span>:</p>
+<p><br><br></p>
+</div>
+<div id="exercise-1-3" class="section level3 unnumbered">
+<h3>Exercise 1</h3>
+<p>Assumptions 1 and 2 are needed in order to identify the controlled direct effect (CDE). We will use the above DAG to understand why.</p>
+<ol style="list-style-type: lower-alpha">
+<li>First argue that drawing a box around <span class="math inline">\(M\)</span> in the DAG is relevant here.</li>
+<li>Using d-separation ideas, argue why Assumptions 1 and 2 must hold.</li>
+<li>Using d-separation ideas, argue why it is not necessary for Assumptions 3 and 4 to hold if 1 and 2 hold.</li>
 </ol>
 <p><br><br></p>
 </div>
-<div id="exercises-3" class="section level2 unnumbered">
-<h2>Exercises</h2>
-<p>A template Rmd is available <a href="template_rmds/09-sensitivity.Rmd">here</a>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)
-<span class="kw">library</span>(dplyr)
-<span class="kw">library</span>(geepack)</code></pre></div>
-<p>Given the code below, what is the underlying DAG?</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">302</span>)
-n &lt;-<span class="st"> </span><span class="dv">5000</span>
-Z &lt;-<span class="st"> </span><span class="kw">rbinom</span>(n, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> <span class="fl">0.5</span>)
-p_A &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">case_when</span>(
-    Z<span class="op">==</span><span class="dv">1</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.6</span>,
-    Z<span class="op">==</span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.2</span>
-)
-A &lt;-<span class="st"> </span><span class="kw">rbinom</span>(n, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> p_A)
-Y &lt;-<span class="st"> </span><span class="fl">0.1</span><span class="op">*</span>A <span class="op">+</span><span class="st"> </span><span class="fl">0.3</span><span class="op">*</span>Z <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(n)
-
-sim_data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(A, Y, Z)
-
-<span class="co"># Create a subject ID variable</span>
-sim_data<span class="op">$</span>subj_id &lt;-<span class="st"> </span><span class="kw">seq_len</span>(n)</code></pre></div>
-<p>First <em>outline</em> the process for fitting a marginal structural model to estimate the average causal effect of treatment <span class="math inline">\(A\)</span> on outcome <span class="math inline">\(Y\)</span>. Then write the relevant code. You will need to use <code>subj_id</code> as the <code>id</code> variable within <code>geeglm()</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Original MSM fit</span></code></pre></div>
-<p>Here we begin our sensitivity analysis. We’ll create a binary unmeasured variable <span class="math inline">\(U\)</span> that has varying degrees of association with both <span class="math inline">\(A\)</span> and <span class="math inline">\(Y\)</span>.</p>
+<div id="exercise-2-3" class="section level3 unnumbered">
+<h3>Exercise 2</h3>
+<p>In addition to Assumptions 1 and 2, Assumptions 3 and 4 are also needed to identify the natural effects (the NDE and NIE).</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>Using d-separation ideas, why must Assumption 1 still hold to identify the NDE and NIE?</p></li>
+<li>Now let’s look at Assumption 2.
 <ul>
-<li>Add extra comments throughout the code to better document this implementation of a sensitivity analysis.</li>
-<li>Complete the sensitivity analysis by completing the <code>TASK</code> referred to within the for-loop.</li>
-</ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Create a vector of possible associations that U has with A and Y</span>
-U_assocs &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="fl">0.05</span>,<span class="dv">2</span>,<span class="fl">0.1</span>)
-
-<span class="co"># Create empty storage containers to store the new ACEs and CI bounds</span>
-new_aces &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">0</span>, <span class="kw">length</span>(U_assocs))
-new_ci_upper &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">0</span>, <span class="kw">length</span>(U_assocs))
-new_ci_lower &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">0</span>, <span class="kw">length</span>(U_assocs))
-
-<span class="co"># Loop over possible values of the association</span>
-<span class="cf">for</span> (i <span class="cf">in</span> <span class="kw">seq_along</span>(U_assocs)) {
-    U_assoc &lt;-<span class="st"> </span>U_assocs[i]
-    log_odds_U &lt;-<span class="st"> </span>U_assoc<span class="op">*</span>sim_data<span class="op">$</span>Y <span class="op">+</span><span class="st"> </span>U_assoc<span class="op">*</span>sim_data<span class="op">$</span>A
-    p_U &lt;-<span class="st"> </span><span class="kw">exp</span>(log_odds_U)<span class="op">/</span>(<span class="dv">1</span><span class="op">+</span><span class="kw">exp</span>(log_odds_U))
-    U &lt;-<span class="st"> </span><span class="kw">rbinom</span>(n, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> p_U)
-    sim_data<span class="op">$</span>U &lt;-<span class="st"> </span>U
-
-    <span class="co"># </span><span class="al">TASK</span><span class="co">: Fit the new MSM that accounts for U</span>
-    new_msm_fit &lt;-<span class="st"> </span>???
-
-    <span class="co"># Store relevant values</span>
-    new_aces[i] &lt;-<span class="st"> </span><span class="kw">summary</span>(new_msm_fit)<span class="op">$</span>coefficients[<span class="st">&quot;A&quot;</span>, <span class="st">&quot;Estimate&quot;</span>]
-    se &lt;-<span class="st"> </span><span class="kw">summary</span>(new_msm_fit)<span class="op">$</span>coefficients[<span class="st">&quot;A&quot;</span>, <span class="st">&quot;Std.err&quot;</span>]
-    new_ci_upper[i] &lt;-<span class="st"> </span>new_aces[i]<span class="op">+</span>(<span class="kw">qnorm</span>(<span class="fl">0.975</span>)<span class="op">*</span>se)
-    new_ci_lower[i] &lt;-<span class="st"> </span>new_aces[i]<span class="op">-</span>(<span class="kw">qnorm</span>(<span class="fl">0.975</span>)<span class="op">*</span>se)
-}</code></pre></div>
-<p>Below we plot the results of this sensitivity analysis. The black line shows the different ACEs, and the ribbon shows the corresponding 95% confidence interval. The red line shows the original ACE estimate.</p>
+<li>Argue that the same d-separation reasoning from Exercise 1 applies for understanding why Assumption 2 must hold to identify the NDE.</li>
+<li>The natural direct effect can be viewed as a composition of the <span class="math inline">\(A\)</span> to <span class="math inline">\(M\)</span> effect and the <span class="math inline">\(M\)</span> to <span class="math inline">\(Y\)</span> effect. Given this, why must Assumption 2 hold?</li>
+</ul></li>
+<li><p>Now let’s look at Assumption 3. How do the two natural effects differ from the controlled direct effect? Given this, why does unmeasured treatment-mediator confounding pose a concern?</p></li>
+</ol>
+<p>Assumption 4 is harder to justify purely graphically, but if you are curious about it and the underlying proof, ask the instructor.</p>
+</div>
+<div id="exercise-3-3" class="section level3 unnumbered">
+<h3>Exercise 3</h3>
+<p>We can use models such as the regression models below to estimate the CDE, NDE, and NIE. (<span class="math inline">\(C = \{C_1, C_2, C_3\}\)</span>, and <span class="math inline">\(\theta_4, \beta_2\)</span> are vectors of coefficients.)</p>
+<p><span class="math display">\[ E[Y\mid A, M, C] = \theta_0 + \theta_1 A + \theta_2 M + \theta_3 AM + \theta_4&#39;C \]</span> <span class="math display">\[ E[M\mid A, C] = \beta_0 + \beta_1 A + \beta_2&#39;C \]</span></p>
+<p>Given these models, show that the 3 effects are given by:</p>
 <ul>
-<li>What information can be gained from this plot?</li>
-<li>What is the smallest magnitude of association with <span class="math inline">\(U\)</span> that leads to qualitatively different conclusions?</li>
-<li>Look back to where we simulated <span class="math inline">\(Y\)</span>. How could we change this so that the smallest magnitude referred to in the previous question is bigger?</li>
+<li>CDE: <span class="math inline">\(\theta_1 + \theta_3 m\)</span></li>
+<li>NDE: <span class="math inline">\(\theta_1 + \theta_3 (\beta_0 + \beta_2&#39;C)\)</span></li>
+<li>NIE: <span class="math inline">\(\beta_1(\theta_2 + \theta_3)\)</span></li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sens_data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">lnOR =</span> U_assocs, <span class="dt">ace =</span> new_aces, <span class="dt">ci_lower =</span> new_ci_lower, <span class="dt">ci_upper =</span> new_ci_upper)
-<span class="kw">ggplot</span>(sens_data, <span class="kw">aes</span>(<span class="dt">x =</span> lnOR, <span class="dt">y =</span> ace)) <span class="op">+</span>
-<span class="st">    </span><span class="kw">geom_ribbon</span>(<span class="kw">aes</span>(<span class="dt">ymin =</span> ci_lower, <span class="dt">ymax =</span> ci_upper), <span class="dt">fill =</span> <span class="st">&quot;grey70&quot;</span>) <span class="op">+</span>
-<span class="st">    </span><span class="kw">geom_line</span>() <span class="op">+</span>
-<span class="st">    </span><span class="kw">geom_hline</span>(<span class="kw">aes</span>(<span class="dt">yintercept =</span> <span class="kw">summary</span>(orig_msm_fit)<span class="op">$</span>coefficients[<span class="st">&quot;A&quot;</span>, <span class="st">&quot;Estimate&quot;</span>]), <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>)</code></pre></div>
-<p><strong>Closing questions:</strong> How could we adapt this structure for a sensitivity analysis to situations where the variables under consideration are of different types (quantitative vs. categorical) than what we considered here? How could these sensitivity analyses be used for assessing the impact of even more general structures of unmeasured confounding?</p>
+<p><strong>Note:</strong> Next time, we’ll explore how this approach generalizes to more flexible ways to estimate mediation effects.</p>
 
+</div>
 </div>
 </div>
 
@@ -349,8 +351,8 @@ new_ci_lower &lt;-<span class="st"> </span><span class="kw">rep</span>(<span cla
           </div>
         </div>
       </div>
-<a href="causal-discovery.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="graphical-structure-of-mediation.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="sensitivity-analyses-for-unmeasured-confounding.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="homework-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
