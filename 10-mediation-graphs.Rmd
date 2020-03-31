@@ -46,7 +46,7 @@ $$ E[M\mid A, C] = \beta_0 + \beta_1 A + \mathbf{\beta_2'C} $$
 
 In the later exercises, it will be helpful to refer to the following list of paths from $A$ to $Y$:
 
-```{r echo=FALSE, message=FALSE}
+```{r echo=FALSE, message=FALSE, eval=TRUE}
 library(igraph)
 
 # Create the edge list
@@ -64,7 +64,6 @@ el <- rbind(
 )
 # Create the graph
 dag <- graph_from_edgelist(el, directed = TRUE)
-plot(dag)
 
 # Helper functions for displaying paths
 display_paths <- function(g, paths) {
