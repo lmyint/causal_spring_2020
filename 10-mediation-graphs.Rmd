@@ -117,7 +117,7 @@ a. Using d-separation ideas, why must Assumption 1 still hold to identify the ND
 
 b. Now let's look at Assumption 2.
     - Argue that the same d-separation reasoning from Exercise 1 applies for understanding why Assumption 2 must hold to identify the NDE.
-    - The natural direct effect can be viewed as a composition of the $A$ to $M$ effect and the $M$ to $Y$ effect. Given this, why must Assumption 2 hold?
+    - The natural indirect effect can be viewed as a composition of the $A$ to $M$ effect and the $M$ to $Y$ effect. Given this, why must Assumption 2 hold?
 
 c. Now let's look at Assumption 3. How do the two natural effects differ from the controlled direct effect? Given this, why does unmeasured treatment-mediator confounding pose a concern?
 
