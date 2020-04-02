@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo=TRUE, eval=FALSE)
 Turn in all exercises from our Mediation topic:
 
 - Topic 10: [Graphical Structure of Mediation]
-- Topic 11: Applied Mediation Analysis
+- Topic 11: [Applied Mediation Analysis]
 
 Portfolio: Write up a draft post for Post 2: Inverse probability weighting. See the [Portfolio] page for more details. Also revise your draft on the birth weight paradox (Post 1) given my earlier comments. Tag me in a comment if you are ready for a re-read.
 

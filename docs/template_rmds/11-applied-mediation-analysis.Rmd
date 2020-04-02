@@ -1,0 +1,176 @@
+---
+title: "Applied Mediation Analysis"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+## Data context
+
+We'll look at data from a study (cited below) of how the framing of immigration issues in a video affects attitudes about immigration.
+
+*Brader, T., Valentino, N. and Suhay, E. (2008). What triggers public opposition to immigration? Anxiety, group cues, and immigration threat. American Journal of Political Science 52, 4, 959–978.*
+
+In this study authors constructed different videos of a news story about immigration, and the video was framed and portrayed in 4 different ways. Study participants were randomly assigned to watch one of the 4 videos and were subsequently asked questions related to their stances on immigration.
+
+Outcome variables: (We'll focus on `cong_mesg`.)
+
+- `immigr`: A four-point scale measuring subjects' attitudes toward increased immigration. Larger values indicate more negative attitudes.
+- `english`: A four-point scale indicating whether subjects favor or oppose a law making English the official language of the U.S.
+- `cong_mesg`: Whether subjects requested sending an anti-immigration message to Congress (1 = yes, 0 = no).
+- `anti_info`: Whether subjects wanted to receive information from anti-immigration organizations (1 = yes, 0 = no).
+
+Treatment variables: (We'll focus on `treat`.)
+
+- `tone`: 1st treatment; whether the news story is framed positively (0) or negatively (1).
+- `eth`: 2nd treatment; whether the news story features a European (0) or Latino (1) immigrant.
+- `treat`: Product of the two treatment variables. 1 if the news story was framed negatively AND about Latino immigrants. 0 otherwise.
+
+Mediator variables: (We'll focus on `emo` and `p_harm`.)
+
+- `emo`: Measure of subjects' negative feeling during the experiment. A numeric scale ranging between 3 and 12 where 3 indicates the most negative feeling.
+- `anx`: A four-point scale measuring subjects' anxiety about increased immigration.
+- `p_harm`: Subjects' perceived harm caused by increased immigration. A numeric scale between 2 and 8.
+
+Confounders:
+
+- `age`: Subjects' age.
+- `educ`: Subjects' highest educational attainments.
+- `gender`: Subjects' gender.
+- `income`: Subjects' income, measured as a 19-point scale.
+
+Load required packages and the data as below:
+
+```{r}
+library(mediation)
+library(MASS)
+library(dplyr)
+library(ggplot2)
+
+data(framing)
+```
+
+> **Research question:** Is the effect of the framing treatment mediated more by negative emotions (`emo`) or by perceived harm (`p_harm`)?
+
+## Exercise 1
+
+The causal diagram underlying this investigation is below:
+
+```{r fig.align="center"}
+library(dagitty)
+dag <- dagitty("dag {
+bb=\"0,0,1,1\"
+\"age,educ,gender,income\" [pos=\"0.574,0.424\"]
+cong_mesg [outcome,pos=\"0.699,0.177\"]
+emo [pos=\"0.399,0.266\"]
+treat [exposure,pos=\"0.116,0.177\"]
+\"age,educ,gender,income\" -> cong_mesg
+\"age,educ,gender,income\" -> emo
+emo -> cong_mesg
+treat -> cong_mesg
+treat -> emo
+}")
+plot(dag)
+```
+
+### Part a
+
+This study was a randomized experiment, in which participants were assigned to the different treatment groups. Given this, what do you notice about the DAG structure, and why does this make sense?
+
+### Part b
+
+In the context of this study, what assumptions are we making when we use modeling to estimate direct and indirect effects? (Phrase this in terms of the specific variables in the study. This will help with the next part.)
+
+### Part c
+
+After thinking about the assumptions we're making, do you agree with this DAG? Draw an updated DAG reflecting your expert knowledge using [DAGitty](http://www.dagitty.net/dags.html#), and include the DAG in your document. (You can start from the DAGitty code above. Copy and paste the `dag {...}` part into the "Model code" pane on the right.)
+
+
+
+<br><br>
+
+
+
+## Exercise 2
+
+Despite your excellent updated expert knowledge DAG, we'll have to proceed with the measured variables (i.e., in the context of the original DAG shown above).
+
+- Fit an appropriate model for the mediator (`emo`), and call this model `med_mod`.
+- Fit an appropriate model for the outcome (`cong_mesg`), and call this model `out_mod`.
+
+Make sure to use visualizations to specify an appropriate form for the model. Recall that you can add code like below to your plots to show observed trends in blue and predicted trends from different model formulations in red:
+
+```r
+## For a quantitative outcome:
++ geom_smooth(method = "loess", se = FALSE, color = "blue") +
+geom_smooth(formula = y~poly(x,2), method="lm", se = FALSE, color = "red")
+
+## For a binary outcome:
++ geom_smooth(method = "loess", se = FALSE, color = "blue") +
+geom_smooth(formula = y~poly(x,2), method="glm", method.args=list(family="binomial"), se = FALSE, color = "red")
+```
+
+
+
+<br><br>
+
+
+
+## Exercise 3
+
+With the mediator and outcome models fit, we can use the core function in the `mediation` package: `mediate()`. The code below performs the simulation method to estimate mediation effects with $B = 1000$.
+
+```{r}
+set.seed(394)
+mediate_out <- mediate(med_mod, out_mod, treat = "treat", mediator = "emo", robustSE = TRUE, sims = 1000)
+summary(mediate_out)
+```
+
+There's a lot in this output! When learning a new package (a great skill to have!), it is *essential* to visit the documentation. The [landing page](https://cran.r-project.org/package=mediation) for the package will always have a reference manual containing the documentation for individual functions, but more sometimes, a more useful **vignette** will be available.
+
+Open the vignette titled "mediation" (not "mediation-old") and read the third page describing how different effects are defined. The notation is a little different than what we have defined - if you have questions, ask the instructor.
+
+- Which of the ACMEs (control or treated) corresponds to an effect we have defined? Which effect is it? Give an interpretation of this measure. (Note: these effects are expressed as probability differences.) Based on the confidence interval, do we have evidence for a true effect in the broader population?
+- Which of the ADEs (control or treated) corresponds to an effect we have defined? Which effect is it? Give an interpretation of this measure. Based on the confidence interval, do we have evidence for a true effect in the broader population?
+- How large is the NIE relative to the total effect and how does this move us toward answering our research question?
+
+
+
+<br><br>
+
+
+
+## Exercise 4
+
+Now perform a mediation analysis using `p_harm` as the mediator of interest. This includes:
+
+- Fitting appropriate mediator and outcome models
+- Using the `mediate()` function to estimate the mediation effects
+
+Cite relevant numbers from the `mediate()` output to answer our original research question.
+> Research question: Is the effect of the framing treatment mediated more by negative emotions or by perceived harm?
+
+
+
+<br><br>
+
+
+
+## Exercise 5
+
+Let's not forget about your improved expert DAG. Describe in detail (but don't actually implement) how we could implement a sensitivity analysis to assess sensitivity of the above results to unmeasured confounding.
+
+
+
+<br><br>
+
+
+
+## Exercise 6
+
+The controlled direct effect is not estimated by this package! Identify the specific place where the simulation approach could be changed to estimate the CDE.
+
+
+
+

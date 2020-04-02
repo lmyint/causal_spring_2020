@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Homework 3 | STAT 394: Causal Inference</title>
+  <title>Topic 11 Applied Mediation Analysis | STAT 394: Causal Inference</title>
   <meta name="description" content="This is the class website for Causal Inference at Macalester College." />
   <meta name="generator" content="bookdown 0.17 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Homework 3 | STAT 394: Causal Inference" />
+  <meta property="og:title" content="Topic 11 Applied Mediation Analysis | STAT 394: Causal Inference" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="lmyint/causal_spring_2020" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Homework 3 | STAT 394: Causal Inference" />
+  <meta name="twitter:title" content="Topic 11 Applied Mediation Analysis | STAT 394: Causal Inference" />
   
   <meta name="twitter:description" content="This is the class website for Causal Inference at Macalester College." />
   
@@ -29,8 +29,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="homework-2.html"/>
-<link rel="next" href="portfolio-1.html"/>
+<link rel="prev" href="graphical-structure-of-mediation.html"/>
+<link rel="next" href="homework-1.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -276,18 +276,198 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="homework-3" class="section level1 unnumbered">
-<h1>Homework 3</h1>
-<center>
-<strong>Due Wednesday, April 8 at midnight (CST) on Moodle</strong>
-</center>
-<p>Turn in all exercises from our Mediation topic:</p>
+<div id="applied-mediation-analysis" class="section level1">
+<h1><span class="header-section-number">Topic 11</span> Applied Mediation Analysis</h1>
+<div id="learning-goals-10" class="section level2 unnumbered">
+<h2>Learning Goals</h2>
 <ul>
-<li>Topic 10: <a href="graphical-structure-of-mediation.html#graphical-structure-of-mediation">Graphical Structure of Mediation</a></li>
-<li>Topic 11: <a href="applied-mediation-analysis.html#applied-mediation-analysis">Applied Mediation Analysis</a></li>
+<li>Understand a simulation approach for estimating effects of interest in mediation analysis</li>
+<li>Learn to use the <code>mediation</code> R package</li>
+<li>Use mediation analysis to answer research questions</li>
+<li>Draw connections to the framework of sensitivity analyses for unmeasured confounding</li>
 </ul>
-<p>Portfolio: Write up a draft post for Post 2: Inverse probability weighting. See the <a href="portfolio-1.html#portfolio-1">Portfolio</a> page for more details. Also revise your draft on the birth weight paradox (Post 1) given my earlier comments. Tag me in a comment if you are ready for a re-read.</p>
+<p><br><br><br><br></p>
+</div>
+<div id="discussion-4" class="section level2 unnumbered">
+<h2>Discussion</h2>
+<p><strong>What is the simulation approach for estimating mediation effects?</strong></p>
+<ul>
+<li>Parametric approach: assume we know the distribution of key quantities</li>
+<li>Nonparametric approach (bootstrapping): we don’t assume we know the distribution of key quantities</li>
+</ul>
+<p><br><br><br></p>
+<p>If key assumptions hold, we can use models to estimate mediation effects:</p>
+<ul>
+<li><span class="math inline">\(E[Y\mid A, M, C]\)</span></li>
+<li><span class="math inline">\(E[M\mid A, C]\)</span></li>
+</ul>
+<p>Essentially, these models are <strong>structural</strong>: they describe average potential outcomes. If these models have an explicit and convenient form (like below)…</p>
+<p><span class="math display">\[ E[Y\mid A, M, C] = \theta_0 + \theta_1 A + \theta_2 M + \theta_3 AM + \theta_4&#39;C \]</span> <span class="math display">\[ E[M\mid A, C] = \beta_0 + \beta_1 A + \beta_2&#39;C \]</span></p>
+<p>…there are formulas for the average mediation effects. (See Exercise 3 from Topic 10.)</p>
+<p><br></p>
+<p>But what if the <span class="math inline">\(E[Y\mid A, M, C]\)</span> and <span class="math inline">\(E[M\mid A, C]\)</span> models don’t allow for ready formulas?</p>
+<p><br><br><br></p>
+<p><strong>Situation 1: Parametric Approach</strong></p>
+<p><strong>Key feature:</strong> We assume that we know the true sampling distribution of the parameter estimates from the <span class="math inline">\(E[Y\mid A, M, C]\)</span> and <span class="math inline">\(E[M\mid A, C]\)</span> models.</p>
+<ol style="list-style-type: decimal">
+<li>Fit the <span class="math inline">\(E[Y\mid A, M, C]\)</span> and <span class="math inline">\(E[M\mid A, C]\)</span> models. (Only do this once.)</li>
+<li>Use the sampling distribution of the parameter estimates to randomly draw (simulate) a set of parameters. (Goal: will do this many times to quantify the sampling variability of our mediation effect estimates.)
+<ul>
+<li>These randomly drawn parameters define the <span class="math inline">\(Y\)</span> and <span class="math inline">\(M\)</span> models.</li>
+<li>For each individual:
+<ul>
+<li>Simulate <span class="math inline">\(K\)</span> copies of <span class="math inline">\(M\)</span> under <span class="math inline">\(A = 0\)</span> and <span class="math inline">\(A = 1\)</span> using this individual’s <span class="math inline">\(C\)</span> values.</li>
+<li>Use the simulated <span class="math inline">\(M\)</span> values to simulate the <span class="math inline">\(Y\)</span> values under both <span class="math inline">\(A = 0\)</span> and <span class="math inline">\(A = 1\)</span>.</li>
+<li>Average the potential outcomes over the K copies. This provides an estimate of the individual-level potential outcomes.</li>
+</ul></li>
+<li>Average the individual-level potential outcomes. End up with one estimate each of <span class="math inline">\(E[Y^{1M_1}], E[Y^{1M_0}], E[Y^{0M_1}], E[Y^{0M_0}]\)</span></li>
+<li>Subtract the appropriate values to obtain direct and indirect effects.</li>
+</ul></li>
+<li>Repeat step 2 <span class="math inline">\(B \geq 1000\)</span> times.</li>
+<li>Finally, summarize:
+<ul>
+<li>Average the <span class="math inline">\(B\)</span> copies of the effect estimates to get one overall estimate for each effect.</li>
+<li>Use the 2.5th and 97.5th percentiles to obtain a 95% confidence interval.</li>
+</ul></li>
+</ol>
+<p><br><br><br></p>
+<p><strong>Situation 2: Nonparametric Approach</strong></p>
+<ol style="list-style-type: decimal">
+<li>Resample the original dataset with replacement, maintaining the original sample size.</li>
+<li>Using the resampled data, fit the <span class="math inline">\(E[Y\mid A, M, C]\)</span> and <span class="math inline">\(E[M\mid A, C]\)</span> models.
+<ul>
+<li>We use the models to simulate <span class="math inline">\(M\)</span> and <span class="math inline">\(Y\)</span>.</li>
+<li>For each individual:
+<ul>
+<li>Simulate <span class="math inline">\(K\)</span> copies of <span class="math inline">\(M\)</span> under <span class="math inline">\(A = 0\)</span> and <span class="math inline">\(A = 1\)</span> using this individual’s <span class="math inline">\(C\)</span> values.</li>
+<li>Use the simulated <span class="math inline">\(M\)</span> values to simulate the <span class="math inline">\(Y\)</span> values under both <span class="math inline">\(A = 0\)</span> and <span class="math inline">\(A = 1\)</span>.</li>
+<li>Average the potential outcomes over the K copies. This provides an estimate of the individual-level potential outcomes.</li>
+</ul></li>
+<li>Average the individual-level potential outcomes. End up with one estimate each of <span class="math inline">\(E[Y^{1M_1}], E[Y^{1M_0}], E[Y^{0M_1}], E[Y^{0M_0}]\)</span></li>
+<li>Subtract the appropriate values to obtain direct and indirect effects.</li>
+</ul></li>
+<li>Repeat steps 1 and 2 <span class="math inline">\(B \geq 1000\)</span> times.</li>
+<li>Finally, summarize:
+<ul>
+<li>Average the <span class="math inline">\(B\)</span> copies of the effect estimates to get one overall estimate for each effect.</li>
+<li>Use the 2.5th and 97.5th percentiles to obtain a 95% confidence interval.</li>
+</ul></li>
+</ol>
+<p><br><br><br><br></p>
+</div>
+<div id="exercises-5" class="section level2 unnumbered">
+<h2>Exercises</h2>
+<p>A template Rmd is available <a href="template_rmds/11-applied-mediation-analysis.Rmd">here</a>.</p>
+<p>Install the <code>mediation</code> package:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">&quot;mediation&quot;</span>)</code></pre></div>
+<div id="data-context" class="section level3 unnumbered">
+<h3>Data context</h3>
+<p>We’ll look at data from a study (cited below) of how the framing of immigration issues in a video affects attitudes about immigration.</p>
+<p><em>Brader, T., Valentino, N. and Suhay, E. (2008). What triggers public opposition to immigration? Anxiety, group cues, and immigration threat. American Journal of Political Science 52, 4, 959–978.</em></p>
+<p><br></p>
+<p>In this study authors constructed different videos of a news story about immigration, and the video was framed and portrayed in 4 different ways. Study participants were randomly assigned to watch one of the 4 videos and were subsequently asked questions related to their stances on immigration.</p>
+<p>Outcome variables: (We’ll focus on <code>cong_mesg</code>.)</p>
+<ul>
+<li><code>immigr</code>: A four-point scale measuring subjects’ attitudes toward increased immigration. Larger values indicate more negative attitudes.</li>
+<li><code>english</code>: A four-point scale indicating whether subjects favor or oppose a law making English the official language of the U.S.</li>
+<li><code>cong_mesg</code>: Whether subjects requested sending an anti-immigration message to Congress (1 = yes, 0 = no).</li>
+<li><code>anti_info</code>: Whether subjects wanted to receive information from anti-immigration organizations (1 = yes, 0 = no).</li>
+</ul>
+<p>Treatment variables: (We’ll focus on <code>treat</code>.)</p>
+<ul>
+<li><code>tone</code>: 1st treatment; whether the news story is framed positively (0) or negatively (1).</li>
+<li><code>eth</code>: 2nd treatment; whether the news story features a European (0) or Latino (1) immigrant.</li>
+<li><code>treat</code>: Product of the two treatment variables. 1 if the news story was framed negatively AND about Latino immigrants. 0 otherwise.</li>
+</ul>
+<p>Mediator variables: (We’ll focus on <code>emo</code> and <code>p_harm</code>.)</p>
+<ul>
+<li><code>emo</code>: Measure of subjects’ negative feeling during the experiment. A numeric scale ranging between 3 and 12 where 3 indicates the most negative feeling.</li>
+<li><code>anx</code>: A four-point scale measuring subjects’ anxiety about increased immigration.</li>
+<li><code>p_harm</code>: Subjects’ perceived harm caused by increased immigration. A numeric scale between 2 and 8.</li>
+</ul>
+<p>Confounders:</p>
+<ul>
+<li><code>age</code>: Subjects’ age.</li>
+<li><code>educ</code>: Subjects’ highest educational attainments.</li>
+<li><code>gender</code>: Subjects’ gender.</li>
+<li><code>income</code>: Subjects’ income, measured as a 19-point scale.</li>
+</ul>
+<p>Load required packages and the data as below:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(mediation)
+<span class="kw">library</span>(MASS)
+<span class="kw">library</span>(dplyr)
+<span class="kw">library</span>(ggplot2)
 
+<span class="kw">data</span>(framing)</code></pre></div>
+<blockquote>
+<p><strong>Research question:</strong> Is the effect of the framing treatment mediated more by negative emotions (<code>emo</code>) or by perceived harm (<code>p_harm</code>)?</p>
+</blockquote>
+<p><br><br></p>
+</div>
+<div id="exercise-1-4" class="section level3 unnumbered">
+<h3>Exercise 1</h3>
+<p>The causal diagram underlying this investigation is below:</p>
+<p><img src="causal_manual_files/figure-html/unnamed-chunk-41-1.png" width="672" style="display: block; margin: auto;" /></p>
+<ol style="list-style-type: lower-alpha">
+<li><p>This study was a randomized experiment, in which participants were assigned to the different treatment groups. Given this, what do you notice about the DAG structure, and why does this make sense?</p></li>
+<li><p>In the context of this study, what assumptions are we making when we use modeling to estimate direct and indirect effects? (Phrase this in terms of the specific variables in the study. This will help with the next part.)</p></li>
+<li><p>After thinking about the assumptions we’re making, do you agree with this DAG? Draw an updated DAG reflecting your expert knowledge using <a href="http://www.dagitty.net/dags.html#">DAGitty</a>, and include the DAG in your document. (You can start from the DAGitty code above. Copy and paste the <code>dag {...}</code> part into the “Model code” pane on the right.)</p></li>
+</ol>
+<p><br><br></p>
+</div>
+<div id="exercise-2-4" class="section level3 unnumbered">
+<h3>Exercise 2</h3>
+<p>Despite your excellent updated expert knowledge DAG, we’ll have to proceed with the measured variables (i.e., in the context of the original DAG shown above).</p>
+<ul>
+<li>Fit an appropriate model for the mediator (<code>emo</code>), and call this model <code>med_mod</code>.</li>
+<li>Fit an appropriate model for the outcome (<code>cong_mesg</code>), and call this model <code>out_mod</code>.</li>
+</ul>
+<p>Make sure to use visualizations to specify an appropriate form for the model. Recall that you can add code like below to your plots to show observed trends in blue and predicted trends from different model formulations in red:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## For a quantitative outcome:
+<span class="op">+</span><span class="st"> </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;loess&quot;</span>, <span class="dt">se =</span> <span class="ot">FALSE</span>, <span class="dt">color =</span> <span class="st">&quot;blue&quot;</span>) <span class="op">+</span>
+<span class="kw">geom_smooth</span>(<span class="dt">formula =</span> y<span class="op">~</span><span class="kw">poly</span>(x,<span class="dv">2</span>), <span class="dt">method=</span><span class="st">&quot;lm&quot;</span>, <span class="dt">se =</span> <span class="ot">FALSE</span>, <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>)
+
+## For a binary outcome:
+<span class="op">+</span><span class="st"> </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;loess&quot;</span>, <span class="dt">se =</span> <span class="ot">FALSE</span>, <span class="dt">color =</span> <span class="st">&quot;blue&quot;</span>) <span class="op">+</span>
+<span class="kw">geom_smooth</span>(<span class="dt">formula =</span> y<span class="op">~</span><span class="kw">poly</span>(x,<span class="dv">2</span>), <span class="dt">method=</span><span class="st">&quot;glm&quot;</span>, <span class="dt">method.args=</span><span class="kw">list</span>(<span class="dt">family=</span><span class="st">&quot;binomial&quot;</span>), <span class="dt">se =</span> <span class="ot">FALSE</span>, <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>)</code></pre></div>
+<p><br><br></p>
+</div>
+<div id="exercise-3-4" class="section level3 unnumbered">
+<h3>Exercise 3</h3>
+<p>With the mediator and outcome models fit, we can use the core function in the <code>mediation</code> package: <code>mediate()</code>. The code below performs the simulation method to estimate mediation effects with <span class="math inline">\(B = 1000\)</span>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">394</span>)
+mediate_out &lt;-<span class="st"> </span><span class="kw">mediate</span>(med_mod, out_mod, <span class="dt">treat =</span> <span class="st">&quot;treat&quot;</span>, <span class="dt">mediator =</span> <span class="st">&quot;emo&quot;</span>, <span class="dt">robustSE =</span> <span class="ot">TRUE</span>, <span class="dt">sims =</span> <span class="dv">1000</span>)
+<span class="kw">summary</span>(mediate_out)</code></pre></div>
+<p>There’s a lot in this output! When learning a new package (a great skill to have!), it is <em>essential</em> to visit the documentation. The <a href="https://cran.r-project.org/package=mediation">landing page</a> for the package will always have a reference manual containing the documentation for individual functions, but more sometimes, a more useful <strong>vignette</strong> will be available.</p>
+<p>Open the vignette titled “mediation” (not “mediation-old”) and read the third page describing how different effects are defined. The notation is a little different than what we have defined - if you have questions, ask the instructor.</p>
+<ul>
+<li>Which of the ACMEs (control or treated) corresponds to an effect we have defined? Which effect is it? Give an interpretation of this measure. (Note: these effects are expressed as probability differences.) Based on the confidence interval, do we have evidence for a true effect in the broader population?</li>
+<li>Which of the ADEs (control or treated) corresponds to an effect we have defined? Which effect is it? Give an interpretation of this measure. Based on the confidence interval, do we have evidence for a true effect in the broader population?</li>
+<li>How large is the NIE relative to the total effect and how does this move us toward answering our research question?</li>
+</ul>
+<p><br><br></p>
+</div>
+<div id="exercise-4-2" class="section level3 unnumbered">
+<h3>Exercise 4</h3>
+<p>Now perform a mediation analysis using <code>p_harm</code> as the mediator of interest. This includes:</p>
+<ul>
+<li>Fitting appropriate mediator and outcome models</li>
+<li>Using the <code>mediate()</code> function to estimate the mediation effects</li>
+</ul>
+<p>Cite relevant numbers from the <code>mediate()</code> output to answer our original research question. &gt; Research question: Is the effect of the framing treatment mediated more by negative emotions or by perceived harm?</p>
+<p><br><br></p>
+</div>
+<div id="exercise-5-2" class="section level3 unnumbered">
+<h3>Exercise 5</h3>
+<p>Let’s not forget about your improved expert DAG. Describe in detail (but don’t actually implement) how we could implement a sensitivity analysis to assess sensitivity of the above results to unmeasured confounding.</p>
+<p><br><br></p>
+</div>
+<div id="exercise-6-1" class="section level3 unnumbered">
+<h3>Exercise 6</h3>
+<p>The controlled direct effect is not estimated by this package! Identify the specific place where the simulation approach could be changed to estimate the CDE.</p>
+
+</div>
+</div>
 </div>
 
 
@@ -297,8 +477,8 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
           </div>
         </div>
       </div>
-<a href="homework-2.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="portfolio-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="graphical-structure-of-mediation.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="homework-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
