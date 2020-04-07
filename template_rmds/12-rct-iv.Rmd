@@ -1,0 +1,159 @@
+---
+title: "RCT and IV designs"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+## IV assumptions
+
+Using d-separation ideas, explain why the first three assumptions are needed for instrumental variables estimation.
+
+
+
+
+
+## Simulation planning
+
+We will be implementing a simulation study to understand statistical properties of IV estimation. Before we jump in, let's plan:
+
+- How will we set up a setting where we know the true value of the causal effect? (Think about simulating DAGs.)
+- We will also be thinking of *uncertainty quantification*. That is, we will be looking at properties of confidence intervals for effect estimates. 
+
+
+
+
+
+## Simulation: setting up helper functions
+
+Functions are a great way to organize code, repeat tasks, and avoid errors by modularizing key chunks of a workflow. We will construct several functions to help with our simulation.
+
+First, complete the `get_sim_data()` function below. (There are several missing pieces.) This function simulates data according to the DAG shown in our video.
+
+- Note that it takes 3 **arguments**. How are these arguments used within the function?
+- If you need to simulate any exogenous variables (variables with no causes), simulate them with a 50% probability of equaling 1.
+
+```{r}
+library(dplyr)
+
+get_sim_data <- function(n, p_A_IV0, p_A_IV1) {
+    p_AfromIV <- dplyr::case_when(
+        IV==1 ~ p_A_IV1,
+        IV==0 ~ p_A_IV0
+    )
+    p_AfromC <- dplyr::case_when(
+        C==1 ~ 0.5,
+        C==0 ~ 0.2
+    )
+    p_A <- p_AfromIV*p_AfromC
+    A <- rbinom(n, size = 1, prob = p_A)
+
+    A_IVdo0 <- rbinom(n, size = 1, prob = p_A_IVdo0)
+    A_IVdo1 <- rbinom(n, size = 1, prob = p_A_IVdo1)
+
+    p_YfromA <- dplyr::case_when(
+        A==1 ~ 0.6,
+        A==0 ~ 0.3
+    )
+    p_YfromC <- dplyr::case_when(
+        C==1 ~ 0.7,
+        C==0 ~ 0.4
+    )
+    p_Y <- p_YfromA*p_YfromC
+    Y <- rbinom(n, size = 1, prob = p_Y)
+
+    Y_Ado0 <- rbinom(n, size = 1, prob = p_Y_Ado0)
+    Y_Ado1 <- rbinom(n, size = 1, prob = p_Y_Ado1)
+
+    sim_data <- data.frame(IV, C, A, A_IVdo0, A_IVdo1, Y, Y_Ado0, Y_Ado1)
+    sim_data
+}
+```
+
+
+
+Next, complete the functions below to obtain the ACE ($P(Y^{a=1}=1)-P(Y^{a=0}=1)$) and the CACE.
+
+- These functions take as input a `data` argument. We will be supplying the results of `get_sim_data()`, so you can assume that the `sim_data` variable names are present.
+- Examples of using `filter()`:
+    - `filter(A==1)` filters down to the treated
+    - `filter(A==1 | C==1)` filters down to the rows where `A = 1` OR `C = 1`
+    - `filter(A==1 & C==1)` filters down to the rows where `A = 1` AND `C = 1`
+
+```{r}
+get_ace <- function(data) {
+}
+
+get_cace <- function(data) {
+    data_subs <- data %>%
+        filter()
+}
+```
+
+
+
+Next complete the `get_iv_estimate()` function below to implement the instrumental variables estimate of the causal effect of treatment:
+
+```{r}
+get_iv_estimate <- function(data) {
+    component1 <- data %>%
+        group_by(IV) %>%
+        summarize(???) %>%
+        pull(???) %>%
+        diff()
+}
+```
+
+
+
+The `bootstrap_iv_estimate()` function below performs 1000 bootstrapping iterations to get 1000 IV estimates. Add comments to document what each piece of code does.
+
+```{r}
+bootstrap_iv_estimate <- function(data) {
+    replicate(1000, {
+        data_resampled <- data %>% sample_n(size = nrow(data), replace = TRUE)
+        get_iv_estimate(data_resampled)
+    })
+}
+```
+
+
+
+
+
+## Running the simulation
+
+Now let's actually run the simulation study! The for-loop below loops over different values of a parameter $p$ for $p \in \{0.05,0.15,0.25,0.35,0.45\}$.
+
+Fill in the question marks below. When you run this code, it will take a little while.
+
+```{r}
+set.seed(394)
+for (p in seq(0.05,0.45,0.1)) {
+    cat("p=", p, "\n")
+    sim_data <- get_sim_data(n = 1e5, p_A_IV0 = p, p_A_IV1 = 1-p)
+    ace <- ???
+    cace <- ???
+    cat("ACE (whole pop):", ace, "\n")
+    cat("CACE:", cace, "\n")
+    iv_estim <- get_iv_estimate(sim_data)
+    boot_iv_results <- bootstrap_iv_estimate(sim_data)
+    boot_ci <- quantile(boot_iv_results, probs = ???) # 95% CI
+    cat("IV results:\n")
+    cat("    Estimate:", iv_estim, "\n")
+    cat("    95% bootstrap CI:", boot_ci, "\n")
+    cat("    CI width:", diff(boot_ci), "\n\n")
+}
+```
+
+Form some conclusions from the results:
+
+- There is a notion of an instrument being "strong" or "weak", which relates to how strongly the instrument influences/predicts the treatment $A$. Does increasing $p$ correspond to a stronger or weaker instrument?
+- What do you notice about how well the IV estimate predicts the average causal effect? The complier average causal effect?
+- What do you notice about how the confidence intervals change with changing instrument strength?
+
+
+
+
+

@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Portfolio | STAT 394: Causal Inference</title>
+  <title>Topic 12 RCT and IV designs | STAT 394: Causal Inference</title>
   <meta name="description" content="This is the class website for Causal Inference at Macalester College." />
   <meta name="generator" content="bookdown 0.17 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Portfolio | STAT 394: Causal Inference" />
+  <meta property="og:title" content="Topic 12 RCT and IV designs | STAT 394: Causal Inference" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="lmyint/causal_spring_2020" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Portfolio | STAT 394: Causal Inference" />
+  <meta name="twitter:title" content="Topic 12 RCT and IV designs | STAT 394: Causal Inference" />
   
   <meta name="twitter:description" content="This is the class website for Causal Inference at Macalester College." />
   
@@ -29,8 +29,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="homework-3.html"/>
-
+<link rel="prev" href="applied-mediation-analysis.html"/>
+<link rel="next" href="homework-1.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -289,72 +289,190 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="portfolio-1" class="section level1 unnumbered">
-<h1>Portfolio</h1>
-<p>Your portfolio is meant to be a well-written collection of documents about course topics. The hope is that this collection is a useful reference for yourself years down the line, but potentially it will be helpful for others who may happen across your material. The Tweet below also motivates the portfolio well:</p>
+<div id="rct-and-iv-designs" class="section level1">
+<h1><span class="header-section-number">Topic 12</span> RCT and IV designs</h1>
+<div id="learning-goals-11" class="section level2 unnumbered">
+<h2>Learning Goals</h2>
+<ol style="list-style-type: decimal">
+<li>Use d-separation ideas to understand the assumptions behind instrumental variables estimation</li>
+<li>Implement a simulation of data arising from an IV design</li>
+<li>Use simulation to understand properties of IV estimation</li>
+</ol>
+<p><br><br><br><br></p>
+</div>
+<div id="warm-up-1" class="section level2 unnumbered">
+<h2>Warm-up</h2>
 <center>
 <blockquote class="twitter-tweet">
 <p lang="en" dir="ltr">
-Want to get better at <a href="https://twitter.com/hashtag/datascience?src=hash&amp;ref_src=twsrc%5Etfw">#datascience</a>?<br><br>🎓 TEACH!<br><br>📖 Write blog posts<br>🗣️ Speak at meetups<br>🎥 Record tutorials<br>❓ Answer questions online<br>🙋‍♀️ Tutor your friends<br><br>Teaching encourages you to clarify your thoughts, fill in gaps in your knowledge &amp; communicate clearly.<br><br>Agree/disagree?
+BREAKING: Randomized trial EPICOS will study <a href="https://twitter.com/hashtag/tenofovir?src=hash&amp;ref_src=twsrc%5Etfw">#tenofovir</a> for the prevention of <a href="https://twitter.com/hashtag/COVID19?src=hash&amp;ref_src=twsrc%5Etfw">#COVID19</a> in 4000 health care workers in Spain.<br><br>Participants will receive tenofovir (an HIV drug) or hydroxychloroquine (a malaria drug) or both or placebo.<br><br>Led by Julia del Amo<a href="https://t.co/aLNf6Sytcm">https://t.co/aLNf6Sytcm</a>
 </p>
-— Kevin Markham (<span class="citation">@justmarkham</span>) <a href="https://twitter.com/justmarkham/status/1229416118760202241?ref_src=twsrc%5Etfw">February 17, 2020</a>
+— Miguel Hernán (<span class="citation">@_MiguelHernan</span>) <a href="https://twitter.com/_MiguelHernan/status/1247311480967630849?ref_src=twsrc%5Etfw">April 6, 2020</a>
 </blockquote>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 </center>
-<p>Because of these goals, your portfolio will be a collection of blog posts. If you are keen on building your own website, you could publish these posts there as a part of building up an online presence. This is certainly not a requirement for class though.</p>
-<p>How you organize and structure your posts is up to you, but they need to address the topics below.</p>
-<p><br></p>
-<div id="required-topics" class="section level2 unnumbered">
-<h2>Required Topics</h2>
-<p>(This list will grow as the semester progresses.)</p>
-<div id="post-1" class="section level3 unnumbered">
-<h3>Post 1</h3>
-<p>An analysis of the article <em>The Birth Weight “Paradox” Uncovered?</em> at the level of detail of our in-class discussion.</p>
+<p><strong>Question:</strong> For studying the effect of tenofovir on risk of developing COVID-19…</p>
 <ul>
-<li>The post does not have to answer the exact same discussion questions posed in class.</li>
-<li>The post should explain the paradox and what the authors did to investigate it. This should include a discussion of how they proceeded through the various causal diagrams and why some were eliminated.</li>
-<li>The post should explain how the authors resolved the paradox in the most realistic causal diagrams.</li>
-<li>The post should conclude with general lessons learned from this example.</li>
+<li>What might a possible instrumental variables study design look like?</li>
+<li>What might a possible regression discontinuity design look like?</li>
+<li>What might a possible interrupted times series design look like?</li>
 </ul>
-<p><br></p>
+<p><br><br><br><br></p>
 </div>
-<div id="post-2" class="section level3 unnumbered">
-<h3>Post 2</h3>
-<p>Explain how we derived inverse probability weighting as a way to estimate average causal effects.</p>
-<ul>
-<li>Audience: You should write for an audience of your MSCS major classmates who only know about d-separation.</li>
-<li>In your post you should discuss an example of the tree diagrams we used to motivate the inverse probability weighting methodology.</li>
-<li>You do not need to discuss IP weighting for censoring.</li>
-</ul>
-<p><br></p>
-</div>
-</div>
-<div id="iterative-progress" class="section level2 unnumbered">
-<h2>Iterative Progress</h2>
-<p>You will work on these posts iteratively throughout the semester. The homework assignments will give deadlines for when a rough draft is due. Although writing rough drafts will be part of your homework duties, the drafts will not be part of your homework grade. You will only receive qualitative feedback from me on your drafts.</p>
-<p>This will be the process for writing and feedback for the semester:</p>
+<div id="discussion-5" class="section level2 unnumbered">
+<h2>Discussion</h2>
+<p>There are 4 core assumptions underlying an IV analysis:</p>
 <ol style="list-style-type: decimal">
-<li>Create one (and only one) new Google Doc. This will be where <strong>all</strong> of your drafts go.</li>
-<li>Enable link sharing so that those with the link can edit. Submit the link on Moodle &gt; Homework &gt; Portfolio Google Doc Link.</li>
-<li>Start writing!</li>
-<li>In the days after draft due dates, I will be reading your drafts and giving feedback by a fixed time. You are welcome to revise based on my feedback as many times as you want. When you would like another round of feedback, add a comment to the relevant section and tag me in it to bring it to my attention. (Type a “+” in the comment box followed by my email address.)</li>
+<li><strong>Relevance:</strong> The instrument is associated with the treatment</li>
+<li><strong>Exclusion restriction:</strong> The instrument only affects the outcome <em>through the treatment variable <span class="math inline">\(A\)</span></em> (no direct effect of instrument on <span class="math inline">\(Y\)</span>)</li>
+<li><strong>Randomized assignment:</strong> The instrument and the outcome do not have common causes. The instrument is as if randomly assigned.</li>
+<li><strong>Monotonicity:</strong> There are no “defiers”. When there are no defiers, the IV estimate ends up generalizing only to the compliers and is thus called a <strong>complier average causal effect (CACE)</strong> or a <strong>local average treatment effect LATE)</strong>.<br />
+Let <span class="math inline">\(A^{IV}\)</span> be the potential outcome for the treatment variable depending on the value of the instrument <span class="math inline">\(IV\)</span>.<br />
+Four <em>compliance types</em> or <em>principal strata</em>:
+<ul>
+<li><em>Always-takers</em>: Individuals who always take treatment, regardless of what their IV assigned. i.e., <span class="math inline">\(A^{IV=0} = 1, A^{IV=1} = 1\)</span></li>
+<li><em>Never-takers</em>: Individuals who never take treatment, regardless of what their IV assigned. i.e., <span class="math inline">\(A^{IV=0} = 0, A^{IV=1} = 0\)</span></li>
+<li><em>Compliers</em>: Individuals who will take treatment when assigned and not when not assigned. i.e., <span class="math inline">\(A^{IV=0} = 0, A^{IV=1} = 1\)</span></li>
+<li><em>Defiers</em>: Individuals who will take treatment when assigned and not when not assigned. i.e., <span class="math inline">\(A^{IV=0} = 1, A^{IV=1} = 0\)</span></li>
+</ul></li>
 </ol>
-<p><br></p>
+<p>The first three assumptions are <strong>instrumental conditions</strong>. The fourth assumption affects the population to which the IV estimate generalizes.</p>
+<p>For more detail about assumption 4, see Chapter 16 of our WHATIF book.</p>
+<p><br><br><br><br></p>
 </div>
-<div id="building-a-personal-website" class="section level2 unnumbered">
-<h2>Building a Personal Website</h2>
-<p>If you are curious about building your own website, read on!</p>
-<p>First check out the <a href="https://lmyint.github.io/">instructor’s website</a>. If you like the layout and want to try making a website using R (the <code>blogdown</code> package), read her <a href="https://lmyint.github.io/post/hugo-academic-tips/">blog post</a> about setting up her website.</p>
+<div id="exercises-6" class="section level2 unnumbered">
+<h2>Exercises</h2>
+<p>A template Rmd is available <a href="template_rmds/12-rct-iv.Rmd">here</a>.</p>
+<div id="iv-assumptions" class="section level3 unnumbered">
+<h3>IV assumptions</h3>
+<p>Using d-separation ideas, explain why the first three assumptions are needed for instrumental variables estimation.</p>
+<p><br><br></p>
+</div>
+<div id="simulation-planning" class="section level3 unnumbered">
+<h3>Simulation planning</h3>
+<p>We will be implementing a simulation study to understand statistical properties of IV estimation. Before we jump in, let’s plan:</p>
+<ul>
+<li>How will we set up a setting where we know the true value of the causal effect? (Think about simulating DAGs.)</li>
+<li>We will also be thinking of <em>uncertainty quantification</em>. That is, we will be looking at properties of confidence intervals for effect estimates.</li>
+</ul>
+<p><br><br></p>
+</div>
+<div id="simulation-setting-up-helper-functions" class="section level3 unnumbered">
+<h3>Simulation: setting up helper functions</h3>
+<p>Functions are a great way to organize code, repeat tasks, and avoid errors by modularizing key chunks of a workflow. We will construct several functions to help with our simulation.</p>
+<p>First, complete the <code>get_sim_data()</code> function below. (There are several missing pieces.) This function simulates data according to the DAG shown in our video.</p>
+<ul>
+<li>Note that it takes 3 <strong>arguments</strong>. How are these arguments used within the function?</li>
+<li>If you need to simulate any exogenous variables (variables with no causes), simulate them with a 50% probability of equaling 1.</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr)
+
+get_sim_data &lt;-<span class="st"> </span><span class="cf">function</span>(n, p_A_IV0, p_A_IV1) {
+    p_AfromIV &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">case_when</span>(
+        IV<span class="op">==</span><span class="dv">1</span> <span class="op">~</span><span class="st"> </span>p_A_IV1,
+        IV<span class="op">==</span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span>p_A_IV0
+    )
+    p_AfromC &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">case_when</span>(
+        C<span class="op">==</span><span class="dv">1</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.5</span>,
+        C<span class="op">==</span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.2</span>
+    )
+    p_A &lt;-<span class="st"> </span>p_AfromIV<span class="op">*</span>p_AfromC
+    A &lt;-<span class="st"> </span><span class="kw">rbinom</span>(n, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> p_A)
+
+    A_IVdo0 &lt;-<span class="st"> </span><span class="kw">rbinom</span>(n, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> p_A_IVdo0)
+    A_IVdo1 &lt;-<span class="st"> </span><span class="kw">rbinom</span>(n, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> p_A_IVdo1)
+
+    p_YfromA &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">case_when</span>(
+        A<span class="op">==</span><span class="dv">1</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.6</span>,
+        A<span class="op">==</span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.3</span>
+    )
+    p_YfromC &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">case_when</span>(
+        C<span class="op">==</span><span class="dv">1</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.7</span>,
+        C<span class="op">==</span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.4</span>
+    )
+    p_Y &lt;-<span class="st"> </span>p_YfromA<span class="op">*</span>p_YfromC
+    Y &lt;-<span class="st"> </span><span class="kw">rbinom</span>(n, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> p_Y)
+
+    Y_Ado0 &lt;-<span class="st"> </span><span class="kw">rbinom</span>(n, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> p_Y_Ado0)
+    Y_Ado1 &lt;-<span class="st"> </span><span class="kw">rbinom</span>(n, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> p_Y_Ado1)
+
+    sim_data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(IV, C, A, A_IVdo0, A_IVdo1, Y, Y_Ado0, Y_Ado1)
+    sim_data
+}</code></pre></div>
+<p>Next, complete the functions below to obtain the ACE (<span class="math inline">\(P(Y^{a=1}=1)-P(Y^{a=0}=1)\)</span>) and the CACE.</p>
+<ul>
+<li>These functions take as input a <code>data</code> argument. We will be supplying the results of <code>get_sim_data()</code>, so you can assume that the <code>sim_data</code> variable names are present.</li>
+<li>Examples of using <code>filter()</code>:
+<ul>
+<li><code>filter(A==1)</code> filters down to the treated</li>
+<li><code>filter(A==1 | C==1)</code> filters down to the rows where <code>A = 1</code> OR <code>C = 1</code></li>
+<li><code>filter(A==1 &amp; C==1)</code> filters down to the rows where <code>A = 1</code> AND <code>C = 1</code></li>
+</ul></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">get_ace &lt;-<span class="st"> </span><span class="cf">function</span>(data) {
+}
+
+get_cace &lt;-<span class="st"> </span><span class="cf">function</span>(data) {
+    data_subs &lt;-<span class="st"> </span>data <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">filter</span>()
+}</code></pre></div>
+<p>Next complete the <code>get_iv_estimate()</code> function below to implement the instrumental variables estimate of the causal effect of treatment:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">get_iv_estimate &lt;-<span class="st"> </span><span class="cf">function</span>(data) {
+    component1 &lt;-<span class="st"> </span>data <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">group_by</span>(IV) <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">summarize</span>(???) <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">pull</span>(???) <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">diff</span>()
+}</code></pre></div>
+<p>The <code>bootstrap_iv_estimate()</code> function below performs 1000 bootstrapping iterations to get 1000 IV estimates. Add comments to document what each piece of code does.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">bootstrap_iv_estimate &lt;-<span class="st"> </span><span class="cf">function</span>(data) {
+    <span class="kw">replicate</span>(<span class="dv">1000</span>, {
+        data_resampled &lt;-<span class="st"> </span>data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">sample_n</span>(<span class="dt">size =</span> <span class="kw">nrow</span>(data), <span class="dt">replace =</span> <span class="ot">TRUE</span>)
+        <span class="kw">get_iv_estimate</span>(data_resampled)
+    })
+}</code></pre></div>
+<p><br><br></p>
+</div>
+<div id="running-the-simulation" class="section level3 unnumbered">
+<h3>Running the simulation</h3>
+<p>Now let’s actually run the simulation study! The for-loop below loops over different values of a parameter <span class="math inline">\(p\)</span> for <span class="math inline">\(p \in \{0.05,0.15,0.25,0.35,0.45\}\)</span>.</p>
+<p>Fill in the question marks below. When you run this code, it will take a little while.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">394</span>)
+<span class="cf">for</span> (p <span class="cf">in</span> <span class="kw">seq</span>(<span class="fl">0.05</span>,<span class="fl">0.45</span>,<span class="fl">0.1</span>)) {
+    <span class="kw">cat</span>(<span class="st">&quot;p=&quot;</span>, p, <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)
+    sim_data &lt;-<span class="st"> </span><span class="kw">get_sim_data</span>(<span class="dt">n =</span> <span class="fl">1e5</span>, <span class="dt">p_A_IV0 =</span> p, <span class="dt">p_A_IV1 =</span> <span class="dv">1</span><span class="op">-</span>p)
+    ace &lt;-<span class="st"> </span>???
+    cace &lt;-<span class="st"> </span>???
+    <span class="kw">cat</span>(<span class="st">&quot;ACE (whole pop):&quot;</span>, ace, <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)
+    <span class="kw">cat</span>(<span class="st">&quot;CACE:&quot;</span>, cace, <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)
+    iv_estim &lt;-<span class="st"> </span><span class="kw">get_iv_estimate</span>(sim_data)
+    boot_iv_results &lt;-<span class="st"> </span><span class="kw">bootstrap_iv_estimate</span>(sim_data)
+    boot_ci &lt;-<span class="st"> </span><span class="kw">quantile</span>(boot_iv_results, <span class="dt">probs =</span> ???) <span class="co"># 95% CI</span>
+    <span class="kw">cat</span>(<span class="st">&quot;IV results:</span><span class="ch">\n</span><span class="st">&quot;</span>)
+    <span class="kw">cat</span>(<span class="st">&quot;    Estimate:&quot;</span>, iv_estim, <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)
+    <span class="kw">cat</span>(<span class="st">&quot;    95% bootstrap CI:&quot;</span>, boot_ci, <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)
+    <span class="kw">cat</span>(<span class="st">&quot;    CI width:&quot;</span>, <span class="kw">diff</span>(boot_ci), <span class="st">&quot;</span><span class="ch">\n\n</span><span class="st">&quot;</span>)
+}</code></pre></div>
+<p>Form some conclusions from the results:</p>
+<ul>
+<li>There is a notion of an instrument being “strong” or “weak”, which relates to how strongly the instrument influences/predicts the treatment <span class="math inline">\(A\)</span>. Does increasing <span class="math inline">\(p\)</span> correspond to a stronger or weaker instrument?</li>
+<li>What do you notice about how well the IV estimate predicts the average causal effect? The complier average causal effect?</li>
+<li>What do you notice about how the confidence intervals change with changing instrument strength?</li>
+</ul>
 
 </div>
 </div>
+</div>
+
+
+
             </section>
 
           </div>
         </div>
       </div>
-<a href="homework-3.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="applied-mediation-analysis.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="homework-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
