@@ -217,7 +217,8 @@ Now perform a mediation analysis using `p_harm` as the mediator of interest. Thi
 - Using the `mediate()` function to estimate the mediation effects
 
 Cite relevant numbers from the `mediate()` output to answer our original research question.
-> Research question: Is the effect of the framing treatment mediated more by negative emotions or by perceived harm?
+
+> **Research question:** Is the effect of the framing treatment mediated more by negative emotions or by perceived harm?
 
 <br><br>
 

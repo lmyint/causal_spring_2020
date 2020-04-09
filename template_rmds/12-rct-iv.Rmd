@@ -157,3 +157,35 @@ Form some conclusions from the results:
 
 
 
+### Instruments in practice {-}
+
+Some examples of instruments used in health services research are below. In light of the assumptions underlying IV estimation, do you think that these instruments could be valid? (Validity of an instrument refers to the assumptions being met.) What threats to validity do you foresee?
+
+- Randomized encouragement designs: Physicians or patients are randomly assigned to receive encouragement (e.g., promotional materials) to use certain treatments.
+
+- Preference-based instruments: individual physicians, hospitals, or care providers have varied and "random" preferences for one treatment over others.
+
+- Distance to a specialty care provider: A special health service may only be offered at certain locations. Distance to such a specialty care provider might be random across patients and also impact whether or not a patient receives the special health service.
+
+[This article](https://effectivehealthcare.ahrq.gov/products/instrumental-variable-methods/research) provides more examples and is also a great review article about instrumental variables in general. It has great discussion about considerations for reporting results from IV analyses and also discusses a generalization of our IV estimator (also called the Wald estimator): two-stage least squares. If you are curious about any of these ideas, ask the instructor!
+
+
+
+
+
+
+
+### IV estimation and RCTs {-}
+
+The issue of noncompliance in randomized trials was raised in the video. Noncompliance occurs when an individual does not comply with the treatment that was randomly assigned.
+
+- Compared to the usual causal diagram depicting a (perfect) randomized trial, how does a randomized trial with noncompliance compare?
+- How could instrumental variables estimation be useful in this setting?
+- In an IV analysis, to whom does the effect estimate generalize, and why might this be a concern in practice?
+
+
+
+
+
+
+

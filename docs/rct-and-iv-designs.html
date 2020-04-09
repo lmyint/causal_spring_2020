@@ -238,6 +238,8 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="" data-path="rct-and-iv-designs.html"><a href="rct-and-iv-designs.html#simulation-planning"><i class="fa fa-check"></i>Simulation planning</a></li>
 <li class="chapter" data-level="" data-path="rct-and-iv-designs.html"><a href="rct-and-iv-designs.html#simulation-setting-up-helper-functions"><i class="fa fa-check"></i>Simulation: setting up helper functions</a></li>
 <li class="chapter" data-level="" data-path="rct-and-iv-designs.html"><a href="rct-and-iv-designs.html#running-the-simulation"><i class="fa fa-check"></i>Running the simulation</a></li>
+<li class="chapter" data-level="" data-path="rct-and-iv-designs.html"><a href="rct-and-iv-designs.html#instruments-in-practice"><i class="fa fa-check"></i>Instruments in practice</a></li>
+<li class="chapter" data-level="" data-path="rct-and-iv-designs.html"><a href="rct-and-iv-designs.html#iv-estimation-and-rcts"><i class="fa fa-check"></i>IV estimation and RCTs</a></li>
 </ul></li>
 </ul></li>
 <li class="part"><span><b>VII Homework</b></span></li>
@@ -458,6 +460,27 @@ get_cace &lt;-<span class="st"> </span><span class="cf">function</span>(data) {
 <li>There is a notion of an instrument being “strong” or “weak”, which relates to how strongly the instrument influences/predicts the treatment <span class="math inline">\(A\)</span>. Does increasing <span class="math inline">\(p\)</span> correspond to a stronger or weaker instrument?</li>
 <li>What do you notice about how well the IV estimate predicts the average causal effect? The complier average causal effect?</li>
 <li>What do you notice about how the confidence intervals change with changing instrument strength?</li>
+</ul>
+<p><br><br><br><br></p>
+</div>
+<div id="instruments-in-practice" class="section level3 unnumbered">
+<h3>Instruments in practice</h3>
+<p>Some examples of instruments used in health services research are below. In light of the assumptions underlying IV estimation, do you think that these instruments could be valid? (Validity of an instrument refers to the assumptions being met.) What threats to validity do you foresee?</p>
+<ul>
+<li><p>Randomized encouragement designs: Physicians or patients are randomly assigned to receive encouragement (e.g., promotional materials) to use certain treatments.</p></li>
+<li><p>Preference-based instruments: individual physicians, hospitals, or care providers have varied and “random” preferences for one treatment over others.</p></li>
+<li><p>Distance to a specialty care provider: A special health service may only be offered at certain locations. Distance to such a specialty care provider might be random across patients and also impact whether or not a patient receives the special health service.</p></li>
+</ul>
+<p><a href="https://effectivehealthcare.ahrq.gov/products/instrumental-variable-methods/research">This article</a> provides more examples and is also a great review article about instrumental variables in general. It has great discussion about considerations for reporting results from IV analyses and also discusses a generalization of our IV estimator (also called the Wald estimator): two-stage least squares. If you are curious about any of these ideas, ask the instructor!</p>
+<p><br><br><br><br></p>
+</div>
+<div id="iv-estimation-and-rcts" class="section level3 unnumbered">
+<h3>IV estimation and RCTs</h3>
+<p>The issue of noncompliance in randomized trials was raised in the video. Noncompliance occurs when an individual does not comply with the treatment that was randomly assigned.</p>
+<ul>
+<li>Compared to the usual causal diagram depicting a (perfect) randomized trial, how does a randomized trial with noncompliance compare?</li>
+<li>How could instrumental variables estimation be useful in this setting?</li>
+<li>In an IV analysis, to whom does the effect estimate generalize, and why might this be a concern in practice?</li>
 </ul>
 
 </div>
