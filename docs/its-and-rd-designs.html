@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Portfolio | STAT 394: Causal Inference</title>
+  <title>Topic 13 ITS and RD designs | STAT 394: Causal Inference</title>
   <meta name="description" content="This is the class website for Causal Inference at Macalester College." />
   <meta name="generator" content="bookdown 0.17 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Portfolio | STAT 394: Causal Inference" />
+  <meta property="og:title" content="Topic 13 ITS and RD designs | STAT 394: Causal Inference" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="lmyint/causal_spring_2020" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Portfolio | STAT 394: Causal Inference" />
+  <meta name="twitter:title" content="Topic 13 ITS and RD designs | STAT 394: Causal Inference" />
   
   <meta name="twitter:description" content="This is the class website for Causal Inference at Macalester College." />
   
@@ -29,8 +29,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="homework-3.html"/>
-
+<link rel="prev" href="rct-and-iv-designs.html"/>
+<link rel="next" href="homework-1.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -298,72 +298,110 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="portfolio-1" class="section level1 unnumbered">
-<h1>Portfolio</h1>
-<p>Your portfolio is meant to be a well-written collection of documents about course topics. The hope is that this collection is a useful reference for yourself years down the line, but potentially it will be helpful for others who may happen across your material. The Tweet below also motivates the portfolio well:</p>
-<center>
-<blockquote class="twitter-tweet">
-<p lang="en" dir="ltr">
-Want to get better at <a href="https://twitter.com/hashtag/datascience?src=hash&amp;ref_src=twsrc%5Etfw">#datascience</a>?<br><br>🎓 TEACH!<br><br>📖 Write blog posts<br>🗣️ Speak at meetups<br>🎥 Record tutorials<br>❓ Answer questions online<br>🙋‍♀️ Tutor your friends<br><br>Teaching encourages you to clarify your thoughts, fill in gaps in your knowledge &amp; communicate clearly.<br><br>Agree/disagree?
-</p>
-— Kevin Markham (<span class="citation">@justmarkham</span>) <a href="https://twitter.com/justmarkham/status/1229416118760202241?ref_src=twsrc%5Etfw">February 17, 2020</a>
-</blockquote>
-<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-</center>
-<p>Because of these goals, your portfolio will be a collection of blog posts. If you are keen on building your own website, you could publish these posts there as a part of building up an online presence. This is certainly not a requirement for class though.</p>
-<p>How you organize and structure your posts is up to you, but they need to address the topics below.</p>
-<p><br></p>
-<div id="required-topics" class="section level2 unnumbered">
-<h2>Required Topics</h2>
-<p>(This list will grow as the semester progresses.)</p>
-<div id="post-1" class="section level3 unnumbered">
-<h3>Post 1</h3>
-<p>An analysis of the article <em>The Birth Weight “Paradox” Uncovered?</em> at the level of detail of our in-class discussion.</p>
-<ul>
-<li>The post does not have to answer the exact same discussion questions posed in class.</li>
-<li>The post should explain the paradox and what the authors did to investigate it. This should include a discussion of how they proceeded through the various causal diagrams and why some were eliminated.</li>
-<li>The post should explain how the authors resolved the paradox in the most realistic causal diagrams.</li>
-<li>The post should conclude with general lessons learned from this example.</li>
-</ul>
-<p><br></p>
-</div>
-<div id="post-2" class="section level3 unnumbered">
-<h3>Post 2</h3>
-<p>Explain how we derived inverse probability weighting as a way to estimate average causal effects.</p>
-<ul>
-<li>Audience: You should write for an audience of your MSCS major classmates who only know about d-separation.</li>
-<li>In your post you should discuss an example of the tree diagrams we used to motivate the inverse probability weighting methodology.</li>
-<li>You do not need to discuss IP weighting for censoring.</li>
-</ul>
-<p><br></p>
-</div>
-</div>
-<div id="iterative-progress" class="section level2 unnumbered">
-<h2>Iterative Progress</h2>
-<p>You will work on these posts iteratively throughout the semester. The homework assignments will give deadlines for when a rough draft is due. Although writing rough drafts will be part of your homework duties, the drafts will not be part of your homework grade. You will only receive qualitative feedback from me on your drafts.</p>
-<p>This will be the process for writing and feedback for the semester:</p>
+<div id="its-and-rd-designs" class="section level1">
+<h1><span class="header-section-number">Topic 13</span> ITS and RD designs</h1>
+<div id="learning-goals-12" class="section level2 unnumbered">
+<h2>Learning Goals</h2>
 <ol style="list-style-type: decimal">
-<li>Create one (and only one) new Google Doc. This will be where <strong>all</strong> of your drafts go.</li>
-<li>Enable link sharing so that those with the link can edit. Submit the link on Moodle &gt; Homework &gt; Portfolio Google Doc Link.</li>
-<li>Start writing!</li>
-<li>In the days after draft due dates, I will be reading your drafts and giving feedback by a fixed time. You are welcome to revise based on my feedback as many times as you want. When you would like another round of feedback, add a comment to the relevant section and tag me in it to bring it to my attention. (Type a “+” in the comment box followed by my email address.)</li>
+<li>Propose appropriate models that can model data from interrupted time series, difference-in-difference, and regression discontinuity designs</li>
+<li>Interpret relevant coefficients in those models</li>
+<li>Analyze limitations of results in these settings</li>
 </ol>
+<p><br><br><br><br></p>
+</div>
+<div id="exercises-7" class="section level2 unnumbered">
+<h2>Exercises</h2>
+<div id="regression-discontinuity-models" class="section level3 unnumbered">
+<h3>Regression discontinuity models</h3>
+<p>The Head Start program is a large program that was started in 1965 to give financial aid to the families of low income children ages 3 to 4. The government sent officials to help the 300 poorest counties draft grant applications for Head Start funding. On average, these applications did in fact increase Head Start funding in these poorest counties. Investigators looked at subsequent impacts on health outcomes (e.g., mortality rates) and educational outcomes (e.g., high school graduation rates).</p>
+<p><br></p>
+<div id="part-a" class="section level4 unnumbered">
+<h4>Part a</h4>
+<p>Explain how poverty rates can be viewed as a kind of randomization to receiving Head Start funding or not.</p>
 <p><br></p>
 </div>
-<div id="building-a-personal-website" class="section level2 unnumbered">
-<h2>Building a Personal Website</h2>
-<p>If you are curious about building your own website, read on!</p>
-<p>First check out the <a href="https://lmyint.github.io/">instructor’s website</a>. If you like the layout and want to try making a website using R (the <code>blogdown</code> package), read her <a href="https://lmyint.github.io/post/hugo-academic-tips/">blog post</a> about setting up her website.</p>
+<div id="part-b" class="section level4 unnumbered">
+<h4>Part b</h4>
+<p>The model below allows for estimation of the causal effect of Head Start funding on graduation rates:</p>
+<p><span class="math display">\[ E[Y] = \beta_0 + \beta_1 A + \beta_2 C \]</span></p>
+<ul>
+<li><span class="math inline">\(C\)</span>: poverty rates</li>
+<li><span class="math inline">\(A\)</span>: 1 if received Head Start funding, 0 otherwise</li>
+<li><span class="math inline">\(Y\)</span>: graduation rates</li>
+</ul>
+<p>What coefficient or combination of coefficients represents the causal effect? To whom does this causal effect generalize?</p>
+<p><br></p>
+</div>
+<div id="part-c" class="section level4 unnumbered">
+<h4>Part c</h4>
+<p>It turns out that results of regression discontinuity analyses are quite sensitive to the form of the model chosen. Draw a picture that shows a curved (e.g., quadratic) relationship between graduation rates and poverty rates with no causal effect of Head Start funding. What would be the results of fitting the model in part (b)?</p>
+<p><br></p>
+</div>
+<div id="part-d" class="section level4 unnumbered">
+<h4>Part d</h4>
+<p>Let’s zoom out and try to integrate contextual thinking with ideas from throughout our course.</p>
+<p>In the context of the Head Start study, what concerns might arise about study implementation or validity of results? What recommendations do you have for planning future studies of Head Start?</p>
+<p><br><br><br></p>
+</div>
+</div>
+<div id="interrupted-time-series-models" class="section level3 unnumbered">
+<h3>Interrupted time series models</h3>
+<p>Typically these models use autoregressive and/or moving average types of time series model to model trends over time. If you are curious about these methods, STAT 452 Correlated Data is the class for you!</p>
+<p>We won’t discuss time series models, but we can gain a lot of intuition for how these models are used in practice by examining linear regression models.</p>
+<div id="part-a-1" class="section level4 unnumbered">
+<h4>Part a</h4>
+<p>The general form of a linear regression model for an interrupted time series design is below:</p>
+<p><span class="math display">\[ E[Y] = \beta_0 + \beta_1 T + \beta_2 I + \beta_3 TI + \beta_4 A + \beta_5 AT + \beta_6 AI + \beta_7 AIT \]</span></p>
+<ul>
+<li><span class="math inline">\(Y\)</span>: outcome/response variable</li>
+<li><span class="math inline">\(T\)</span>: time</li>
+<li><span class="math inline">\(I\)</span>: 1 if in the time period post-intervention, 0 for pre-intervention</li>
+<li><span class="math inline">\(A\)</span>: 1 for treatment sites receiving the intervention, 0 for control sites</li>
+</ul>
+<p>Draw a figure showing the relationship between <span class="math inline">\(Y\)</span> and <span class="math inline">\(T\)</span> and showing how the slopes change over time and in between treatment vs. control sites. Label slopes, intercepts, and any changes or discontinuities with model coefficients.</p>
+<p><br></p>
+</div>
+<div id="part-b-1" class="section level4 unnumbered">
+<h4>Part b</h4>
+<p>When picking control sites, it is best to pick them such that they are as similar as possible to the treatment states. If this is done well, for which coefficients should we expect the confidence intervals to overlap zero?</p>
+<p><br></p>
+</div>
+<div id="part-c-1" class="section level4 unnumbered">
+<h4>Part c</h4>
+<p>Which coefficients represent the causal effect of the intervention, and how can we interpret them?</p>
+<p><br></p>
+</div>
+<div id="part-d-1" class="section level4 unnumbered">
+<h4>Part d</h4>
+<p>Policy researchers often use interrupted time series designs to understand the causal effect of a law or policy. What concerns might arise about results from an interrupted time series analysis?</p>
+<p><br></p>
+</div>
+<div id="part-e" class="section level4 unnumbered">
+<h4>Part e</h4>
+<p>In economics, a popular study design to estimate causal effects is called the difference-in-difference design. This design is a special case of the interrupted time series design with only one time point measured pre- and post-intervention for the treatment and control sites.</p>
+<p>Let our variables be as follows:</p>
+<ul>
+<li><span class="math inline">\(Y\)</span>: outcome/response variable</li>
+<li><span class="math inline">\(T\)</span>: 1 if in the time period post-intervention, 0 for pre-intervention</li>
+<li><span class="math inline">\(A\)</span>: 1 for treatment sites receiving the intervention, 0 for control sites</li>
+</ul>
+<p>Write a regression model formula that can estimate the causal effect.</p>
+<p>As with the more general interrupted times series design, what are we assuming about the time trends of the outcome if the intervention had not been applied?</p>
 
 </div>
 </div>
+</div>
+</div>
+
+
+
             </section>
 
           </div>
         </div>
       </div>
-<a href="homework-3.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="rct-and-iv-designs.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="homework-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

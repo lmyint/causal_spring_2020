@@ -11,6 +11,8 @@ knitr::opts_chunk$set(echo=TRUE, eval=FALSE)
 1. Use d-separation ideas to understand the assumptions behind instrumental variables estimation
 2. Implement a simulation of data arising from an IV design
 3. Use simulation to understand properties of IV estimation
+4. Evaluate the validity of potential instruments in research settings
+5. Relate the IV approach to imperfect randomized trials
 
 <br><br><br><br>
 

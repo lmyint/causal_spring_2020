@@ -1,0 +1,111 @@
+```{r 13_setup, include=FALSE}
+knitr::opts_chunk$set(echo=TRUE, eval=FALSE)
+```
+
+# ITS and RD designs
+
+## Learning Goals {-}
+
+1. Propose appropriate models that can model data from interrupted time series, difference-in-difference, and regression discontinuity designs
+2. Interpret relevant coefficients in those models
+3. Analyze limitations of results in these settings
+
+<br><br><br><br>
+
+## Exercises {-}
+
+### Regression discontinuity models {-}
+
+The Head Start program is a large program that was started in 1965 to give financial aid to the families of low income children ages 3 to 4. The government sent officials to help the 300 poorest counties draft grant applications for Head Start funding. On average, these applications did in fact increase Head Start funding in these poorest counties. Investigators looked at subsequent impacts on health outcomes (e.g., mortality rates) and educational outcomes (e.g., high school graduation rates).
+
+<br>
+
+#### Part a {-}
+
+Explain how poverty rates can be viewed as a kind of randomization to receiving Head Start funding or not.
+
+<br>
+
+#### Part b {-}
+
+The model below allows for estimation of the causal effect of Head Start funding on graduation rates:
+
+$$ E[Y] = \beta_0 + \beta_1 A + \beta_2 C $$
+
+- $C$: poverty rates
+- $A$: 1 if received Head Start funding, 0 otherwise
+- $Y$: graduation rates
+
+What coefficient or combination of coefficients represents the causal effect? To whom does this causal effect generalize?
+
+<br>
+
+#### Part c {-}
+
+It turns out that results of regression discontinuity analyses are quite sensitive to the form of the model chosen. Draw a picture that shows a curved (e.g., quadratic) relationship between graduation rates and poverty rates with no causal effect of Head Start funding. What would be the results of fitting the model in part (b)?
+
+<br>
+
+#### Part d {-}
+
+Let's zoom out and try to integrate contextual thinking with ideas from throughout our course. 
+
+In the context of the Head Start study, what concerns might arise about study implementation or validity of results? What recommendations do you have for planning future studies of Head Start?
+
+<br><br><br>
+
+### Interrupted time series models {-}
+
+Typically these models use autoregressive and/or moving average types of time series model to model trends over time. If you are curious about these methods, STAT 452 Correlated Data is the class for you!
+
+We won't discuss time series models, but we can gain a lot of intuition for how these models are used in practice by examining linear regression models.
+
+#### Part a {-}
+
+The general form of a linear regression model for an interrupted time series design is below:
+
+$$ E[Y] = \beta_0 + \beta_1 T + \beta_2 I + \beta_3 TI + \beta_4 A + \beta_5 AT + \beta_6 AI + \beta_7 AIT $$
+
+- $Y$: outcome/response variable
+- $T$: time
+- $I$: 1 if in the time period post-intervention, 0 for pre-intervention
+- $A$: 1 for treatment sites receiving the intervention, 0 for control sites
+
+Draw a figure showing the relationship between $Y$ and $T$ and showing how the slopes change over time and in between treatment vs. control sites. Label slopes, intercepts, and any changes or discontinuities with model coefficients.
+
+<br>
+
+#### Part b {-}
+
+When picking control sites, it is best to pick them such that they are as similar as possible to the treatment states. If this is done well, for which coefficients should we expect the confidence intervals to overlap zero?
+
+<br>
+
+#### Part c {-}
+
+Which coefficients represent the causal effect of the intervention, and how can we interpret them?
+
+<br>
+
+#### Part d {-}
+
+Policy researchers often use interrupted time series designs to understand the causal effect of a law or policy. What concerns might arise about results from an interrupted time series analysis?
+
+<br>
+
+#### Part e {-}
+
+In economics, a popular study design to estimate causal effects is called the difference-in-difference design. This design is a special case of the interrupted time series design with only one time point measured pre- and post-intervention for the treatment and control sites.
+
+Let our variables be as follows:
+
+- $Y$: outcome/response variable
+- $T$: 1 if in the time period post-intervention, 0 for pre-intervention
+- $A$: 1 for treatment sites receiving the intervention, 0 for control sites
+
+Write a regression model formula that can estimate the causal effect.
+
+As with the more general interrupted times series design, what are we assuming about the time trends of the outcome if the intervention had not been applied?
+
+
+
