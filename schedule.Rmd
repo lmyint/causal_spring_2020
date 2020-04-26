@@ -95,13 +95,34 @@ If Google/YouTube access is a problem, all videos and slides are also available 
 
 ### Week 10: 4/6 - 4/10 {-}
 
-- Tuesday, March 31    
+- Tuesday, April 7    
     Randomized Controlled Trials ([video](https://youtu.be/xqUTipvGwWo), [slides](https://drive.google.com/file/d/1eg8bor5YD1Rmo1c21qlEwootufdzVQA7/view?usp=sharing))    
     Quasi-Experimental Study Designs ([video](https://youtu.be/I55cUFwjPy0), [slides](https://drive.google.com/file/d/1OCma-72ArrDDQGvvQ8WPhI8aQeS62Dam/view?usp=sharing))    
     Moodle questions: [Study Designs](https://moodle.macalester.edu/mod/quiz/view.php?id=39495) due Wednesday, April 8 at midnight (CST)
-- Thursday, April 2    
-    Study designs (continued)
+- Thursday, April 9    
+    Randomized controlled trials and instrumental variable designs (continued)
+
+### Week 11: 4/13 - 4/17 {-}
+
+- Tuesday, April 14    
+    Interrupted time series and regression discontinuity designs
+- Thursday, April 16    
+    Final exam work day
 
 
+### Week 12: 4/20 - 4/24 {-}
+
+- Tuesday, April 21    
+    Time-varying treatments
+- Thursday, April 23    
+    Final exam work day
+
+
+### Week 13: 4/27 - 5/1 {-}
+
+- Tuesday, April 28    
+    Final exam work day
+- Thursday, April 30    
+    Final exam work day
 
 

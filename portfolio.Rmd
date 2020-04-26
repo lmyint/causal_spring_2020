@@ -12,7 +12,7 @@ Because of these goals, your portfolio will be a collection of blog posts. If yo
 
 How you organize and structure your posts is up to you, but they need to address the topics below.
 
-<br>
+<br><br>
 
 ## Required Topics {-}
 
@@ -39,6 +39,15 @@ Explain how we derived inverse probability weighting as a way to estimate averag
 
 <br>
 
+### Post 3 {-}
+
+What idea(s) from our course do you think are most beneficial for the public to keep in mind when they read about scientific studies in the news? Why?
+
+- Audience: your classmates, so feel free to use jargon from our class.
+- This post can be quite brief (a paragraph or so). Mainly, I am curious about your opinions.
+
+<br><br>
+
 ## Iterative Progress {-}
 
 You will work on these posts iteratively throughout the semester. The homework assignments will give deadlines for when a rough draft is due. Although writing rough drafts will be part of your homework duties, the drafts will not be part of your homework grade. You will only receive qualitative feedback from me on your drafts.
@@ -50,7 +59,7 @@ This will be the process for writing and feedback for the semester:
 3. Start writing!
 4. In the days after draft due dates, I will be reading your drafts and giving feedback by a fixed time. You are welcome to revise based on my feedback as many times as you want. When you would like another round of feedback, add a comment to the relevant section and tag me in it to bring it to my attention. (Type a "+" in the comment box followed by my email address.)
 
-<br>
+<br><br>
 
 ## Building a Personal Website {-}
 

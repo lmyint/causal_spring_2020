@@ -37,7 +37,7 @@ There are 4 core assumptions underlying an IV analysis:
 1. **Relevance:** The instrument is associated with the treatment
 2. **Exclusion restriction:** The instrument only affects the outcome *through the treatment variable $A$* (no direct effect of instrument on $Y$)
 3. **Randomized assignment:** The instrument and the outcome do not have common causes. The instrument is as if randomly assigned.
-4. **Monotonicity:** There are no "defiers". When there are no defiers, the IV estimate ends up generalizing only to the compliers and is thus called a **complier average causal effect (CACE)** or a **local average treatment effect LATE)**.    
+4. **Monotonicity:** There are no "defiers". When there are no defiers, the IV estimate ends up generalizing only to the compliers and is thus called a **complier average causal effect (CACE)** or a **local average treatment effect (LATE)**.    
     Let $A^{IV}$ be the potential outcome for the treatment variable depending on the value of the instrument $IV$.    
     Four *compliance types* or *principal strata*:
     - *Always-takers*: Individuals who always take treatment, regardless of what their IV assigned. i.e., $A^{IV=0} = 1, A^{IV=1} = 1$
