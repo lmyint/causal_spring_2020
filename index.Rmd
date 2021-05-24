@@ -26,6 +26,10 @@ Image source: [IMDB](https://www.imdb.com/title/tt0038650/mediaviewer/rm44967270
 This is the course website for STAT 394: Causal Inference at Macalester College for the Spring 2020 semester. The content here was made by [Leslie Myint](https://lmyint.github.io) and draws upon several resources, all of which are listed on the [References] page.
 
 <br>
+
+**For the most recent versions of my course websites and associated content, please see the [Teaching section](https://lmyint.github.io/#teaching) of my [website](https://lmyint.github.io/).**
+
+<br>
 <br>
 <br>
 

@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Topic 5 Estimating causal effects | STAT 394: Causal Inference</title>
   <meta name="description" content="This is the class website for Causal Inference at Macalester College." />
-  <meta name="generator" content="bookdown 0.17 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.21.6 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Topic 5 Estimating causal effects | STAT 394: Causal Inference" />
   <meta property="og:type" content="book" />
@@ -31,6 +31,7 @@
   
 <link rel="prev" href="d-separation-part-2.html"/>
 <link rel="next" href="ip-weighting-in-practice.html"/>
+<script src="libs/header-attrs-2.6.4/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -48,45 +49,73 @@
 
 
 
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 
 
 <style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; background-color: #2a211c; color: #bdae9d; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; background-color: #2a211c; color: #bdae9d; border-right: 1px solid #bdae9d; }
-td.sourceCode { padding-left: 5px; }
-pre, code { color: #bdae9d; background-color: #2a211c; }
-code > span.kw { color: #43a8ed; font-weight: bold; } /* Keyword */
-code > span.dt { text-decoration: underline; } /* DataType */
-code > span.dv { color: #44aa43; } /* DecVal */
-code > span.bn { color: #44aa43; } /* BaseN */
-code > span.fl { color: #44aa43; } /* Float */
-code > span.ch { color: #049b0a; } /* Char */
-code > span.st { color: #049b0a; } /* String */
-code > span.co { color: #0066ff; font-style: italic; } /* Comment */
-code > span.al { color: #ffff00; } /* Alert */
-code > span.fu { color: #ff9358; font-weight: bold; } /* Function */
-code > span.er { color: #ffff00; font-weight: bold; } /* Error */
-code > span.wa { color: #ffff00; font-weight: bold; } /* Warning */
-code > span.cn { } /* Constant */
-code > span.sc { color: #049b0a; } /* SpecialChar */
-code > span.vs { color: #049b0a; } /* VerbatimString */
-code > span.ss { color: #049b0a; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { } /* Variable */
-code > span.cf { color: #43a8ed; font-weight: bold; } /* ControlFlow */
-code > span.op { } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { font-weight: bold; } /* Preprocessor */
-code > span.at { } /* Attribute */
-code > span.do { color: #0066ff; font-style: italic; } /* Documentation */
-code > span.an { color: #0066ff; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.co { color: #0066ff; font-weight: bold; font-style: italic; } /* Comment */
-code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Information */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #2a211c;
+    color: #bdae9d;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #bdae9d;  padding-left: 4px; }
+div.sourceCode
+  { color: #bdae9d; background-color: #2a211c; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ffff00; } /* Alert */
+code span.an { color: #0066ff; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bn { color: #44aa43; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #43a8ed; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #049b0a; } /* Char */
+code span.cn { } /* Constant */
+code span.co { color: #0066ff; font-weight: bold; font-style: italic; } /* Comment */
+code span.do { color: #0066ff; font-style: italic; } /* Documentation */
+code span.dt { text-decoration: underline; } /* DataType */
+code span.dv { color: #44aa43; } /* DecVal */
+code span.er { color: #ffff00; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #44aa43; } /* Float */
+code span.fu { color: #ff9358; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #43a8ed; font-weight: bold; } /* Keyword */
+code span.op { } /* Operator */
+code span.pp { font-weight: bold; } /* Preprocessor */
+code span.sc { color: #049b0a; } /* SpecialChar */
+code span.ss { color: #049b0a; } /* SpecialString */
+code span.st { color: #049b0a; } /* String */
+code span.va { } /* Variable */
+code span.vs { color: #049b0a; } /* VerbatimString */
+code span.wa { color: #ffff00; font-weight: bold; } /* Warning */
 </style>
+
 
 <link rel="stylesheet" href="custom_styles.css" type="text/css" />
 </head>
@@ -106,7 +135,8 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
 <li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome!</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
-<li class="chapter" data-level="" data-path="schedule.html"><a href="schedule.html"><i class="fa fa-check"></i>Schedule</a><ul>
+<li class="chapter" data-level="" data-path="schedule.html"><a href="schedule.html"><i class="fa fa-check"></i>Schedule</a>
+<ul>
 <li class="chapter" data-level="" data-path="schedule.html"><a href="schedule.html#week-1"><i class="fa fa-check"></i>Week 1</a></li>
 <li class="chapter" data-level="" data-path="schedule.html"><a href="schedule.html#week-2"><i class="fa fa-check"></i>Week 2</a></li>
 <li class="chapter" data-level="" data-path="schedule.html"><a href="schedule.html#week-3"><i class="fa fa-check"></i>Week 3</a></li>
@@ -123,36 +153,43 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="" data-path="schedule.html"><a href="schedule.html#week-13-427---51"><i class="fa fa-check"></i>Week 13: 4/27 - 5/1</a></li>
 </ul></li>
 <li class="part"><span><b>I Causal Diagram Fundamentals</b></span></li>
-<li class="chapter" data-level="1" data-path="introductions-review-and-motivation.html"><a href="introductions-review-and-motivation.html"><i class="fa fa-check"></i><b>1</b> Introductions, Review, and Motivation</a><ul>
+<li class="chapter" data-level="1" data-path="introductions-review-and-motivation.html"><a href="introductions-review-and-motivation.html"><i class="fa fa-check"></i><b>1</b> Introductions, Review, and Motivation</a>
+<ul>
 <li class="chapter" data-level="" data-path="introductions-review-and-motivation.html"><a href="introductions-review-and-motivation.html#learning-goals"><i class="fa fa-check"></i>Learning Goals</a></li>
 <li class="chapter" data-level="" data-path="introductions-review-and-motivation.html"><a href="introductions-review-and-motivation.html#review-regression-models"><i class="fa fa-check"></i>Review: Regression Models</a></li>
-<li class="chapter" data-level="" data-path="introductions-review-and-motivation.html"><a href="introductions-review-and-motivation.html#exercises"><i class="fa fa-check"></i>Exercises</a><ul>
+<li class="chapter" data-level="" data-path="introductions-review-and-motivation.html"><a href="introductions-review-and-motivation.html#exercises"><i class="fa fa-check"></i>Exercises</a>
+<ul>
 <li class="chapter" data-level="" data-path="introductions-review-and-motivation.html"><a href="introductions-review-and-motivation.html#exercise-1"><i class="fa fa-check"></i>Exercise 1</a></li>
 <li class="chapter" data-level="" data-path="introductions-review-and-motivation.html"><a href="introductions-review-and-motivation.html#exercise-2"><i class="fa fa-check"></i>Exercise 2</a></li>
 <li class="chapter" data-level="" data-path="introductions-review-and-motivation.html"><a href="introductions-review-and-motivation.html#exercise-3"><i class="fa fa-check"></i>Exercise 3</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="probability-and-dags.html"><a href="probability-and-dags.html"><i class="fa fa-check"></i><b>2</b> Probability and DAGs</a><ul>
+<li class="chapter" data-level="2" data-path="probability-and-dags.html"><a href="probability-and-dags.html"><i class="fa fa-check"></i><b>2</b> Probability and DAGs</a>
+<ul>
 <li class="chapter" data-level="" data-path="probability-and-dags.html"><a href="probability-and-dags.html#learning-goals-1"><i class="fa fa-check"></i>Learning Goals</a></li>
 <li class="chapter" data-level="" data-path="probability-and-dags.html"><a href="probability-and-dags.html#goal-1"><i class="fa fa-check"></i>Goal 1</a></li>
 <li class="chapter" data-level="" data-path="probability-and-dags.html"><a href="probability-and-dags.html#lead-in-to-r-activity-poll"><i class="fa fa-check"></i>Lead-in to R activity: Poll</a></li>
 <li class="chapter" data-level="" data-path="probability-and-dags.html"><a href="probability-and-dags.html#discussion"><i class="fa fa-check"></i>Discussion</a></li>
-<li class="chapter" data-level="" data-path="probability-and-dags.html"><a href="probability-and-dags.html#r-exercises"><i class="fa fa-check"></i>R Exercises</a><ul>
+<li class="chapter" data-level="" data-path="probability-and-dags.html"><a href="probability-and-dags.html#r-exercises"><i class="fa fa-check"></i>R Exercises</a>
+<ul>
 <li class="chapter" data-level="" data-path="probability-and-dags.html"><a href="probability-and-dags.html#exercise-1-1"><i class="fa fa-check"></i>Exercise 1</a></li>
 <li class="chapter" data-level="" data-path="probability-and-dags.html"><a href="probability-and-dags.html#exercise-2-1"><i class="fa fa-check"></i>Exercise 2</a></li>
 <li class="chapter" data-level="" data-path="probability-and-dags.html"><a href="probability-and-dags.html#exercise-3-1"><i class="fa fa-check"></i>Exercise 3</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="probability-and-dags.html"><a href="probability-and-dags.html#conceptual-exercises"><i class="fa fa-check"></i>Conceptual Exercises</a><ul>
+<li class="chapter" data-level="" data-path="probability-and-dags.html"><a href="probability-and-dags.html#conceptual-exercises"><i class="fa fa-check"></i>Conceptual Exercises</a>
+<ul>
 <li class="chapter" data-level="" data-path="probability-and-dags.html"><a href="probability-and-dags.html#exercise-4"><i class="fa fa-check"></i>Exercise 4</a></li>
 <li class="chapter" data-level="" data-path="probability-and-dags.html"><a href="probability-and-dags.html#exercise-5"><i class="fa fa-check"></i>Exercise 5</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="d-separation-part-1.html"><a href="d-separation-part-1.html"><i class="fa fa-check"></i><b>3</b> d-separation (Part 1)</a><ul>
+<li class="chapter" data-level="3" data-path="d-separation-part-1.html"><a href="d-separation-part-1.html"><i class="fa fa-check"></i><b>3</b> d-separation (Part 1)</a>
+<ul>
 <li class="chapter" data-level="" data-path="d-separation-part-1.html"><a href="d-separation-part-1.html#learning-goals-2"><i class="fa fa-check"></i>Learning Goals</a></li>
 <li class="chapter" data-level="" data-path="d-separation-part-1.html"><a href="d-separation-part-1.html#discussion-d-separation"><i class="fa fa-check"></i>Discussion: d-separation</a></li>
 <li class="chapter" data-level="" data-path="d-separation-part-1.html"><a href="d-separation-part-1.html#discussion-the-birth-weight-paradox"><i class="fa fa-check"></i>Discussion: The Birth Weight Paradox</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="d-separation-part-2.html"><a href="d-separation-part-2.html"><i class="fa fa-check"></i><b>4</b> d-separation (Part 2)</a><ul>
+<li class="chapter" data-level="4" data-path="d-separation-part-2.html"><a href="d-separation-part-2.html"><i class="fa fa-check"></i><b>4</b> d-separation (Part 2)</a>
+<ul>
 <li class="chapter" data-level="" data-path="d-separation-part-2.html"><a href="d-separation-part-2.html#learning-goals-3"><i class="fa fa-check"></i>Learning Goals</a></li>
 <li class="chapter" data-level="" data-path="d-separation-part-2.html"><a href="d-separation-part-2.html#why-care"><i class="fa fa-check"></i>Why care?</a></li>
 <li class="chapter" data-level="" data-path="d-separation-part-2.html"><a href="d-separation-part-2.html#example-folic-acid-and-birth-defects"><i class="fa fa-check"></i>Example: Folic Acid and Birth Defects</a></li>
@@ -161,11 +198,13 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="" data-path="d-separation-part-2.html"><a href="d-separation-part-2.html#principles-of-building-causal-diagrams"><i class="fa fa-check"></i>Principles of building causal diagrams</a></li>
 </ul></li>
 <li class="part"><span><b>II Causal Effect Estimation</b></span></li>
-<li class="chapter" data-level="5" data-path="estimating-causal-effects.html"><a href="estimating-causal-effects.html"><i class="fa fa-check"></i><b>5</b> Estimating causal effects</a><ul>
+<li class="chapter" data-level="5" data-path="estimating-causal-effects.html"><a href="estimating-causal-effects.html"><i class="fa fa-check"></i><b>5</b> Estimating causal effects</a>
+<ul>
 <li class="chapter" data-level="" data-path="estimating-causal-effects.html"><a href="estimating-causal-effects.html#learning-goals-4"><i class="fa fa-check"></i>Learning Goals</a></li>
 <li class="chapter" data-level="" data-path="estimating-causal-effects.html"><a href="estimating-causal-effects.html#exercise-dag-construction"><i class="fa fa-check"></i>Exercise: DAG construction</a></li>
 <li class="chapter" data-level="" data-path="estimating-causal-effects.html"><a href="estimating-causal-effects.html#warm-up-d-separation"><i class="fa fa-check"></i>Warm-up: d-separation</a></li>
-<li class="chapter" data-level="" data-path="estimating-causal-effects.html"><a href="estimating-causal-effects.html#discussion-estimating-causal-effects"><i class="fa fa-check"></i>Discussion: Estimating causal effects</a><ul>
+<li class="chapter" data-level="" data-path="estimating-causal-effects.html"><a href="estimating-causal-effects.html#discussion-estimating-causal-effects"><i class="fa fa-check"></i>Discussion: Estimating causal effects</a>
+<ul>
 <li class="chapter" data-level="" data-path="estimating-causal-effects.html"><a href="estimating-causal-effects.html#worksheet-developing-ideas"><i class="fa fa-check"></i>Worksheet: developing ideas</a></li>
 <li class="chapter" data-level="" data-path="estimating-causal-effects.html"><a href="estimating-causal-effects.html#notes-deriving-inverse-probability-weighting"><i class="fa fa-check"></i>Notes: deriving inverse probability weighting</a></li>
 <li class="chapter" data-level="" data-path="estimating-causal-effects.html"><a href="estimating-causal-effects.html#exercise-simulation-planning"><i class="fa fa-check"></i>Exercise: Simulation planning</a></li>
@@ -173,25 +212,30 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="" data-path="estimating-causal-effects.html"><a href="estimating-causal-effects.html#on-your-own"><i class="fa fa-check"></i>On your own</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="ip-weighting-in-practice.html"><a href="ip-weighting-in-practice.html"><i class="fa fa-check"></i><b>6</b> IP weighting in practice</a><ul>
+<li class="chapter" data-level="6" data-path="ip-weighting-in-practice.html"><a href="ip-weighting-in-practice.html"><i class="fa fa-check"></i><b>6</b> IP weighting in practice</a>
+<ul>
 <li class="chapter" data-level="" data-path="ip-weighting-in-practice.html"><a href="ip-weighting-in-practice.html#learning-goals-5"><i class="fa fa-check"></i>Learning Goals</a></li>
 <li class="chapter" data-level="" data-path="ip-weighting-in-practice.html"><a href="ip-weighting-in-practice.html#discussion-1"><i class="fa fa-check"></i>Discussion</a></li>
 <li class="chapter" data-level="" data-path="ip-weighting-in-practice.html"><a href="ip-weighting-in-practice.html#analysis"><i class="fa fa-check"></i>Analysis</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="ip-weighting-for-censoring.html"><a href="ip-weighting-for-censoring.html"><i class="fa fa-check"></i><b>7</b> IP weighting for censoring</a><ul>
+<li class="chapter" data-level="7" data-path="ip-weighting-for-censoring.html"><a href="ip-weighting-for-censoring.html"><i class="fa fa-check"></i><b>7</b> IP weighting for censoring</a>
+<ul>
 <li class="chapter" data-level="" data-path="ip-weighting-for-censoring.html"><a href="ip-weighting-for-censoring.html#learning-goals-6"><i class="fa fa-check"></i>Learning Goals</a></li>
 <li class="chapter" data-level="" data-path="ip-weighting-for-censoring.html"><a href="ip-weighting-for-censoring.html#discussion-2"><i class="fa fa-check"></i>Discussion</a></li>
-<li class="chapter" data-level="" data-path="ip-weighting-for-censoring.html"><a href="ip-weighting-for-censoring.html#exercises-1"><i class="fa fa-check"></i>Exercises</a><ul>
+<li class="chapter" data-level="" data-path="ip-weighting-for-censoring.html"><a href="ip-weighting-for-censoring.html#exercises-1"><i class="fa fa-check"></i>Exercises</a>
+<ul>
 <li class="chapter" data-level="" data-path="ip-weighting-for-censoring.html"><a href="ip-weighting-for-censoring.html#setup"><i class="fa fa-check"></i>Setup</a></li>
 <li class="chapter" data-level="" data-path="ip-weighting-for-censoring.html"><a href="ip-weighting-for-censoring.html#part-1-modeling-to-obtain-weights"><i class="fa fa-check"></i>Part 1: Modeling to obtain weights</a></li>
 <li class="chapter" data-level="" data-path="ip-weighting-for-censoring.html"><a href="ip-weighting-for-censoring.html#part-2-fitting-msms"><i class="fa fa-check"></i>Part 2: Fitting MSMs</a></li>
 </ul></li>
 </ul></li>
 <li class="part"><span><b>III Causal Discovery</b></span></li>
-<li class="chapter" data-level="8" data-path="causal-discovery.html"><a href="causal-discovery.html"><i class="fa fa-check"></i><b>8</b> Causal Discovery</a><ul>
+<li class="chapter" data-level="8" data-path="causal-discovery.html"><a href="causal-discovery.html"><i class="fa fa-check"></i><b>8</b> Causal Discovery</a>
+<ul>
 <li class="chapter" data-level="" data-path="causal-discovery.html"><a href="causal-discovery.html#learning-goals-7"><i class="fa fa-check"></i>Learning Goals</a></li>
 <li class="chapter" data-level="" data-path="causal-discovery.html"><a href="causal-discovery.html#discussion-3"><i class="fa fa-check"></i>Discussion</a></li>
-<li class="chapter" data-level="" data-path="causal-discovery.html"><a href="causal-discovery.html#exercises-2"><i class="fa fa-check"></i>Exercises</a><ul>
+<li class="chapter" data-level="" data-path="causal-discovery.html"><a href="causal-discovery.html#exercises-2"><i class="fa fa-check"></i>Exercises</a>
+<ul>
 <li class="chapter" data-level="" data-path="causal-discovery.html"><a href="causal-discovery.html#exercise-1-2"><i class="fa fa-check"></i>Exercise 1</a></li>
 <li class="chapter" data-level="" data-path="causal-discovery.html"><a href="causal-discovery.html#exercise-2-2"><i class="fa fa-check"></i>Exercise 2</a></li>
 <li class="chapter" data-level="" data-path="causal-discovery.html"><a href="causal-discovery.html#exercise-3-2"><i class="fa fa-check"></i>Exercise 3</a></li>
@@ -203,25 +247,30 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
 </ul></li>
 </ul></li>
 <li class="part"><span><b>IV Sensitivity Analyses</b></span></li>
-<li class="chapter" data-level="9" data-path="sensitivity-analyses-for-unmeasured-confounding.html"><a href="sensitivity-analyses-for-unmeasured-confounding.html"><i class="fa fa-check"></i><b>9</b> Sensitivity Analyses for Unmeasured Confounding</a><ul>
+<li class="chapter" data-level="9" data-path="sensitivity-analyses-for-unmeasured-confounding.html"><a href="sensitivity-analyses-for-unmeasured-confounding.html"><i class="fa fa-check"></i><b>9</b> Sensitivity Analyses for Unmeasured Confounding</a>
+<ul>
 <li class="chapter" data-level="" data-path="sensitivity-analyses-for-unmeasured-confounding.html"><a href="sensitivity-analyses-for-unmeasured-confounding.html#learning-goals-8"><i class="fa fa-check"></i>Learning Goals</a></li>
 <li class="chapter" data-level="" data-path="sensitivity-analyses-for-unmeasured-confounding.html"><a href="sensitivity-analyses-for-unmeasured-confounding.html#exercises-3"><i class="fa fa-check"></i>Exercises</a></li>
 </ul></li>
 <li class="part"><span><b>V Mediation Analysis</b></span></li>
-<li class="chapter" data-level="10" data-path="graphical-structure-of-mediation.html"><a href="graphical-structure-of-mediation.html"><i class="fa fa-check"></i><b>10</b> Graphical Structure of Mediation</a><ul>
+<li class="chapter" data-level="10" data-path="graphical-structure-of-mediation.html"><a href="graphical-structure-of-mediation.html"><i class="fa fa-check"></i><b>10</b> Graphical Structure of Mediation</a>
+<ul>
 <li class="chapter" data-level="" data-path="graphical-structure-of-mediation.html"><a href="graphical-structure-of-mediation.html#learning-goals-9"><i class="fa fa-check"></i>Learning Goals</a></li>
 <li class="chapter" data-level="" data-path="graphical-structure-of-mediation.html"><a href="graphical-structure-of-mediation.html#warm-up"><i class="fa fa-check"></i>Warm-up</a></li>
-<li class="chapter" data-level="" data-path="graphical-structure-of-mediation.html"><a href="graphical-structure-of-mediation.html#exercises-4"><i class="fa fa-check"></i>Exercises</a><ul>
+<li class="chapter" data-level="" data-path="graphical-structure-of-mediation.html"><a href="graphical-structure-of-mediation.html#exercises-4"><i class="fa fa-check"></i>Exercises</a>
+<ul>
 <li class="chapter" data-level="" data-path="graphical-structure-of-mediation.html"><a href="graphical-structure-of-mediation.html#background"><i class="fa fa-check"></i>Background</a></li>
 <li class="chapter" data-level="" data-path="graphical-structure-of-mediation.html"><a href="graphical-structure-of-mediation.html#exercise-1-3"><i class="fa fa-check"></i>Exercise 1</a></li>
 <li class="chapter" data-level="" data-path="graphical-structure-of-mediation.html"><a href="graphical-structure-of-mediation.html#exercise-2-3"><i class="fa fa-check"></i>Exercise 2</a></li>
 <li class="chapter" data-level="" data-path="graphical-structure-of-mediation.html"><a href="graphical-structure-of-mediation.html#exercise-3-3"><i class="fa fa-check"></i>Exercise 3</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="11" data-path="applied-mediation-analysis.html"><a href="applied-mediation-analysis.html"><i class="fa fa-check"></i><b>11</b> Applied Mediation Analysis</a><ul>
+<li class="chapter" data-level="11" data-path="applied-mediation-analysis.html"><a href="applied-mediation-analysis.html"><i class="fa fa-check"></i><b>11</b> Applied Mediation Analysis</a>
+<ul>
 <li class="chapter" data-level="" data-path="applied-mediation-analysis.html"><a href="applied-mediation-analysis.html#learning-goals-10"><i class="fa fa-check"></i>Learning Goals</a></li>
 <li class="chapter" data-level="" data-path="applied-mediation-analysis.html"><a href="applied-mediation-analysis.html#discussion-4"><i class="fa fa-check"></i>Discussion</a></li>
-<li class="chapter" data-level="" data-path="applied-mediation-analysis.html"><a href="applied-mediation-analysis.html#exercises-5"><i class="fa fa-check"></i>Exercises</a><ul>
+<li class="chapter" data-level="" data-path="applied-mediation-analysis.html"><a href="applied-mediation-analysis.html#exercises-5"><i class="fa fa-check"></i>Exercises</a>
+<ul>
 <li class="chapter" data-level="" data-path="applied-mediation-analysis.html"><a href="applied-mediation-analysis.html#data-context"><i class="fa fa-check"></i>Data context</a></li>
 <li class="chapter" data-level="" data-path="applied-mediation-analysis.html"><a href="applied-mediation-analysis.html#exercise-1-4"><i class="fa fa-check"></i>Exercise 1</a></li>
 <li class="chapter" data-level="" data-path="applied-mediation-analysis.html"><a href="applied-mediation-analysis.html#exercise-2-4"><i class="fa fa-check"></i>Exercise 2</a></li>
@@ -232,11 +281,13 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
 </ul></li>
 </ul></li>
 <li class="part"><span><b>VI Study Designs</b></span></li>
-<li class="chapter" data-level="12" data-path="rct-and-iv-designs.html"><a href="rct-and-iv-designs.html"><i class="fa fa-check"></i><b>12</b> RCT and IV designs</a><ul>
+<li class="chapter" data-level="12" data-path="rct-and-iv-designs.html"><a href="rct-and-iv-designs.html"><i class="fa fa-check"></i><b>12</b> RCT and IV designs</a>
+<ul>
 <li class="chapter" data-level="" data-path="rct-and-iv-designs.html"><a href="rct-and-iv-designs.html#learning-goals-11"><i class="fa fa-check"></i>Learning Goals</a></li>
 <li class="chapter" data-level="" data-path="rct-and-iv-designs.html"><a href="rct-and-iv-designs.html#warm-up-1"><i class="fa fa-check"></i>Warm-up</a></li>
 <li class="chapter" data-level="" data-path="rct-and-iv-designs.html"><a href="rct-and-iv-designs.html#discussion-5"><i class="fa fa-check"></i>Discussion</a></li>
-<li class="chapter" data-level="" data-path="rct-and-iv-designs.html"><a href="rct-and-iv-designs.html#exercises-6"><i class="fa fa-check"></i>Exercises</a><ul>
+<li class="chapter" data-level="" data-path="rct-and-iv-designs.html"><a href="rct-and-iv-designs.html#exercises-6"><i class="fa fa-check"></i>Exercises</a>
+<ul>
 <li class="chapter" data-level="" data-path="rct-and-iv-designs.html"><a href="rct-and-iv-designs.html#iv-assumptions"><i class="fa fa-check"></i>IV assumptions</a></li>
 <li class="chapter" data-level="" data-path="rct-and-iv-designs.html"><a href="rct-and-iv-designs.html#simulation-planning"><i class="fa fa-check"></i>Simulation planning</a></li>
 <li class="chapter" data-level="" data-path="rct-and-iv-designs.html"><a href="rct-and-iv-designs.html#simulation-setting-up-helper-functions"><i class="fa fa-check"></i>Simulation: setting up helper functions</a></li>
@@ -245,21 +296,26 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="" data-path="rct-and-iv-designs.html"><a href="rct-and-iv-designs.html#iv-estimation-and-rcts"><i class="fa fa-check"></i>IV estimation and RCTs</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="13" data-path="its-and-rd-designs.html"><a href="its-and-rd-designs.html"><i class="fa fa-check"></i><b>13</b> ITS and RD designs</a><ul>
+<li class="chapter" data-level="13" data-path="its-and-rd-designs.html"><a href="its-and-rd-designs.html"><i class="fa fa-check"></i><b>13</b> ITS and RD designs</a>
+<ul>
 <li class="chapter" data-level="" data-path="its-and-rd-designs.html"><a href="its-and-rd-designs.html#learning-goals-12"><i class="fa fa-check"></i>Learning Goals</a></li>
-<li class="chapter" data-level="" data-path="its-and-rd-designs.html"><a href="its-and-rd-designs.html#exercises-7"><i class="fa fa-check"></i>Exercises</a><ul>
+<li class="chapter" data-level="" data-path="its-and-rd-designs.html"><a href="its-and-rd-designs.html#exercises-7"><i class="fa fa-check"></i>Exercises</a>
+<ul>
 <li class="chapter" data-level="" data-path="its-and-rd-designs.html"><a href="its-and-rd-designs.html#regression-discontinuity-models"><i class="fa fa-check"></i>Regression discontinuity models</a></li>
 <li class="chapter" data-level="" data-path="its-and-rd-designs.html"><a href="its-and-rd-designs.html#interrupted-time-series-models"><i class="fa fa-check"></i>Interrupted time series models</a></li>
 </ul></li>
 </ul></li>
 <li class="part"><span><b>VII Homework</b></span></li>
-<li class="chapter" data-level="" data-path="homework-1.html"><a href="homework-1.html"><i class="fa fa-check"></i>Homework 1</a><ul>
-<li class="chapter" data-level="" data-path="homework-1.html"><a href="homework-1.html#conceptual-exercises-1"><i class="fa fa-check"></i>Conceptual Exercises</a><ul>
+<li class="chapter" data-level="" data-path="homework-1.html"><a href="homework-1.html"><i class="fa fa-check"></i>Homework 1</a>
+<ul>
+<li class="chapter" data-level="" data-path="homework-1.html"><a href="homework-1.html#conceptual-exercises-1"><i class="fa fa-check"></i>Conceptual Exercises</a>
+<ul>
 <li class="chapter" data-level="" data-path="homework-1.html"><a href="homework-1.html#exercise-1-5"><i class="fa fa-check"></i>Exercise 1</a></li>
 <li class="chapter" data-level="" data-path="homework-1.html"><a href="homework-1.html#exercise-2-5"><i class="fa fa-check"></i>Exercise 2</a></li>
 <li class="chapter" data-level="" data-path="homework-1.html"><a href="homework-1.html#exercise-3-5"><i class="fa fa-check"></i>Exercise 3</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="homework-1.html"><a href="homework-1.html#simulation-exercises"><i class="fa fa-check"></i>Simulation Exercises</a><ul>
+<li class="chapter" data-level="" data-path="homework-1.html"><a href="homework-1.html#simulation-exercises"><i class="fa fa-check"></i>Simulation Exercises</a>
+<ul>
 <li class="chapter" data-level="" data-path="homework-1.html"><a href="homework-1.html#exercise-4-3"><i class="fa fa-check"></i>Exercise 4</a></li>
 <li class="chapter" data-level="" data-path="homework-1.html"><a href="homework-1.html#exercise-5-3"><i class="fa fa-check"></i>Exercise 5</a></li>
 <li class="chapter" data-level="" data-path="homework-1.html"><a href="homework-1.html#exercise-6-2"><i class="fa fa-check"></i>Exercise 6</a></li>
@@ -267,14 +323,17 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
 </ul></li>
 <li class="chapter" data-level="" data-path="homework-1.html"><a href="homework-1.html#portfolio"><i class="fa fa-check"></i>Portfolio</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="homework-2.html"><a href="homework-2.html"><i class="fa fa-check"></i>Homework 2</a><ul>
+<li class="chapter" data-level="" data-path="homework-2.html"><a href="homework-2.html"><i class="fa fa-check"></i>Homework 2</a>
+<ul>
 <li class="chapter" data-level="" data-path="homework-2.html"><a href="homework-2.html#in-class-activities-estimating-causal-effects"><i class="fa fa-check"></i>In-class activities: Estimating causal effects</a></li>
 <li class="chapter" data-level="" data-path="homework-2.html"><a href="homework-2.html#in-class-activities-ip-weighting-in-practice"><i class="fa fa-check"></i>In-class activities: IP weighting in practice</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="homework-3.html"><a href="homework-3.html"><i class="fa fa-check"></i>Homework 3</a></li>
 <li class="part"><span><b>VIII Projects</b></span></li>
-<li class="chapter" data-level="" data-path="portfolio-1.html"><a href="portfolio-1.html"><i class="fa fa-check"></i>Portfolio</a><ul>
-<li class="chapter" data-level="" data-path="portfolio-1.html"><a href="portfolio-1.html#required-topics"><i class="fa fa-check"></i>Required Topics</a><ul>
+<li class="chapter" data-level="" data-path="portfolio-1.html"><a href="portfolio-1.html"><i class="fa fa-check"></i>Portfolio</a>
+<ul>
+<li class="chapter" data-level="" data-path="portfolio-1.html"><a href="portfolio-1.html#required-topics"><i class="fa fa-check"></i>Required Topics</a>
+<ul>
 <li class="chapter" data-level="" data-path="portfolio-1.html"><a href="portfolio-1.html#post-1"><i class="fa fa-check"></i>Post 1</a></li>
 <li class="chapter" data-level="" data-path="portfolio-1.html"><a href="portfolio-1.html#post-2"><i class="fa fa-check"></i>Post 2</a></li>
 <li class="chapter" data-level="" data-path="portfolio-1.html"><a href="portfolio-1.html#post-3"><i class="fa fa-check"></i>Post 3</a></li>
@@ -302,7 +361,7 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="estimating-causal-effects" class="section level1">
+<div id="estimating-causal-effects" class="section level1" number="5">
 <h1><span class="header-section-number">Topic 5</span> Estimating causal effects</h1>
 <div id="learning-goals-4" class="section level2 unnumbered">
 <h2>Learning Goals</h2>
@@ -443,7 +502,8 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
 </ul>
 <p><br><br><br><br></p>
 <ul>
-<li>The individual “do” probabilities are actually weighted averages of the outcome variable: <span class="math display">\[ P(Y = 1 \mid \hbox{do}(A = a)) = \frac{\sum_i w_i y_i}{\sum_i w_i} \]</span>
+<li>The individual “do” probabilities are actually weighted averages of the outcome variable:
+<span class="math display">\[ P(Y = 1 \mid \hbox{do}(A = a)) = \frac{\sum_i w_i y_i}{\sum_i w_i} \]</span>
 <ul>
 <li><span class="math inline">\(w_i\)</span> is the appropriate weight for case <span class="math inline">\(i\)</span></li>
 <li><span class="math inline">\(y_i\)</span> is the outcome for case <span class="math inline">\(i\)</span></li>
@@ -492,122 +552,122 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
 <p>A template Rmd is available <a href="template_rmds/05-estimating-causal-effects.Rmd">here</a>.</p>
 <p><strong>Task 1:</strong> What is the point of this simulation exercise? What are we trying to show? Clearly explain how we are approaching causal effect estimation from two seemingly different viewpoints.</p>
 <p><strong>Task 2:</strong> Explain in detail all steps taken in this code. Do this by breaking the code into smaller code chunks and adding text in between.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr)</code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="estimating-causal-effects.html#cb12-1" aria-hidden="true"></a><span class="kw">library</span>(dplyr)</span></code></pre></div>
 <p><strong>Phase 1:</strong></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">22</span>)
-n &lt;-<span class="st"> </span><span class="fl">1e6</span>
-Z &lt;-<span class="st"> </span><span class="kw">rbinom</span>(n, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> <span class="fl">0.5</span>)
-p_A &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">case_when</span>(
-    Z<span class="op">==</span><span class="dv">1</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.8</span>,
-    Z<span class="op">==</span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.3</span>
-)
-A &lt;-<span class="st"> </span><span class="kw">rbinom</span>(n, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> p_A)
-p_Y &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">case_when</span>(
-    Z<span class="op">==</span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>A<span class="op">==</span><span class="dv">1</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.3</span>,
-    Z<span class="op">==</span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>A<span class="op">==</span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.6</span>,
-    Z<span class="op">==</span><span class="dv">0</span> <span class="op">&amp;</span><span class="st"> </span>A<span class="op">==</span><span class="dv">1</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.9</span>,
-    Z<span class="op">==</span><span class="dv">0</span> <span class="op">&amp;</span><span class="st"> </span>A<span class="op">==</span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.2</span>
-)
-Y &lt;-<span class="st"> </span><span class="kw">rbinom</span>(n, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> p_Y)
-A_do_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">1</span>, n)
-A_do_<span class="dv">0</span> &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">0</span>, n)
-
-p_Y_Ado1 &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">case_when</span>(
-    Z<span class="op">==</span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>A_do_<span class="dv">1</span><span class="op">==</span><span class="dv">1</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.3</span>,
-    Z<span class="op">==</span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>A_do_<span class="dv">1</span><span class="op">==</span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.6</span>,
-    Z<span class="op">==</span><span class="dv">0</span> <span class="op">&amp;</span><span class="st"> </span>A_do_<span class="dv">1</span><span class="op">==</span><span class="dv">1</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.9</span>,
-    Z<span class="op">==</span><span class="dv">0</span> <span class="op">&amp;</span><span class="st"> </span>A_do_<span class="dv">1</span><span class="op">==</span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.2</span>
-)
-Y_Ado1 &lt;-<span class="st"> </span><span class="kw">rbinom</span>(n, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> p_Y_Ado1)
-
-p_Y_Ado0 &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">case_when</span>(
-    Z<span class="op">==</span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>A_do_<span class="dv">0</span><span class="op">==</span><span class="dv">1</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.3</span>,
-    Z<span class="op">==</span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>A_do_<span class="dv">0</span><span class="op">==</span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.6</span>,
-    Z<span class="op">==</span><span class="dv">0</span> <span class="op">&amp;</span><span class="st"> </span>A_do_<span class="dv">0</span><span class="op">==</span><span class="dv">1</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.9</span>,
-    Z<span class="op">==</span><span class="dv">0</span> <span class="op">&amp;</span><span class="st"> </span>A_do_<span class="dv">0</span><span class="op">==</span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.2</span>
-)
-Y_Ado0 &lt;-<span class="st"> </span><span class="kw">rbinom</span>(n, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> p_Y_Ado0)
-
-
-sim_data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(Z, A, Y, Y_Ado1, Y_Ado0)
-
-<span class="kw">sum</span>(sim_data<span class="op">$</span>Y_Ado1<span class="op">==</span><span class="dv">1</span>)<span class="op">/</span>n
-<span class="kw">sum</span>(sim_data<span class="op">$</span>Y_Ado0<span class="op">==</span><span class="dv">1</span>)<span class="op">/</span>n
-
-(<span class="kw">sum</span>(sim_data<span class="op">$</span>Y_Ado1<span class="op">==</span><span class="dv">1</span>)<span class="op">/</span>n)<span class="op">-</span>(<span class="kw">sum</span>(sim_data<span class="op">$</span>Y_Ado0<span class="op">==</span><span class="dv">1</span>)<span class="op">/</span>n)</code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="estimating-causal-effects.html#cb13-1" aria-hidden="true"></a><span class="kw">set.seed</span>(<span class="dv">22</span>)</span>
+<span id="cb13-2"><a href="estimating-causal-effects.html#cb13-2" aria-hidden="true"></a>n &lt;-<span class="st"> </span><span class="fl">1e6</span></span>
+<span id="cb13-3"><a href="estimating-causal-effects.html#cb13-3" aria-hidden="true"></a>Z &lt;-<span class="st"> </span><span class="kw">rbinom</span>(n, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> <span class="fl">0.5</span>)</span>
+<span id="cb13-4"><a href="estimating-causal-effects.html#cb13-4" aria-hidden="true"></a>p_A &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">case_when</span>(</span>
+<span id="cb13-5"><a href="estimating-causal-effects.html#cb13-5" aria-hidden="true"></a>    Z<span class="op">==</span><span class="dv">1</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.8</span>,</span>
+<span id="cb13-6"><a href="estimating-causal-effects.html#cb13-6" aria-hidden="true"></a>    Z<span class="op">==</span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.3</span></span>
+<span id="cb13-7"><a href="estimating-causal-effects.html#cb13-7" aria-hidden="true"></a>)</span>
+<span id="cb13-8"><a href="estimating-causal-effects.html#cb13-8" aria-hidden="true"></a>A &lt;-<span class="st"> </span><span class="kw">rbinom</span>(n, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> p_A)</span>
+<span id="cb13-9"><a href="estimating-causal-effects.html#cb13-9" aria-hidden="true"></a>p_Y &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">case_when</span>(</span>
+<span id="cb13-10"><a href="estimating-causal-effects.html#cb13-10" aria-hidden="true"></a>    Z<span class="op">==</span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>A<span class="op">==</span><span class="dv">1</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.3</span>,</span>
+<span id="cb13-11"><a href="estimating-causal-effects.html#cb13-11" aria-hidden="true"></a>    Z<span class="op">==</span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>A<span class="op">==</span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.6</span>,</span>
+<span id="cb13-12"><a href="estimating-causal-effects.html#cb13-12" aria-hidden="true"></a>    Z<span class="op">==</span><span class="dv">0</span> <span class="op">&amp;</span><span class="st"> </span>A<span class="op">==</span><span class="dv">1</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.9</span>,</span>
+<span id="cb13-13"><a href="estimating-causal-effects.html#cb13-13" aria-hidden="true"></a>    Z<span class="op">==</span><span class="dv">0</span> <span class="op">&amp;</span><span class="st"> </span>A<span class="op">==</span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.2</span></span>
+<span id="cb13-14"><a href="estimating-causal-effects.html#cb13-14" aria-hidden="true"></a>)</span>
+<span id="cb13-15"><a href="estimating-causal-effects.html#cb13-15" aria-hidden="true"></a>Y &lt;-<span class="st"> </span><span class="kw">rbinom</span>(n, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> p_Y)</span>
+<span id="cb13-16"><a href="estimating-causal-effects.html#cb13-16" aria-hidden="true"></a>A_do_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">1</span>, n)</span>
+<span id="cb13-17"><a href="estimating-causal-effects.html#cb13-17" aria-hidden="true"></a>A_do_<span class="dv">0</span> &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">0</span>, n)</span>
+<span id="cb13-18"><a href="estimating-causal-effects.html#cb13-18" aria-hidden="true"></a></span>
+<span id="cb13-19"><a href="estimating-causal-effects.html#cb13-19" aria-hidden="true"></a>p_Y_Ado1 &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">case_when</span>(</span>
+<span id="cb13-20"><a href="estimating-causal-effects.html#cb13-20" aria-hidden="true"></a>    Z<span class="op">==</span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>A_do_<span class="dv">1</span><span class="op">==</span><span class="dv">1</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.3</span>,</span>
+<span id="cb13-21"><a href="estimating-causal-effects.html#cb13-21" aria-hidden="true"></a>    Z<span class="op">==</span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>A_do_<span class="dv">1</span><span class="op">==</span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.6</span>,</span>
+<span id="cb13-22"><a href="estimating-causal-effects.html#cb13-22" aria-hidden="true"></a>    Z<span class="op">==</span><span class="dv">0</span> <span class="op">&amp;</span><span class="st"> </span>A_do_<span class="dv">1</span><span class="op">==</span><span class="dv">1</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.9</span>,</span>
+<span id="cb13-23"><a href="estimating-causal-effects.html#cb13-23" aria-hidden="true"></a>    Z<span class="op">==</span><span class="dv">0</span> <span class="op">&amp;</span><span class="st"> </span>A_do_<span class="dv">1</span><span class="op">==</span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.2</span></span>
+<span id="cb13-24"><a href="estimating-causal-effects.html#cb13-24" aria-hidden="true"></a>)</span>
+<span id="cb13-25"><a href="estimating-causal-effects.html#cb13-25" aria-hidden="true"></a>Y_Ado1 &lt;-<span class="st"> </span><span class="kw">rbinom</span>(n, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> p_Y_Ado1)</span>
+<span id="cb13-26"><a href="estimating-causal-effects.html#cb13-26" aria-hidden="true"></a></span>
+<span id="cb13-27"><a href="estimating-causal-effects.html#cb13-27" aria-hidden="true"></a>p_Y_Ado0 &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">case_when</span>(</span>
+<span id="cb13-28"><a href="estimating-causal-effects.html#cb13-28" aria-hidden="true"></a>    Z<span class="op">==</span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>A_do_<span class="dv">0</span><span class="op">==</span><span class="dv">1</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.3</span>,</span>
+<span id="cb13-29"><a href="estimating-causal-effects.html#cb13-29" aria-hidden="true"></a>    Z<span class="op">==</span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>A_do_<span class="dv">0</span><span class="op">==</span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.6</span>,</span>
+<span id="cb13-30"><a href="estimating-causal-effects.html#cb13-30" aria-hidden="true"></a>    Z<span class="op">==</span><span class="dv">0</span> <span class="op">&amp;</span><span class="st"> </span>A_do_<span class="dv">0</span><span class="op">==</span><span class="dv">1</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.9</span>,</span>
+<span id="cb13-31"><a href="estimating-causal-effects.html#cb13-31" aria-hidden="true"></a>    Z<span class="op">==</span><span class="dv">0</span> <span class="op">&amp;</span><span class="st"> </span>A_do_<span class="dv">0</span><span class="op">==</span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.2</span></span>
+<span id="cb13-32"><a href="estimating-causal-effects.html#cb13-32" aria-hidden="true"></a>)</span>
+<span id="cb13-33"><a href="estimating-causal-effects.html#cb13-33" aria-hidden="true"></a>Y_Ado0 &lt;-<span class="st"> </span><span class="kw">rbinom</span>(n, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> p_Y_Ado0)</span>
+<span id="cb13-34"><a href="estimating-causal-effects.html#cb13-34" aria-hidden="true"></a></span>
+<span id="cb13-35"><a href="estimating-causal-effects.html#cb13-35" aria-hidden="true"></a></span>
+<span id="cb13-36"><a href="estimating-causal-effects.html#cb13-36" aria-hidden="true"></a>sim_data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(Z, A, Y, Y_Ado1, Y_Ado0)</span>
+<span id="cb13-37"><a href="estimating-causal-effects.html#cb13-37" aria-hidden="true"></a></span>
+<span id="cb13-38"><a href="estimating-causal-effects.html#cb13-38" aria-hidden="true"></a><span class="kw">sum</span>(sim_data<span class="op">$</span>Y_Ado1<span class="op">==</span><span class="dv">1</span>)<span class="op">/</span>n</span>
+<span id="cb13-39"><a href="estimating-causal-effects.html#cb13-39" aria-hidden="true"></a><span class="kw">sum</span>(sim_data<span class="op">$</span>Y_Ado0<span class="op">==</span><span class="dv">1</span>)<span class="op">/</span>n</span>
+<span id="cb13-40"><a href="estimating-causal-effects.html#cb13-40" aria-hidden="true"></a></span>
+<span id="cb13-41"><a href="estimating-causal-effects.html#cb13-41" aria-hidden="true"></a>(<span class="kw">sum</span>(sim_data<span class="op">$</span>Y_Ado1<span class="op">==</span><span class="dv">1</span>)<span class="op">/</span>n)<span class="op">-</span>(<span class="kw">sum</span>(sim_data<span class="op">$</span>Y_Ado0<span class="op">==</span><span class="dv">1</span>)<span class="op">/</span>n)</span></code></pre></div>
 <p><strong>Phase 2:</strong></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Fit a logistic regression model to estimate propensity scores</span>
-ps_mod &lt;-<span class="st"> </span><span class="kw">glm</span>(A <span class="op">~</span><span class="st"> </span>Z, <span class="dt">data =</span> sim_data, <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>)
-
-<span class="co"># Get the actual propensity scores</span>
-<span class="co"># predict(..., type = &quot;response&quot;) gives the predicted probabilities from logistic regression</span>
-<span class="co"># What computations are going on behind the scenes?</span>
-sim_data<span class="op">$</span>PS &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">case_when</span>(
-    A<span class="op">==</span><span class="dv">1</span> <span class="op">~</span><span class="st"> </span><span class="kw">predict</span>(ps_mod, <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>),
-    A<span class="op">==</span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="dv">1</span><span class="op">-</span><span class="kw">predict</span>(ps_mod, <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>)
-)
-
-<span class="co"># Form inverse probability weights</span>
-sim_data<span class="op">$</span>weight &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">/</span>sim_data<span class="op">$</span>PS
-
-<span class="co"># Use the IP weights to estimate:</span>
-<span class="co"># (1) the average outcome if all people were treated</span>
-<span class="co"># (2) the average outcome if all people were untreated</span>
-<span class="co"># group_by() forms groups according to the given variable</span>
-<span class="co"># summarize() computes a summary measure for those groups</span>
-results &lt;-<span class="st"> </span>sim_data <span class="op">%&gt;%</span>
-<span class="st">    </span><span class="kw">group_by</span>(A) <span class="op">%&gt;%</span>
-<span class="st">    </span><span class="kw">summarize</span>(<span class="dt">Y_po_estim =</span> <span class="kw">sum</span>(Y<span class="op">*</span>weight)<span class="op">/</span><span class="kw">sum</span>(weight))
-
-<span class="co"># Display estimates (1) and (2)</span>
-results
-
-<span class="co"># Compute the estimated average causal effect (ACE)</span>
-<span class="co"># How does it compare to the truth from &quot;do&quot;ing?</span>
-<span class="kw">diff</span>(results<span class="op">$</span>Y_po_estim)</code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="estimating-causal-effects.html#cb14-1" aria-hidden="true"></a><span class="co"># Fit a logistic regression model to estimate propensity scores</span></span>
+<span id="cb14-2"><a href="estimating-causal-effects.html#cb14-2" aria-hidden="true"></a>ps_mod &lt;-<span class="st"> </span><span class="kw">glm</span>(A <span class="op">~</span><span class="st"> </span>Z, <span class="dt">data =</span> sim_data, <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>)</span>
+<span id="cb14-3"><a href="estimating-causal-effects.html#cb14-3" aria-hidden="true"></a></span>
+<span id="cb14-4"><a href="estimating-causal-effects.html#cb14-4" aria-hidden="true"></a><span class="co"># Get the actual propensity scores</span></span>
+<span id="cb14-5"><a href="estimating-causal-effects.html#cb14-5" aria-hidden="true"></a><span class="co"># predict(..., type = &quot;response&quot;) gives the predicted probabilities from logistic regression</span></span>
+<span id="cb14-6"><a href="estimating-causal-effects.html#cb14-6" aria-hidden="true"></a><span class="co"># What computations are going on behind the scenes?</span></span>
+<span id="cb14-7"><a href="estimating-causal-effects.html#cb14-7" aria-hidden="true"></a>sim_data<span class="op">$</span>PS &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">case_when</span>(</span>
+<span id="cb14-8"><a href="estimating-causal-effects.html#cb14-8" aria-hidden="true"></a>    A<span class="op">==</span><span class="dv">1</span> <span class="op">~</span><span class="st"> </span><span class="kw">predict</span>(ps_mod, <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>),</span>
+<span id="cb14-9"><a href="estimating-causal-effects.html#cb14-9" aria-hidden="true"></a>    A<span class="op">==</span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="dv">1</span><span class="op">-</span><span class="kw">predict</span>(ps_mod, <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>)</span>
+<span id="cb14-10"><a href="estimating-causal-effects.html#cb14-10" aria-hidden="true"></a>)</span>
+<span id="cb14-11"><a href="estimating-causal-effects.html#cb14-11" aria-hidden="true"></a></span>
+<span id="cb14-12"><a href="estimating-causal-effects.html#cb14-12" aria-hidden="true"></a><span class="co"># Form inverse probability weights</span></span>
+<span id="cb14-13"><a href="estimating-causal-effects.html#cb14-13" aria-hidden="true"></a>sim_data<span class="op">$</span>weight &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">/</span>sim_data<span class="op">$</span>PS</span>
+<span id="cb14-14"><a href="estimating-causal-effects.html#cb14-14" aria-hidden="true"></a></span>
+<span id="cb14-15"><a href="estimating-causal-effects.html#cb14-15" aria-hidden="true"></a><span class="co"># Use the IP weights to estimate:</span></span>
+<span id="cb14-16"><a href="estimating-causal-effects.html#cb14-16" aria-hidden="true"></a><span class="co"># (1) the average outcome if all people were treated</span></span>
+<span id="cb14-17"><a href="estimating-causal-effects.html#cb14-17" aria-hidden="true"></a><span class="co"># (2) the average outcome if all people were untreated</span></span>
+<span id="cb14-18"><a href="estimating-causal-effects.html#cb14-18" aria-hidden="true"></a><span class="co"># group_by() forms groups according to the given variable</span></span>
+<span id="cb14-19"><a href="estimating-causal-effects.html#cb14-19" aria-hidden="true"></a><span class="co"># summarize() computes a summary measure for those groups</span></span>
+<span id="cb14-20"><a href="estimating-causal-effects.html#cb14-20" aria-hidden="true"></a>results &lt;-<span class="st"> </span>sim_data <span class="op">%&gt;%</span></span>
+<span id="cb14-21"><a href="estimating-causal-effects.html#cb14-21" aria-hidden="true"></a><span class="st">    </span><span class="kw">group_by</span>(A) <span class="op">%&gt;%</span></span>
+<span id="cb14-22"><a href="estimating-causal-effects.html#cb14-22" aria-hidden="true"></a><span class="st">    </span><span class="kw">summarize</span>(<span class="dt">Y_po_estim =</span> <span class="kw">sum</span>(Y<span class="op">*</span>weight)<span class="op">/</span><span class="kw">sum</span>(weight))</span>
+<span id="cb14-23"><a href="estimating-causal-effects.html#cb14-23" aria-hidden="true"></a></span>
+<span id="cb14-24"><a href="estimating-causal-effects.html#cb14-24" aria-hidden="true"></a><span class="co"># Display estimates (1) and (2)</span></span>
+<span id="cb14-25"><a href="estimating-causal-effects.html#cb14-25" aria-hidden="true"></a>results</span>
+<span id="cb14-26"><a href="estimating-causal-effects.html#cb14-26" aria-hidden="true"></a></span>
+<span id="cb14-27"><a href="estimating-causal-effects.html#cb14-27" aria-hidden="true"></a><span class="co"># Compute the estimated average causal effect (ACE)</span></span>
+<span id="cb14-28"><a href="estimating-causal-effects.html#cb14-28" aria-hidden="true"></a><span class="co"># How does it compare to the truth from &quot;do&quot;ing?</span></span>
+<span id="cb14-29"><a href="estimating-causal-effects.html#cb14-29" aria-hidden="true"></a><span class="kw">diff</span>(results<span class="op">$</span>Y_po_estim)</span></code></pre></div>
 </div>
 <div id="on-your-own" class="section level3 unnumbered">
 <h3>On your own</h3>
 <p>Adapt the simulation to a situation with 2 confounders <code>Z</code> and <code>W</code> as in the DAG below:</p>
 <p><img src="causal_manual_files/figure-html/05-fig-sim-exercise-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p><strong>Note:</strong> To simulate dependence on 3 or more variables (e.g., A depends on B, C, and D), an easier approach is to do as below:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p_B &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">case_when</span>(
-    B<span class="op">==</span><span class="dv">1</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.8</span>,
-    B<span class="op">==</span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.4</span>
-)
-p_C &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">case_when</span>(
-    C<span class="op">==</span><span class="dv">1</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.9</span>,
-    C<span class="op">==</span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.5</span>
-)
-p_D &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">case_when</span>(
-    D<span class="op">==</span><span class="dv">1</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.7</span>,
-    D<span class="op">==</span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.1</span>
-)
-p_A &lt;-<span class="st"> </span>p_B<span class="op">*</span>p_C<span class="op">*</span>p_D</code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="estimating-causal-effects.html#cb15-1" aria-hidden="true"></a>p_B &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">case_when</span>(</span>
+<span id="cb15-2"><a href="estimating-causal-effects.html#cb15-2" aria-hidden="true"></a>    B<span class="op">==</span><span class="dv">1</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.8</span>,</span>
+<span id="cb15-3"><a href="estimating-causal-effects.html#cb15-3" aria-hidden="true"></a>    B<span class="op">==</span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.4</span></span>
+<span id="cb15-4"><a href="estimating-causal-effects.html#cb15-4" aria-hidden="true"></a>)</span>
+<span id="cb15-5"><a href="estimating-causal-effects.html#cb15-5" aria-hidden="true"></a>p_C &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">case_when</span>(</span>
+<span id="cb15-6"><a href="estimating-causal-effects.html#cb15-6" aria-hidden="true"></a>    C<span class="op">==</span><span class="dv">1</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.9</span>,</span>
+<span id="cb15-7"><a href="estimating-causal-effects.html#cb15-7" aria-hidden="true"></a>    C<span class="op">==</span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.5</span></span>
+<span id="cb15-8"><a href="estimating-causal-effects.html#cb15-8" aria-hidden="true"></a>)</span>
+<span id="cb15-9"><a href="estimating-causal-effects.html#cb15-9" aria-hidden="true"></a>p_D &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">case_when</span>(</span>
+<span id="cb15-10"><a href="estimating-causal-effects.html#cb15-10" aria-hidden="true"></a>    D<span class="op">==</span><span class="dv">1</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.7</span>,</span>
+<span id="cb15-11"><a href="estimating-causal-effects.html#cb15-11" aria-hidden="true"></a>    D<span class="op">==</span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.1</span></span>
+<span id="cb15-12"><a href="estimating-causal-effects.html#cb15-12" aria-hidden="true"></a>)</span>
+<span id="cb15-13"><a href="estimating-causal-effects.html#cb15-13" aria-hidden="true"></a>p_A &lt;-<span class="st"> </span>p_B<span class="op">*</span>p_C<span class="op">*</span>p_D</span></code></pre></div>
 <p>If ever <code>D</code> is equal to 1 for all cases, <code>p_A</code> can be updated as:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p_A_D1 &lt;-<span class="st"> </span>p_B<span class="op">*</span>p_C<span class="op">*</span><span class="fl">0.7</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="estimating-causal-effects.html#cb16-1" aria-hidden="true"></a>p_A_D1 &lt;-<span class="st"> </span>p_B<span class="op">*</span>p_C<span class="op">*</span><span class="fl">0.7</span></span></code></pre></div>
 <p>If ever <code>D</code> is equal to 0 for all cases, <code>p_A</code> can be updated as:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p_A_D1 &lt;-<span class="st"> </span>p_B<span class="op">*</span>p_C<span class="op">*</span><span class="fl">0.1</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="estimating-causal-effects.html#cb17-1" aria-hidden="true"></a>p_A_D1 &lt;-<span class="st"> </span>p_B<span class="op">*</span>p_C<span class="op">*</span><span class="fl">0.1</span></span></code></pre></div>
 <p><br><br></p>
 <p><strong>Questions and Tasks:</strong></p>
 <p>When you generate <span class="math inline">\(A\)</span>, use the following probabilities:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p_A &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">case_when</span>(
-    Z<span class="op">==</span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>W<span class="op">==</span><span class="dv">1</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.3</span>,
-    Z<span class="op">==</span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>W<span class="op">==</span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.6</span>,
-    Z<span class="op">==</span><span class="dv">0</span> <span class="op">&amp;</span><span class="st"> </span>W<span class="op">==</span><span class="dv">1</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.9</span>,
-    Z<span class="op">==</span><span class="dv">0</span> <span class="op">&amp;</span><span class="st"> </span>W<span class="op">==</span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.2</span>
-)</code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="estimating-causal-effects.html#cb18-1" aria-hidden="true"></a>p_A &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">case_when</span>(</span>
+<span id="cb18-2"><a href="estimating-causal-effects.html#cb18-2" aria-hidden="true"></a>    Z<span class="op">==</span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>W<span class="op">==</span><span class="dv">1</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.3</span>,</span>
+<span id="cb18-3"><a href="estimating-causal-effects.html#cb18-3" aria-hidden="true"></a>    Z<span class="op">==</span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>W<span class="op">==</span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.6</span>,</span>
+<span id="cb18-4"><a href="estimating-causal-effects.html#cb18-4" aria-hidden="true"></a>    Z<span class="op">==</span><span class="dv">0</span> <span class="op">&amp;</span><span class="st"> </span>W<span class="op">==</span><span class="dv">1</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.9</span>,</span>
+<span id="cb18-5"><a href="estimating-causal-effects.html#cb18-5" aria-hidden="true"></a>    Z<span class="op">==</span><span class="dv">0</span> <span class="op">&amp;</span><span class="st"> </span>W<span class="op">==</span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="fl">0.2</span></span>
+<span id="cb18-6"><a href="estimating-causal-effects.html#cb18-6" aria-hidden="true"></a>)</span></code></pre></div>
 <ol style="list-style-type: decimal">
 <li><p>How close are your estimates of the ACE from IP weighting and from graph surgery?</p></li>
 <li><p>Take a careful look at the probabilities used to generate the treatment <span class="math inline">\(A\)</span>, and re-examine the form of your propensity score model. Thinking about what the coefficients mean in your propensity score (PS) model, what would you need to do to improve your propensity score model?</p></li>
 <li><p>Fit this new PS model as <code>ps_mod2</code>. Add a second PS variable <code>PS2</code>, and create a corresponding <code>weight2</code> variable.</p></li>
 <li><p>Store the results from both PS models with something similar to below, Display the estimated ACE resulting from both models.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">results &lt;-<span class="st"> </span>sim_data <span class="op">%&gt;%</span>
-<span class="st">    </span><span class="kw">group_by</span>(A) <span class="op">%&gt;%</span>
-<span class="st">    </span><span class="kw">summarize</span>(
-        <span class="dt">Y_po_estim1 =</span> <span class="kw">sum</span>(Y<span class="op">*</span>weight1)<span class="op">/</span><span class="kw">sum</span>(weight1),
-        <span class="dt">Y_po_estim2 =</span> <span class="kw">sum</span>(Y<span class="op">*</span>weight2)<span class="op">/</span><span class="kw">sum</span>(weight2)
-    )</code></pre></div></li>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="estimating-causal-effects.html#cb19-1" aria-hidden="true"></a>results &lt;-<span class="st"> </span>sim_data <span class="op">%&gt;%</span></span>
+<span id="cb19-2"><a href="estimating-causal-effects.html#cb19-2" aria-hidden="true"></a><span class="st">    </span><span class="kw">group_by</span>(A) <span class="op">%&gt;%</span></span>
+<span id="cb19-3"><a href="estimating-causal-effects.html#cb19-3" aria-hidden="true"></a><span class="st">    </span><span class="kw">summarize</span>(</span>
+<span id="cb19-4"><a href="estimating-causal-effects.html#cb19-4" aria-hidden="true"></a>        <span class="dt">Y_po_estim1 =</span> <span class="kw">sum</span>(Y<span class="op">*</span>weight1)<span class="op">/</span><span class="kw">sum</span>(weight1),</span>
+<span id="cb19-5"><a href="estimating-causal-effects.html#cb19-5" aria-hidden="true"></a>        <span class="dt">Y_po_estim2 =</span> <span class="kw">sum</span>(Y<span class="op">*</span>weight2)<span class="op">/</span><span class="kw">sum</span>(weight2)</span>
+<span id="cb19-6"><a href="estimating-causal-effects.html#cb19-6" aria-hidden="true"></a>    )</span></code></pre></div></li>
 <li><p>Repeat this simulation using numbers for <code>p_A</code> that make the simpler PS model valid. As before, show the results of both the simpler and more complex PS model.</p></li>
 </ol>
 
@@ -675,7 +735,7 @@ gitbook.start({
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    var src = "";
+    var src = "true";
     if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
